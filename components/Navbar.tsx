@@ -38,23 +38,23 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          <a href="#" style={linkStyle}>
-            Home
-          </a>
+          <a href="#" className="nav-link">
+  Home
+</a>
 
-          <a href="#" style={linkStyle}>
+          <a href="#" className="nav-link">
             Services
           </a>
 
-          <a href="#" style={linkStyle}>
+          <a href="#" className="nav-link">
             Portfolio
           </a>
 
-          <a href="#" style={linkStyle}>
+          <a href="#" className="nav-link">
             About
           </a>
 
-          <a href="#" style={linkStyle}>
+          <a href="#" className="nav-link">
             Contact
           </a>
 
@@ -82,3 +82,29 @@ const linkStyle = {
   textDecoration: "none",
   transition: ".3s",
 };
+.nav-link {
+  position: relative;
+  font-weight: 600;
+  color: #1E1E1E;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 0;
+  height: 2px;
+  background: #048243;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #048243;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
