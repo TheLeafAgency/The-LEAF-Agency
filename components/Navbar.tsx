@@ -39,8 +39,8 @@ export default function Navbar() {
           }}
         >
           <a href="#" className="nav-link">
-  Home
-</a>
+            Home
+            </a>
 
           <a href="#" className="nav-link">
             Services
