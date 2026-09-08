@@ -76,11 +76,6 @@ export default function Navbar() {
   );
 }
 
-const linkStyle = {
-  fontWeight: 600,
-  color: "#1E1E1E",
-  textDecoration: "none",
-  transition: ".3s",
 };
 .nav-link {
   position: relative;
