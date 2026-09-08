@@ -24,7 +24,7 @@ export default function Navbar() {
           style={{
             fontSize: "2rem",
             fontWeight: 800,
-            color: "#048243,
+            color: "#048243",
             letterSpacing: "1px",
           }}
         >
@@ -76,30 +76,3 @@ export default function Navbar() {
   );
 }
 
-};
-.nav-link {
-  position: relative;
-  font-weight: 600;
-  color: #1E1E1E;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 0;
-  height: 2px;
-  background: #048243;
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #048243;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
