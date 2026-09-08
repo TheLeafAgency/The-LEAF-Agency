@@ -49,9 +49,9 @@ section {
 .gradient-text {
   background: linear-gradient(
       90deg,
-      #7ED957,
-      #8BE04E,
-      #9CF266
+      #048243,
+      #036d39,
+      #048243
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -110,6 +110,7 @@ section {
   color: var(--leaf-gray);
   line-height: 1.6;
 }
+
 .nav-link {
   display: inline-block;
   font-weight: 600;
