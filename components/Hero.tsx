@@ -20,7 +20,7 @@ export default function Hero() {
       >
         <p
           style={{
-            color: "#8BE04E",
+            color: "#048243",
             fontWeight: 700,
             letterSpacing: "4px",
             marginBottom: "18px",
@@ -35,7 +35,7 @@ export default function Hero() {
             fontFamily: '"BPMF Huninn", sans-serif',
             fontSize: "clamp(4rem, 10vw, 7rem)",
             lineHeight: 1,
-            color: "#8BE04E",
+            color: "#048243",
             marginBottom: "30px",
           }}
         >
@@ -86,7 +86,7 @@ export default function Hero() {
               width: "120px",
               height: "6px",
               borderRadius: "999px",
-              background: "#8BE04E",
+              background: "#048243",
               opacity: 0.4,
             }}
           />
