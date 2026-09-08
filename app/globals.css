@@ -111,28 +111,16 @@ section {
   line-height: 1.6;
 }
 .nav-link {
-  position: relative;
+  display: inline-block;
   font-weight: 600;
   color: #1E1E1E;
   text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 0;
-  height: 2px;
-  background: #048243;
-  transition: width 0.3s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 6px;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
   color: #048243;
-}
-
-.nav-link:hover::after {
-  width: 100%;
+  border-bottom-color: #048243;
 }
