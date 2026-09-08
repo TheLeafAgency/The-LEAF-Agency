@@ -40,7 +40,7 @@ export default function Navbar() {
         >
           <a href="#" className="nav-link">
             Home
-            </a>
+          </a>
 
           <a href="#" className="nav-link">
             Services
@@ -60,7 +60,7 @@ export default function Navbar() {
 
           <button
             style={{
-              background: "#8BE04E",
+              background: "#048243",
               border: "none",
               padding: "12px 26px",
               borderRadius: "999px",
@@ -75,4 +75,3 @@ export default function Navbar() {
     </header>
   );
 }
-
