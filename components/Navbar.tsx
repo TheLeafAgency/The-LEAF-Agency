@@ -24,7 +24,7 @@ export default function Navbar() {
           style={{
             fontSize: "2rem",
             fontWeight: 800,
-            color: "#8BE04E",
+            color: "#048243,
             letterSpacing: "1px",
           }}
         >
