@@ -21,7 +21,7 @@ html {
 
 body {
   font-family: "Inter", sans-serif;
-  background: white;
+  background: red;
   color: var(--leaf-text);
   overflow-x: hidden;
 }
@@ -123,7 +123,4 @@ section {
 .nav-link:hover {
   color: #048243;
   border-bottom-color: #048243;
-}
-.nav-link {
-  background: red !important;
 }
