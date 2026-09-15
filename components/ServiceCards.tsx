@@ -28,9 +28,11 @@ const services = [
 export default function ServiceCards() {
   return (
     <section
+      id="services"
       style={{
         padding: "100px 0",
         background: "#ffffff",
+        scrollMarginTop: "80px",
       }}
     >
       <div className="container">
