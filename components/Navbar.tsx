@@ -58,10 +58,11 @@ export default function Navbar() {
             Contact
           </a>
 
-          <button
+          <a
+            href="#services"
+            className="hero-button primary-btn"
             style={{
-              background: "#048243",
-              border: "none",
+              display: "inline-block",
               padding: "12px 26px",
               borderRadius: "999px",
               fontWeight: 700,
@@ -69,7 +70,7 @@ export default function Navbar() {
             }}
           >
             Get Started
-          </button>
+          </a>
         </nav>
       </div>
     </header>
