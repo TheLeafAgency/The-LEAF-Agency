@@ -62,7 +62,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href="/get-started"
+            href="/create-account"
             className="hero-button primary-btn"
             style={{
               display: "inline-block",
