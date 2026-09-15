@@ -8,7 +8,6 @@
   --leaf-green-deep: #163B27;
   --leaf-cream: #F4E8D5;
   --leaf-white-chocolate: #F7F0E6;
-  --leaf-nav-cream: #FFF9F0;
   --leaf-text: #193024;
   --leaf-gray: #657168;
   --leaf-border: #D8E0D9;
@@ -123,7 +122,7 @@ section {
 .nav-link {
   display: inline-block;
   font-weight: 600;
-  color: var(--leaf-nav-cream);
+  color: var(--leaf-text);
   text-decoration: none;
   border-bottom: 2px solid transparent;
   padding-bottom: 6px;
@@ -131,11 +130,11 @@ section {
 }
 
 .nav-link:hover {
-  color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
+  color: var(--leaf-green-light);
+  border-bottom-color: var(--leaf-green-light);
 }
 
 .leaf-logo:hover {
-  color: #FFFFFF !important;
-  border-bottom-color: #FFFFFF !important;
+  color: var(--leaf-green-light) !important;
+  border-bottom-color: var(--leaf-green-light) !important;
 }
