@@ -8,6 +8,7 @@
   --leaf-green-deep: #163B27;
   --leaf-cream: #F4E8D5;
   --leaf-white-chocolate: #F7F0E6;
+  --leaf-white-dove: #F3F0E7;
   --leaf-text: #193024;
   --leaf-gray: #657168;
   --leaf-border: #D8E0D9;
@@ -25,7 +26,7 @@ html {
 
 body {
   font-family: "Inter", sans-serif;
-  background: var(--leaf-white-chocolate);
+  background: var(--leaf-white-dove);
   color: var(--leaf-text);
   overflow-x: hidden;
 }
@@ -94,7 +95,7 @@ section {
 }
 
 .service-card {
-  background: var(--leaf-white-chocolate);
+  background: var(--leaf-white-dove);
   border: 2px solid var(--leaf-green-light);
   border-radius: 22px;
   padding: 40px 28px;
