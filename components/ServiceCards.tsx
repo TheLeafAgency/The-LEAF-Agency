@@ -70,10 +70,12 @@ export default function ServiceCards() {
           }}
         >
           {services.map((service) => (
-            <button
+            <a
               key={service.title}
+              href="/get-started"
               className="service-card"
               style={{
+                display: "block",
                 textAlign: "left",
                 cursor: "pointer",
               }}
@@ -93,7 +95,7 @@ export default function ServiceCards() {
               <div className="service-description">
                 {service.description}
               </div>
-            </button>
+            </a>
           ))}
         </div>
       </div>
