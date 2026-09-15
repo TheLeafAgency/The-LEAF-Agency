@@ -4,10 +4,10 @@ import ServiceCards from "@/components/ServiceCards";
 
 export default function Home() {
   return (
-    <>
+    <main id="top">
       <Navbar />
       <Hero />
       <ServiceCards />
-    </>
+    </main>
   );
 }
