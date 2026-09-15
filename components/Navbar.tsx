@@ -31,7 +31,7 @@ export default function Navbar() {
             letterSpacing: "1px",
             textDecoration: "none",
             borderBottom: "2px solid transparent",
-            paddingBottom: "4px",
+            paddingBottom: "1px",
             transition: "all 0.3s ease",
           }}
         >
@@ -62,7 +62,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href="#services"
+            href="/get-started"
             className="hero-button primary-btn"
             style={{
               display: "inline-block",
