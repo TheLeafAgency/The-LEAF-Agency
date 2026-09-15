@@ -23,6 +23,7 @@ export default function Navbar() {
         <a
           href="#top"
           className="leaf-logo"
+          aria-label="Go to home page"
           style={{
             fontSize: "2rem",
             fontWeight: 800,
