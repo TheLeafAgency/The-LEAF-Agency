@@ -5,9 +5,9 @@ export default function Navbar() {
         position: "fixed",
         top: 0,
         width: "100%",
-        background: "#1F4F32",
+        background: "rgba(255,255,255,0.92)",
         backdropFilter: "blur(14px)",
-        borderBottom: "1px solid #163B27",
+        borderBottom: "1px solid #E5E7EB",
         zIndex: 1000,
       }}
     >
@@ -27,7 +27,7 @@ export default function Navbar() {
           style={{
             fontSize: "2rem",
             fontWeight: 800,
-            color: "#FFF9F0",
+            color: "#048243",
             letterSpacing: "1px",
             textDecoration: "none",
             borderBottom: "2px solid transparent",
