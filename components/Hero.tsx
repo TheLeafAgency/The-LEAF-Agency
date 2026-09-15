@@ -60,25 +60,7 @@ export default function Hero() {
           style={{
             display: "flex",
             justifyContent: "center",
-            gap: "20px",
-            marginTop: "50px",
-            flexWrap: "wrap",
-          }}
-        >
-          <a href="/get-started" className="hero-button primary-btn">
-            Get Started
-          </a>
-
-          <a href="#portfolio" className="hero-button secondary-btn">
-            View Portfolio
-          </a>
-        </div>
-
-        <div
-          style={{
             marginTop: "80px",
-            display: "flex",
-            justifyContent: "center",
           }}
         >
           <div
