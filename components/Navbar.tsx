@@ -20,16 +20,22 @@ export default function Navbar() {
           height: "80px",
         }}
       >
-        <h2
+        <a
+          href="#top"
+          className="leaf-logo"
           style={{
             fontSize: "2rem",
             fontWeight: 800,
             color: "#048243",
             letterSpacing: "1px",
+            textDecoration: "none",
+            borderBottom: "2px solid transparent",
+            paddingBottom: "4px",
+            transition: "all 0.3s ease",
           }}
         >
           LEAF
-        </h2>
+        </a>
 
         <nav
           style={{
@@ -38,23 +44,19 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          <a href="#" className="nav-link">
-            Home
-          </a>
-
-          <a href="#" className="nav-link">
+          <a href="#services" className="nav-link">
             Services
           </a>
 
-          <a href="#" className="nav-link">
+          <a href="#portfolio" className="nav-link">
             Portfolio
           </a>
 
-          <a href="#" className="nav-link">
+          <a href="#about" className="nav-link">
             About
           </a>
 
-          <a href="#" className="nav-link">
+          <a href="#contact" className="nav-link">
             Contact
           </a>
 
