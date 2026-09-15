@@ -65,13 +65,13 @@ export default function Hero() {
             flexWrap: "wrap",
           }}
         >
-          <button className="hero-button primary-btn">
+          <a href="#services" className="hero-button primary-btn">
             Get Started
-          </button>
+          </a>
 
-          <button className="hero-button secondary-btn">
+          <a href="#portfolio" className="hero-button secondary-btn">
             View Portfolio
-          </button>
+          </a>
         </div>
 
         <div
