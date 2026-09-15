@@ -17,7 +17,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
 }
 
 body {
@@ -125,4 +124,8 @@ section {
 .nav-link:hover {
   color: #048243;
   border-bottom-color: #048243;
+}
+
+.leaf-logo:hover {
+  border-bottom-color: #048243 !important;
 }
