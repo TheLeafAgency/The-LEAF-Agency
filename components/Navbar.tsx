@@ -61,6 +61,10 @@ export default function Navbar() {
             Contact
           </a>
 
+          <a href="#careers" className="nav-link">
+            Careers
+          </a>
+
           <a
             href="/get-started"
             className="hero-button primary-btn"
