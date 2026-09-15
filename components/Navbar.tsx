@@ -72,7 +72,7 @@ export default function Navbar() {
               fontSize: "15px",
             }}
           >
-            Get Started
+            Create an Account
           </a>
         </nav>
       </div>
