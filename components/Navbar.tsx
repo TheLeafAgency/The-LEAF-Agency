@@ -45,24 +45,24 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          <a href="#services" className="nav-link">
-            Services
+          <a href="#about" className="nav-link">
+            About
           </a>
 
           <a href="#portfolio" className="nav-link">
             Portfolio
           </a>
 
-          <a href="#about" className="nav-link">
-            About
-          </a>
-
-          <a href="#contact" className="nav-link">
-            Contact
+          <a href="#services" className="nav-link">
+            Services
           </a>
 
           <a href="#careers" className="nav-link">
             Careers
+          </a>
+
+          <a href="#contact" className="nav-link">
+            Contact
           </a>
 
           <a
