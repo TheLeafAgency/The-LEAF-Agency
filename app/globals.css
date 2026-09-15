@@ -1,12 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 :root {
-  --leaf-green: #048243;
-  --leaf-green-dark: #036d39;
-  --leaf-light: #F7FFF2;
-  --leaf-text: #1E1E1E;
-  --leaf-gray: #6B7280;
-  --leaf-border: #E5E7EB;
+  --leaf-green: #2F6B45;
+  --leaf-green-dark: #1F4F32;
+  --leaf-green-deep: #163B27;
+  --leaf-green-mid: #3F8055;
+  --leaf-green-light: #DCE9DF;
+  --leaf-cream: #F4E8D5;
+  --leaf-white-chocolate: #F7F0E6;
+  --leaf-text: #193024;
+  --leaf-gray: #657168;
+  --leaf-border: #D8E0D9;
 }
 
 * {
@@ -21,7 +25,7 @@ html {
 
 body {
   font-family: "Inter", sans-serif;
-  background: white;
+  background: var(--leaf-white-chocolate);
   color: var(--leaf-text);
   overflow-x: hidden;
 }
@@ -48,10 +52,11 @@ section {
 
 .gradient-text {
   background: linear-gradient(
-      90deg,
-      #048243,
-      #036d39,
-      #048243
+    90deg,
+    var(--leaf-green-deep),
+    var(--leaf-green),
+    var(--leaf-green-mid),
+    var(--leaf-green-dark)
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -67,7 +72,7 @@ section {
 
 .primary-btn {
   background: var(--leaf-green);
-  color: black;
+  color: white;
 }
 
 .primary-btn:hover {
@@ -78,15 +83,16 @@ section {
 .secondary-btn {
   background: transparent;
   border: 2px solid var(--leaf-green);
+  color: var(--leaf-green-deep);
 }
 
 .secondary-btn:hover {
-  background: var(--leaf-green);
+  background: var(--leaf-green-light);
 }
 
 .service-card {
-  background: white;
-  border: 2px solid transparent;
+  background: var(--leaf-white-chocolate);
+  border: 2px solid var(--leaf-green-light);
   border-radius: 22px;
   padding: 40px 28px;
   transition: all .35s ease;
@@ -95,8 +101,7 @@ section {
 .service-card:hover {
   border-color: var(--leaf-green);
   transform: translateY(-10px);
-  box-shadow:
-      0px 20px 40px rgba(0,0,0,.08);
+  box-shadow: 0px 20px 40px rgba(22,59,39,.12);
 }
 
 .service-title {
@@ -114,7 +119,7 @@ section {
 .nav-link {
   display: inline-block;
   font-weight: 600;
-  color: #1E1E1E;
+  color: var(--leaf-text);
   text-decoration: none;
   border-bottom: 2px solid transparent;
   padding-bottom: 6px;
@@ -122,10 +127,10 @@ section {
 }
 
 .nav-link:hover {
-  color: #048243;
-  border-bottom-color: #048243;
+  color: var(--leaf-green);
+  border-bottom-color: var(--leaf-green);
 }
 
 .leaf-logo:hover {
-  border-bottom-color: #048243 !important;
+  border-bottom-color: var(--leaf-green) !important;
 }
