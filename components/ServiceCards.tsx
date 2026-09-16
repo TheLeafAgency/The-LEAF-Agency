@@ -1,3 +1,5 @@
+import FadeInOnScroll from "@/components/FadeInOnScroll";
+
 const services = [
   {
     icon: "📤",
@@ -27,78 +29,80 @@ const services = [
 
 export default function ServiceCards() {
   return (
-    <section
-      id="services"
-      style={{
-        padding: "100px 0",
-        background: "var(--leaf-white-dove)",
-        scrollMarginTop: "80px",
-      }}
-    >
-      <div className="container">
-        <div
-          style={{
-            textAlign: "center",
-            marginBottom: "60px",
-          }}
-        >
-          <h2
+    <FadeInOnScroll>
+      <section
+        id="services"
+        style={{
+          padding: "100px 0",
+          background: "var(--leaf-white-dove)",
+          scrollMarginTop: "80px",
+        }}
+      >
+        <div className="container">
+          <div
             style={{
-              fontSize: "3rem",
-              fontWeight: 800,
-              marginBottom: "15px",
+              textAlign: "center",
+              marginBottom: "60px",
             }}
           >
-            Choose How We Can Help
-          </h2>
-
-          <p
-            style={{
-              color: "#6B7280",
-              fontSize: "1.1rem",
-            }}
-          >
-            Pick the option that best matches where your business is today.
-          </p>
-        </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "25px",
-          }}
-        >
-          {services.map((service) => (
-            <a
-              key={service.title}
-              href="/get-started"
-              className="service-card"
+            <h2
               style={{
-                display: "block",
-                textAlign: "left",
-                cursor: "pointer",
+                fontSize: "3rem",
+                fontWeight: 800,
+                marginBottom: "15px",
               }}
             >
-              <div
+              Choose How We Can Help
+            </h2>
+
+            <p
+              style={{
+                color: "#6B7280",
+                fontSize: "1.1rem",
+              }}
+            >
+              Pick the option that best matches where your business is today.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "25px",
+            }}
+          >
+            {services.map((service) => (
+              <a
+                key={service.title}
+                href="/get-started"
+                className="service-card"
                 style={{
-                  fontSize: "3rem",
+                  display: "block",
+                  textAlign: "left",
+                  cursor: "pointer",
                 }}
               >
-                {service.icon}
-              </div>
+                <div
+                  style={{
+                    fontSize: "3rem",
+                  }}
+                >
+                  {service.icon}
+                </div>
 
-              <div className="service-title">
-                {service.title}
-              </div>
+                <div className="service-title">
+                  {service.title}
+                </div>
 
-              <div className="service-description">
-                {service.description}
-              </div>
-            </a>
-          ))}
+                <div className="service-description">
+                  {service.description}
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </FadeInOnScroll>
   );
 }
