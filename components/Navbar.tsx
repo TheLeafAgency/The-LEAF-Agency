@@ -57,7 +57,7 @@ export default function Navbar() {
             Portfolio
           </a>
 
-          <a href="#careers" className="nav-link">
+          <a href="/careers" className="nav-link">
             Careers
           </a>
 
