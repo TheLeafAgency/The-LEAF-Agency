@@ -73,6 +73,34 @@ export default function Hero() {
         </p>
       </div>
 
+      {/* View Portfolio section sits between the hero content and portfolio divider. */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: "24px",
+          zIndex: 3,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <a
+          href="#portfolio"
+          className="secondary-btn"
+          style={{
+            display: "inline-block",
+            padding: "12px 28px",
+            borderRadius: "999px",
+            fontWeight: 700,
+            fontSize: "15px",
+            background: "#F3F0E7",
+          }}
+        >
+          View Portfolio
+        </a>
+      </div>
+
       {/* Portfolio divider sits above the bottom edge so it is not visible at the very bottom of the page. */}
       <div
         aria-hidden="true"
