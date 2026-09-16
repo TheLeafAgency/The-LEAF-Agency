@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ScrollToTopOnLoad from "@/components/ScrollToTopOnLoad";
 
 export const metadata: Metadata = {
   title: "LEAF Agency",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ScrollToTopOnLoad />
+        {children}
+      </body>
     </html>
   );
 }
