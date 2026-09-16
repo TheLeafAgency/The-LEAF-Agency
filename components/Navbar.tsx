@@ -5,7 +5,7 @@ export default function Navbar() {
         position: "fixed",
         top: 0,
         width: "100%",
-        background: "rgba(255,255,255,0.92)",
+        background: "#F3F0E7",
         backdropFilter: "blur(14px)",
         borderBottom: "1px solid #E5E7EB",
         zIndex: 1000,
