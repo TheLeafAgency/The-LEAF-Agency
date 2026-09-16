@@ -79,7 +79,7 @@ export default function Hero() {
           position: "absolute",
           left: 0,
           right: 0,
-          bottom: "120px",
+          bottom: "100px",
           height: "2px",
           background: "#048243",
           zIndex: 2,
