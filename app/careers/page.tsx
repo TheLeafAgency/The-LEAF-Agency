@@ -5,6 +5,7 @@ export default function CareersPage() {
         minHeight: "100vh",
         background: "#F3F0E7",
         padding: "120px 24px 80px",
+        fontFamily: '"Neuton", serif',
       }}
     >
       <div
@@ -28,11 +29,12 @@ export default function CareersPage() {
 
         <h1
           style={{
-            fontFamily: '"BPMF Huninn", sans-serif',
+            fontFamily: '"Neuton", serif',
             fontSize: "clamp(3.5rem, 9vw, 6rem)",
             lineHeight: 1,
             color: "#048243",
             marginBottom: "24px",
+            fontWeight: 700,
           }}
         >
           Work With LEAF
@@ -40,9 +42,10 @@ export default function CareersPage() {
 
         <h2
           style={{
-            color: "#1E1E1E",
+            color: "#048243",
             fontSize: "clamp(1.5rem, 3vw, 2rem)",
             marginBottom: "24px",
+            fontWeight: 700,
           }}
         >
           Want to help businesses grow?
@@ -69,11 +72,11 @@ export default function CareersPage() {
           <p style={{ marginBottom: "18px" }}>Here&apos;s how it works:</p>
 
           <p style={{ marginBottom: "18px" }}>
-            <strong style={{ color: "#1E1E1E" }}>60% goes to The LEAF Agency</strong> to cover the company&apos;s operations, equipment, marketing, growth, and other business expenses.
+            <strong style={{ color: "#048243" }}>60% goes to The LEAF Agency</strong> to cover the company&apos;s operations, equipment, marketing, growth, and other business expenses.
           </p>
 
           <p style={{ marginBottom: "14px" }}>
-            <strong style={{ color: "#1E1E1E" }}>40% is set aside for the people who directly contribute to the project.</strong> This includes but not limited to:
+            <strong style={{ color: "#048243" }}>40% is set aside for the people who directly contribute to the project.</strong> This includes but not limited to:
           </p>
 
           <ul
@@ -94,7 +97,7 @@ export default function CareersPage() {
 
           <p style={{ marginBottom: "36px" }}>
             The 40% is divided among the contributors based on their role and
-            level of involvement in that specific project. <strong style={{ color: "#1E1E1E" }}>Your exact share will be agreed upon before you begin working on a project</strong>, so you&apos;ll know what you&apos;re contributing to and what you&apos;ll receive.
+            level of involvement in that specific project. <strong style={{ color: "#048243" }}>Your exact share will be agreed upon before you begin working on a project</strong>, so you&apos;ll know what you&apos;re contributing to and what you&apos;ll receive.
           </p>
 
           <section
@@ -112,13 +115,14 @@ export default function CareersPage() {
                 fontSize: "1.8rem",
                 marginBottom: "16px",
                 textAlign: "center",
+                fontWeight: 700,
               }}
             >
               An Example
             </h2>
 
             <p style={{ marginBottom: "14px" }}>
-              If LEAF receives <strong style={{ color: "#1E1E1E" }}>$1,000</strong> for a project, <strong style={{ color: "#1E1E1E" }}>$400 is allocated to the production contributors</strong> and <strong style={{ color: "#1E1E1E" }}>$600 remains with LEAF</strong>.
+              If LEAF receives <strong style={{ color: "#048243" }}>$1,000</strong> for a project, <strong style={{ color: "#048243" }}>$400 is allocated to the production contributors</strong> and <strong style={{ color: "#048243" }}>$600 remains with LEAF</strong>.
             </p>
 
             <p style={{ marginBottom: "14px" }}>
@@ -139,13 +143,14 @@ export default function CareersPage() {
                 fontSize: "1.8rem",
                 marginBottom: "16px",
                 textAlign: "center",
+                fontWeight: 700,
               }}
             >
               A Few Things to Know
             </h2>
 
             <p style={{ marginBottom: "18px" }}>
-              At this stage, working with LEAF is <strong style={{ color: "#1E1E1E" }}>project-based</strong>, meaning we cannot guarantee a certain number of projects, hours, or income.
+              At this stage, working with LEAF is <strong style={{ color: "#048243" }}>project-based</strong>, meaning we cannot guarantee a certain number of projects, hours, or income.
             </p>
 
             <p style={{ marginBottom: "18px" }}>
@@ -165,9 +170,10 @@ export default function CareersPage() {
           <div style={{ textAlign: "center" }}>
             <h2
               style={{
-                color: "#1E1E1E",
+                color: "#048243",
                 fontSize: "1.35rem",
                 marginBottom: "20px",
+                fontWeight: 700,
               }}
             >
               Have questions or interested in working with us?
@@ -183,6 +189,8 @@ export default function CareersPage() {
                 fontWeight: 700,
                 fontSize: "15px",
                 marginRight: "12px",
+                cursor: "pointer",
+                fontFamily: '"Neuton", serif',
               }}
             >
               Email LEAF
@@ -197,6 +205,8 @@ export default function CareersPage() {
                 borderRadius: "999px",
                 fontWeight: 700,
                 fontSize: "15px",
+                cursor: "pointer",
+                fontFamily: '"Neuton", serif',
               }}
             >
               Back Home
