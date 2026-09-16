@@ -33,7 +33,7 @@ export default function PortfolioPage() {
             marginBottom: "28px",
           }}
         >
-          Still setting our roots!
+          Still Setting Our Roots!
         </h1>
 
         <p
