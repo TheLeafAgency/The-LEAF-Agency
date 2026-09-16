@@ -31,6 +31,7 @@ export default function Hero() {
           zIndex: 1,
           textAlign: "center",
           maxWidth: "1000px",
+          transform: "translateY(-30px)",
         }}
       >
         <p
