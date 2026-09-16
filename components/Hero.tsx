@@ -12,18 +12,6 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* Portfolio area reserved behind the hero for future videos and images. */}
-      <div
-        id="portfolio"
-        aria-label="LEAF portfolio"
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 0,
-          background: "#F3F0E7",
-        }}
-      />
-
       <div
         className="container"
         style={{
@@ -73,20 +61,19 @@ export default function Hero() {
         </p>
       </div>
 
-      {/* View Portfolio sits above the divider. */}
       <div
         style={{
           position: "absolute",
           left: 0,
           right: 0,
-          bottom: "120px",
+          bottom: "24px",
           zIndex: 3,
           display: "flex",
           justifyContent: "center",
         }}
       >
         <a
-          href="#portfolio"
+          href="/portfolio"
           className="secondary-btn portfolio-btn"
           style={{
             display: "inline-block",
@@ -101,7 +88,6 @@ export default function Hero() {
         </a>
       </div>
 
-      {/* Portfolio divider sits below the button. */}
       <div
         aria-hidden="true"
         style={{
