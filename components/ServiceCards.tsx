@@ -31,7 +31,7 @@ export default function ServiceCards() {
       id="services"
       style={{
         padding: "100px 0",
-        background: "#ffffff",
+        background: "var(--leaf-white-dove)",
         scrollMarginTop: "80px",
       }}
     >
