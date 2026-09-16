@@ -6,8 +6,7 @@ export default function Hero() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background:
-          "linear-gradient(180deg, #ffffff 0%, #f8fff3 60%, #ffffff 100%)",
+        background: "#F3F0E7",
         paddingTop: "80px",
       }}
     >
