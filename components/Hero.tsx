@@ -2,17 +2,33 @@ export default function Hero() {
   return (
     <section
       style={{
+        position: "relative",
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         background: "#F3F0E7",
         paddingTop: "80px",
+        overflow: "hidden",
       }}
     >
+      {/* Portfolio area reserved behind the hero for future videos and images. */}
+      <div
+        id="portfolio"
+        aria-label="LEAF portfolio"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          background: "#F3F0E7",
+        }}
+      />
+
       <div
         className="container"
         style={{
+          position: "relative",
+          zIndex: 1,
           textAlign: "center",
           maxWidth: "1000px",
         }}
@@ -54,25 +70,21 @@ export default function Hero() {
           edited, or want an entire campaign created from scratch, LEAF handles
           the creative process so you can focus on growing your business.
         </p>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "80px",
-          }}
-        >
-          <div
-            style={{
-              width: "120px",
-              height: "6px",
-              borderRadius: "999px",
-              background: "#048243",
-              opacity: 0.4,
-            }}
-          />
-        </div>
       </div>
+
+      {/* Full-width divider matching the navbar divider. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: "2px",
+          background: "#048243",
+          zIndex: 2,
+        }}
+      />
     </section>
   );
 }
