@@ -93,6 +93,12 @@ section {
   color: white;
 }
 
+.portfolio-btn:hover {
+  background: #F3F0E7;
+  border-color: var(--leaf-eden-green);
+  color: var(--leaf-eden-green);
+}
+
 .service-card {
   background: var(--leaf-white-dove);
   border: 2px solid var(--leaf-green-light);
