@@ -66,7 +66,7 @@ export default function Hero() {
           position: "absolute",
           left: 0,
           right: 0,
-          bottom: "24px",
+          bottom: "110px",
           zIndex: 3,
           display: "flex",
           justifyContent: "center",
