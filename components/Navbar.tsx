@@ -53,7 +53,7 @@ export default function Navbar() {
             Portfolio
           </a>
 
-          <a href="/services" className="nav-link">
+          <a href="#services" className="nav-link">
             Services
           </a>
 
