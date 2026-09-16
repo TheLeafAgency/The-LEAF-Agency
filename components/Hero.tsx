@@ -72,14 +72,14 @@ export default function Hero() {
         </p>
       </div>
 
-      {/* Full-width divider matching the navbar divider. */}
+      {/* Portfolio divider sits above the bottom edge so it is not visible at the very bottom of the page. */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           left: 0,
           right: 0,
-          bottom: 0,
+          bottom: "120px",
           height: "2px",
           background: "#048243",
           zIndex: 2,
