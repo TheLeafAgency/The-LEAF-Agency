@@ -30,7 +30,7 @@ export default function GetStarted() {
     <main
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(180deg, #ffffff 0%, #f8fff3 100%)",
+        background: "#F3F0E7",
         padding: "120px 20px 80px",
       }}
     >
@@ -55,7 +55,7 @@ export default function GetStarted() {
 
         <div
           style={{
-            background: "white",
+            background: "#F3F0E7",
             borderRadius: "24px",
             padding: "50px",
             boxShadow: "0 20px 50px rgba(0,0,0,0.08)",
@@ -101,8 +101,8 @@ export default function GetStarted() {
               style={{
                 padding: "24px",
                 borderRadius: "16px",
-                background: "#F7FFF2",
-                color: "#036d39",
+                background: "#F3F0E7",
+                color: "#048243",
                 fontWeight: 600,
                 lineHeight: 1.6,
               }}
@@ -206,6 +206,6 @@ const inputStyle: React.CSSProperties = {
   fontFamily: "Inter, sans-serif",
   fontSize: "16px",
   color: "#1E1E1E",
-  background: "white",
+  background: "#F3F0E7",
   outline: "none",
 };
