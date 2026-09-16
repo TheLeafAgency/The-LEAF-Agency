@@ -41,15 +41,14 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <main style={{ minHeight: "100vh", background: "#ffffff" }}>
+    <main style={{ minHeight: "100vh", background: "#F3F0E7" }}>
       <Navbar />
 
       <section
         style={{
           paddingTop: "150px",
           paddingBottom: "100px",
-          background:
-            "linear-gradient(180deg, #ffffff 0%, #f8fff3 55%, #ffffff 100%)",
+          background: "#F3F0E7",
         }}
       >
         <div
