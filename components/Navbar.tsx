@@ -49,12 +49,12 @@ export default function Navbar() {
             About
           </a>
 
-          <a href="#portfolio" className="nav-link">
-            Portfolio
-          </a>
-
           <a href="#services" className="nav-link">
             Services
+          </a>
+
+          <a href="/portfolio" className="nav-link">
+            Portfolio
           </a>
 
           <a href="#careers" className="nav-link">
