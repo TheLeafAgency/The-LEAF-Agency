@@ -6,6 +6,7 @@
   --leaf-green-mid: #2F6B45;
   --leaf-green-dark: #1F4F32;
   --leaf-green-deep: #163B27;
+  --leaf-eden-green: #048243;
   --leaf-cream: #F4E8D5;
   --leaf-white-chocolate: #F7F0E6;
   --leaf-white-dove: #F3F0E7;
@@ -54,10 +55,8 @@ section {
 .gradient-text {
   background: linear-gradient(
     90deg,
-    var(--leaf-green-deep),
-    var(--leaf-green),
-    var(--leaf-green-light),
-    var(--leaf-green-dark)
+    var(--leaf-eden-green),
+    var(--leaf-eden-green)
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -72,26 +71,26 @@ section {
 }
 
 .primary-btn {
-  background: var(--leaf-green-dark);
+  background: var(--leaf-eden-green);
   color: white;
 }
 
 .primary-btn:hover {
   transform: translateY(-3px);
-  background: var(--leaf-green-deep);
-  color: var(--leaf-green-light);
+  background: var(--leaf-eden-green);
+  color: white;
 }
 
 .secondary-btn {
   background: transparent;
-  border: 2px solid var(--leaf-green);
-  color: var(--leaf-green-deep);
+  border: 2px solid var(--leaf-eden-green);
+  color: var(--leaf-eden-green);
 }
 
 .secondary-btn:hover {
-  background: var(--leaf-green-dark);
-  border-color: var(--leaf-green-dark);
-  color: var(--leaf-green-light);
+  background: var(--leaf-eden-green);
+  border-color: var(--leaf-eden-green);
+  color: white;
 }
 
 .service-card {
@@ -103,7 +102,7 @@ section {
 }
 
 .service-card:hover {
-  border-color: var(--leaf-green);
+  border-color: var(--leaf-eden-green);
   transform: translateY(-10px);
   box-shadow: 0px 20px 40px rgba(22,59,39,.12);
 }
@@ -123,7 +122,7 @@ section {
 .nav-link {
   display: inline-block;
   font-weight: 600;
-  color: var(--leaf-text);
+  color: #000000;
   text-decoration: none;
   border-bottom: 2px solid transparent;
   padding-bottom: 6px;
@@ -131,11 +130,11 @@ section {
 }
 
 .nav-link:hover {
-  color: var(--leaf-text);
-  border-bottom-color: var(--leaf-green-dark);
+  color: var(--leaf-eden-green);
+  border-bottom-color: var(--leaf-eden-green);
 }
 
 .leaf-logo:hover {
-  color: var(--leaf-green-light) !important;
-  border-bottom-color: var(--leaf-green-light) !important;
+  color: var(--leaf-eden-green) !important;
+  border-bottom-color: var(--leaf-eden-green) !important;
 }
