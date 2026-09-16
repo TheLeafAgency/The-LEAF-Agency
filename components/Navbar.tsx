@@ -7,7 +7,7 @@ export default function Navbar() {
         width: "100%",
         background: "#F3F0E7",
         backdropFilter: "blur(14px)",
-        borderBottom: "1px solid #E5E7EB",
+        borderBottom: "2px solid #048243",
         zIndex: 1000,
       }}
     >
