@@ -98,15 +98,10 @@ export default function GetStarted() {
               </label>
 
               <div className="heard-section">
-                <div className="heard-heading">
-                  <span>How did you hear about us?</span>
-                  <span className="optional-label">Optional</span>
-                </div>
+                <div className="heard-heading"><span>How did you hear about us?</span><span className="optional-label">Optional</span></div>
                 <div className="heard-grid" role="group" aria-label="How did you hear about us">
                   {heardOptions.map((option) => (
-                    <button key={option} type="button" className={`heard-option ${howHeard === option ? "selected" : ""}`} onClick={() => setHowHeard(howHeard === option ? "" : option)} aria-pressed={howHeard === option}>
-                      {option}
-                    </button>
+                    <button key={option} type="button" className={`heard-option ${howHeard === option ? "selected" : ""}`} onClick={() => setHowHeard(howHeard === option ? "" : option)} aria-pressed={howHeard === option}>{option}</button>
                   ))}
                 </div>
               </div>
@@ -188,17 +183,17 @@ export default function GetStarted() {
         .step-number { position: absolute; top: 28px; right: 32px; color: #048243; font-weight: 800; letter-spacing: 1px; font-size: 0.9rem; }
         .flow-card h2 { font-family: "BPMF Huninn", sans-serif; color: #048243; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; margin: 0 0 14px; max-width: 650px; }
 
-        .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+        .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 30px; }
         .three-column { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .choice-button { position: relative; isolation: isolate; overflow: hidden; min-height: 145px; width: 100%; text-align: left; border: 2px solid #78A987; border-radius: 20px; padding: 24px; background: #F3F0E7; cursor: pointer; transform: translateZ(0); transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease; }
+        .choice-button { position: relative; isolation: isolate; overflow: hidden; min-height: 200px; width: 100%; text-align: left; border: 2px solid #78A987; border-radius: 22px; padding: 32px; background: #F3F0E7; cursor: pointer; transform: translateZ(0); transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease; }
         .choice-button:hover:not(:disabled) { transform: translateY(-5px) translateZ(0); border-color: #048243; box-shadow: 0 14px 28px rgba(4,130,67,0.12); }
         .choice-button:disabled { cursor: not-allowed; border-color: #C8CBC9; background: #E1E2E0; opacity: 0.78; }
         .choice-fill { position: absolute; inset: 0; background: #048243; transform: scale3d(0,1,1); transform-origin: left center; will-change: transform; backface-visibility: hidden; z-index: -1; transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
         .choice-button.selected .choice-fill { transform: scale3d(1,1,1); }
-        .choice-content { position: relative; z-index: 1; display: block; }
-        .choice-icon { display: block; font-size: 2rem; margin-bottom: 9px; }
-        .choice-title { display: block; font-size: 1.2rem; font-weight: 800; line-height: 1.2; color: #048243; margin-bottom: 7px; transition: color 0.2s ease; }
-        .choice-description { display: block; color: #6B7280; line-height: 1.5; font-size: 0.95rem; transition: color 0.2s ease; }
+        .choice-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+        .choice-icon { display: block; font-size: 2.2rem; line-height: 1; margin-bottom: 14px; }
+        .choice-title { display: block; width: 100%; font-size: 1.3rem; font-weight: 800; line-height: 1.2; color: #048243; margin-bottom: 8px; transition: color 0.2s ease; }
+        .choice-description { display: block; width: 100%; color: #6B7280; line-height: 1.55; font-size: 0.98rem; transition: color 0.2s ease; }
         .choice-button.selected .choice-title, .choice-button.selected .choice-description { color: white; }
         .choice-button:disabled .choice-title, .choice-button:disabled .choice-description { color: #858887; }
         .choice-check { position: absolute; top: 18px; right: 20px; z-index: 2; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; border: 2px solid #78A987; color: #048243; background: #F3F0E7; font-weight: 900; transition: all 0.3s ease; }
