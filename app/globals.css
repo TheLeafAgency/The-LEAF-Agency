@@ -60,27 +60,38 @@ section { width: 100%; }
   box-shadow: 0 16px 34px rgba(4,130,67,0.16) !important;
 }
 .choice-button .choice-fill {
+  position: absolute !important;
+  inset: 0 !important;
   z-index: 0 !important;
-  background: var(--leaf-eden-green) !important;
+  background: var(--leaf-green-light) !important;
   transform: scaleX(0) !important;
   transform-origin: left center !important;
   transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  pointer-events: none;
 }
 .choice-button.selected .choice-fill {
   transform: scaleX(1) !important;
 }
 .choice-button .choice-content {
-  position: relative;
+  position: relative !important;
   z-index: 2 !important;
   min-height: 174px;
-  justify-content: flex-start;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  width: 100%;
 }
 .choice-button .choice-icon {
+  display: block !important;
   font-size: 2.7rem !important;
   line-height: 1 !important;
   margin-bottom: 20px !important;
 }
 .choice-button .choice-title {
+  display: block !important;
+  width: 100% !important;
   font-size: 1.55rem !important;
   line-height: 1.2 !important;
   font-weight: 800 !important;
@@ -89,22 +100,32 @@ section { width: 100%; }
   overflow-wrap: break-word;
 }
 .choice-button .choice-description {
+  display: block !important;
+  width: 100% !important;
   font-size: 1.05rem !important;
   line-height: 1.6 !important;
   color: var(--leaf-gray) !important;
   max-width: 95%;
   overflow-wrap: break-word;
 }
-.choice-button.selected .choice-title,
+.choice-button.selected .choice-title {
+  color: var(--leaf-eden-green) !important;
+}
 .choice-button.selected .choice-description {
-  color: #FFFFFF !important;
+  color: var(--leaf-text) !important;
 }
 .choice-button .choice-check {
+  position: absolute !important;
   z-index: 3 !important;
   width: 32px !important;
   height: 32px !important;
   top: 20px !important;
   right: 22px !important;
+}
+.choice-button.selected .choice-check {
+  border-color: var(--leaf-eden-green) !important;
+  color: white !important;
+  background: var(--leaf-eden-green) !important;
 }
 .choice-button:disabled {
   transform: none !important;
