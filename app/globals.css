@@ -53,10 +53,10 @@ section { width: 100%; }
   border-radius: 24px !important;
   overflow: hidden !important;
 }
-.choice-button:hover:not(:disabled) { transform: translateY(-9px) !important; border-color: var(--leaf-eden-green) !important; box-shadow: 0 18px 34px rgba(4,130,67,0.16) !important; }
+.choice-button:hover:not(:disabled) { transform: translateY(-7px) !important; border-color: var(--leaf-eden-green) !important; box-shadow: 0 16px 30px rgba(4,130,67,0.14) !important; }
 .choice-button:disabled { background: #E1E2E0 !important; }
 
-/* Reliable left-to-right selection animation */
+/* Fast, clean left-to-right selection animation */
 .choice-button .choice-fill {
   position: absolute !important;
   top: 0 !important;
@@ -67,20 +67,21 @@ section { width: 100%; }
   z-index: 0 !important;
   display: block !important;
   transform: none !important;
-  transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 .choice-button.selected .choice-fill { width: 100% !important; }
 .choice-button .choice-content { position: relative !important; z-index: 1 !important; }
 .choice-button .choice-check { z-index: 2 !important; }
 
-.choice-icon { font-size: 2.7rem !important; }
-.choice-title { font-size: 1.55rem !important; line-height: 1.15 !important; }
-.choice-description { font-size: 1rem !important; line-height: 1.55 !important; max-width: 95% !important; }
+/* Match the typography used throughout the Get Started page */
+.choice-icon { font-size: 2rem !important; }
+.choice-title { font-size: 1.2rem !important; font-weight: 800 !important; line-height: 1.2 !important; color: #1E1E1E !important; }
+.choice-description { font-size: 0.95rem !important; font-weight: 400 !important; line-height: 1.5 !important; max-width: 95% !important; color: #6B7280 !important; }
 .choice-button.selected .choice-title,
 .choice-button.selected .choice-description { color: white !important; }
 .choice-button.selected .choice-check { background: white !important; color: #048243 !important; border-color: white !important; }
 
 @media (max-width: 700px) {
   .choice-button { min-height: 180px !important; padding: 28px !important; }
-  .choice-title { font-size: 1.4rem !important; }
+  .choice-title { font-size: 1.2rem !important; }
 }
