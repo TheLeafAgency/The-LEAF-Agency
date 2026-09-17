@@ -37,3 +37,91 @@ section { width: 100%; }
 .nav-link { display: inline-block; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 6px; transition: all 0.3s ease; }
 .nav-link:hover { color: var(--leaf-eden-green); border-bottom-color: var(--leaf-eden-green); }
 .leaf-logo:hover { color: var(--leaf-eden-green) !important; border-bottom-color: var(--leaf-eden-green) !important; }
+
+/* Get Started choice cards */
+.choice-grid { align-items: stretch; }
+.choice-button {
+  min-height: 250px !important;
+  padding: 38px !important;
+  border: 2px solid var(--leaf-green-light) !important;
+  border-radius: 24px !important;
+  background: var(--leaf-white-dove) !important;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: left;
+  position: relative;
+  display: block;
+  color: var(--leaf-text);
+  transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease !important;
+}
+.choice-button:hover:not(:disabled) {
+  transform: translateY(-6px) !important;
+  border-color: var(--leaf-eden-green) !important;
+  box-shadow: 0 16px 34px rgba(4,130,67,0.16) !important;
+}
+.choice-button .choice-fill {
+  z-index: 0 !important;
+  background: var(--leaf-eden-green) !important;
+  transform: scaleX(0) !important;
+  transform-origin: left center !important;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+.choice-button.selected .choice-fill {
+  transform: scaleX(1) !important;
+}
+.choice-button .choice-content {
+  position: relative;
+  z-index: 2 !important;
+  min-height: 174px;
+  justify-content: flex-start;
+}
+.choice-button .choice-icon {
+  font-size: 2.7rem !important;
+  line-height: 1 !important;
+  margin-bottom: 20px !important;
+}
+.choice-button .choice-title {
+  font-size: 1.55rem !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  margin-bottom: 10px !important;
+  color: var(--leaf-eden-green) !important;
+  overflow-wrap: break-word;
+}
+.choice-button .choice-description {
+  font-size: 1.05rem !important;
+  line-height: 1.6 !important;
+  color: var(--leaf-gray) !important;
+  max-width: 95%;
+  overflow-wrap: break-word;
+}
+.choice-button.selected .choice-title,
+.choice-button.selected .choice-description {
+  color: #FFFFFF !important;
+}
+.choice-button .choice-check {
+  z-index: 3 !important;
+  width: 32px !important;
+  height: 32px !important;
+  top: 20px !important;
+  right: 22px !important;
+}
+.choice-button:disabled {
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: #C8CBC9 !important;
+  background: #E1E2E0 !important;
+}
+.choice-button:disabled .choice-fill { display: none; }
+.choice-button:disabled .choice-title,
+.choice-button:disabled .choice-description { color: #858887 !important; }
+
+@media (max-width: 700px) {
+  .choice-button {
+    min-height: 220px !important;
+    padding: 30px !important;
+  }
+  .choice-button .choice-content { min-height: 158px; }
+  .choice-button .choice-title { font-size: 1.4rem !important; }
+  .choice-button .choice-description { font-size: 1rem !important; max-width: 100%; }
+}
