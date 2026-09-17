@@ -13,17 +13,54 @@ const serviceAreaZipCodes = new Set([
   "10601", "10602", "10603", "10604", "10605", "10606", "10607",
 ]);
 
+const services = [
+  {
+    icon: "📤",
+    title: "Publish My Ad",
+    description: "Already have a finished advertisement? We can help optimize it and get it published where you need it.",
+    prompt: "Tell us what you would like us to publish, where you want it published, and any important details.",
+  },
+  {
+    icon: "✂️",
+    title: "Edit My Video",
+    description: "Have footage already? We can turn it into polished, engaging content that fits your vision.",
+    prompt: "Tell us about the footage you have, the style you want, and what you would like changed or added.",
+  },
+  {
+    icon: "💡",
+    title: "I Have an Idea",
+    description: "Bring us your idea and we can help shape it into a complete advertisement or creative project.",
+    prompt: "Tell us your idea, what you want the audience to feel, and anything you already have planned.",
+  },
+  {
+    icon: "🌱",
+    title: "Do Everything For Me",
+    description: "From concept and planning to filming, editing, and publishing, LEAF can handle the creative process with you.",
+    prompt: "Tell us what you are hoping to accomplish, what you are promoting, and anything else you would like us to know.",
+  },
+];
+
 export default function GetStarted() {
   const [zipCode, setZipCode] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState<1 | 2>(1);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [serviceDetails, setServiceDetails] = useState<Record<string, string>>({});
 
   const isServiceAreaZip = zipCode.length === 5 && serviceAreaZipCodes.has(zipCode);
   const showZipNotice = zipCode.length === 5 && !isServiceAreaZip;
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleInfoSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!isServiceAreaZip) return;
-    setSubmitted(true);
+    setStep(2);
+  }
+
+  function toggleService(title: string) {
+    setSelectedServices((current) =>
+      current.includes(title)
+        ? current.filter((service) => service !== title)
+        : [...current, title]
+    );
   }
 
   return (
@@ -32,14 +69,10 @@ export default function GetStarted() {
         minHeight: "100vh",
         background: "#F3F0E7",
         padding: "120px 20px 80px",
+        overflow: "hidden",
       }}
     >
-      <div
-        style={{
-          maxWidth: "760px",
-          margin: "0 auto",
-        }}
-      >
+      <div style={{ maxWidth: "760px", margin: "0 auto" }}>
         <a
           href="/"
           style={{
@@ -54,6 +87,7 @@ export default function GetStarted() {
         </a>
 
         <div
+          className={step === 2 ? "get-started-card step-two" : "get-started-card"}
           style={{
             background: "#F3F0E7",
             borderRadius: "24px",
@@ -61,130 +95,348 @@ export default function GetStarted() {
             boxShadow: "0 20px 50px rgba(0,0,0,0.08)",
           }}
         >
-          <p
-            style={{
-              color: "#048243",
-              fontWeight: 700,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              marginBottom: "12px",
-            }}
-          >
-            Let&apos;s get started
-          </p>
-
-          <h1
-            style={{
-              fontFamily: '"BPMF Huninn", sans-serif',
-              color: "#048243",
-              fontSize: "clamp(2.8rem, 7vw, 4.8rem)",
-              lineHeight: 1.05,
-              marginBottom: "18px",
-            }}
-          >
-            Tell us about your business.
-          </h1>
-
-          <p
-            style={{
-              color: "#6B7280",
-              lineHeight: 1.7,
-              marginBottom: "35px",
-            }}
-          >
-            Fill out the form below and a member of the LEAF team can learn a little
-            more about you and your business.
-          </p>
-
-          {submitted ? (
-            <div
-              style={{
-                padding: "24px",
-                borderRadius: "16px",
-                background: "#F3F0E7",
-                color: "#048243",
-                fontWeight: 600,
-                lineHeight: 1.6,
-              }}
-            >
-              Thanks! We&apos;ve received your information and will be in touch.
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <label style={labelStyle}>
-                Company Name
-                <input name="companyName" type="text" required style={inputStyle} placeholder="Your company name" />
-              </label>
-
-              <label style={labelStyle}>
-                Email
-                <input name="email" type="email" required style={inputStyle} placeholder="you@company.com" />
-              </label>
-
-              <label style={labelStyle}>
-                Phone Number
-                <input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" />
-              </label>
-
-              <label style={labelStyle}>
-                Company ZIP Code {showZipNotice && <span style={{ color: "#0B1F3A" }}>*</span>}
-                <input
-                  name="zipCode"
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={5}
-                  required
-                  value={zipCode}
-                  onChange={(event) => setZipCode(event.target.value.replace(/\D/g, "").slice(0, 5))}
-                  style={{ ...inputStyle, borderColor: showZipNotice ? "#0B1F3A" : "#E5E7EB" }}
-                  placeholder="10001"
-                  aria-invalid={showZipNotice}
-                />
-                {showZipNotice && (
-                  <span
-                    style={{
-                      display: "block",
-                      color: "#0B1F3A",
-                      fontSize: "0.92rem",
-                      lineHeight: 1.5,
-                      marginTop: "8px",
-                    }}
-                  >
-                    <strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? We can still create your ad remotely and send it straight to you!
-                  </span>
-                )}
-              </label>
-
-              <label style={labelStyle}>
-                How did you hear about us?
-                <select name="howHeard" required style={inputStyle} defaultValue="">
-                  <option value="" disabled>Select an option</option>
-                  <option value="social-media">Social Media</option>
-                  <option value="google">Google</option>
-                  <option value="friend">Friend or Family</option>
-                  <option value="business">Another Business</option>
-                  <option value="event">Event or Pop-Up</option>
-                  <option value="other">Other</option>
-                </select>
-              </label>
-
-              <button
-                type="submit"
-                disabled={!isServiceAreaZip}
-                className="hero-button primary-btn"
+          {step === 1 ? (
+            <section className="step-panel step-panel-one">
+              <p
                 style={{
-                  width: "100%",
-                  marginTop: "10px",
-                  opacity: isServiceAreaZip ? 1 : 0.55,
-                  cursor: isServiceAreaZip ? "pointer" : "not-allowed",
+                  color: "#048243",
+                  fontWeight: 700,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  marginBottom: "12px",
                 }}
               >
-                Submit
+                Let&apos;s get started
+              </p>
+
+              <h1
+                style={{
+                  fontFamily: '"BPMF Huninn", sans-serif',
+                  color: "#048243",
+                  fontSize: "clamp(2.8rem, 7vw, 4.8rem)",
+                  lineHeight: 1.05,
+                  marginBottom: "18px",
+                }}
+              >
+                Tell us about your business.
+              </h1>
+
+              <p style={{ color: "#6B7280", lineHeight: 1.7, marginBottom: "35px" }}>
+                Fill out the form below and a member of the LEAF team can learn a little more about you and your business.
+              </p>
+
+              <form onSubmit={handleInfoSubmit}>
+                <label style={labelStyle}>
+                  Company Name
+                  <input name="companyName" type="text" required style={inputStyle} placeholder="Your company name" />
+                </label>
+
+                <label style={labelStyle}>
+                  Email
+                  <input name="email" type="email" required style={inputStyle} placeholder="you@company.com" />
+                </label>
+
+                <label style={labelStyle}>
+                  Phone Number
+                  <input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" />
+                </label>
+
+                <label style={labelStyle}>
+                  Company ZIP Code {showZipNotice && <span style={{ color: "#0B1F3A" }}>*</span>}
+                  <input
+                    name="zipCode"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    required
+                    value={zipCode}
+                    onChange={(event) => setZipCode(event.target.value.replace(/\D/g, "").slice(0, 5))}
+                    style={{ ...inputStyle, borderColor: showZipNotice ? "#0B1F3A" : "#E5E7EB" }}
+                    placeholder="10001"
+                    aria-invalid={showZipNotice}
+                  />
+                  {showZipNotice && (
+                    <span style={{ display: "block", color: "#0B1F3A", fontSize: "0.92rem", lineHeight: 1.5, marginTop: "8px" }}>
+                      <strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? We can still create your ad remotely and send it straight to you!
+                    </span>
+                  )}
+                </label>
+
+                <label style={labelStyle}>
+                  How did you hear about us?
+                  <select name="howHeard" required style={inputStyle} defaultValue="">
+                    <option value="" disabled>Select an option</option>
+                    <option value="social-media">Social Media</option>
+                    <option value="google">Google</option>
+                    <option value="friend">Friend or Family</option>
+                    <option value="business">Another Business</option>
+                    <option value="event">Event or Pop-Up</option>
+                    <option value="other">Other</option>
+                  </select>
+                </label>
+
+                <button
+                  type="submit"
+                  disabled={!isServiceAreaZip}
+                  className="hero-button primary-btn"
+                  style={{
+                    width: "100%",
+                    marginTop: "10px",
+                    opacity: isServiceAreaZip ? 1 : 0.55,
+                    cursor: isServiceAreaZip ? "pointer" : "not-allowed",
+                  }}
+                >
+                  Continue
+                </button>
+              </form>
+            </section>
+          ) : (
+            <section className="step-panel step-panel-two">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  color: "#048243",
+                  fontWeight: 700,
+                  padding: 0,
+                  marginBottom: "24px",
+                  fontSize: "1rem",
+                }}
+              >
+                ← Back
               </button>
-            </form>
+
+              <p
+                style={{
+                  color: "#048243",
+                  fontWeight: 700,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  marginBottom: "12px",
+                }}
+              >
+                What can LEAF do for you?
+              </p>
+
+              <h1
+                style={{
+                  fontFamily: '"BPMF Huninn", sans-serif',
+                  color: "#048243",
+                  fontSize: "clamp(2.8rem, 7vw, 4.8rem)",
+                  lineHeight: 1.05,
+                  marginBottom: "18px",
+                }}
+              >
+                Choose your services.
+              </h1>
+
+              <p style={{ color: "#6B7280", lineHeight: 1.7, marginBottom: "32px" }}>
+                Choose as many as you need. You can select one, several, or all four.
+              </p>
+
+              <div style={{ display: "grid", gap: "16px" }}>
+                {services.map((service) => {
+                  const selected = selectedServices.includes(service.title);
+
+                  return (
+                    <button
+                      key={service.title}
+                      type="button"
+                      onClick={() => toggleService(service.title)}
+                      className={`service-choice ${selected ? "service-choice-selected" : ""}`}
+                    >
+                      <span className="service-choice-fill" aria-hidden="true" />
+                      <span className="service-choice-content">
+                        <span className="service-choice-icon">{service.icon}</span>
+                        <span style={{ flex: 1, textAlign: "left" }}>
+                          <span className="service-choice-title">{service.title}</span>
+                          <span className="service-choice-description">{service.description}</span>
+                        </span>
+                        <span className="service-choice-check">{selected ? "✓" : "＋"}</span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {selectedServices.length > 0 && (
+                <div style={{ marginTop: "36px" }}>
+                  <h2 style={{ color: "#048243", fontSize: "1.8rem", marginBottom: "10px" }}>
+                    Tell us more
+                  </h2>
+                  <p style={{ color: "#6B7280", lineHeight: 1.7, marginBottom: "24px" }}>
+                    Give us a few specifics for each service you selected. The more you tell us, the better we can understand what you have in mind.
+                  </p>
+
+                  {services
+                    .filter((service) => selectedServices.includes(service.title))
+                    .map((service) => (
+                      <label key={service.title} style={{ ...labelStyle, marginBottom: "24px" }}>
+                        <span style={{ color: "#048243" }}>{service.icon} {service.title}</span>
+                        <span style={{ display: "block", fontWeight: 400, color: "#6B7280", fontSize: "0.95rem", lineHeight: 1.5, marginTop: "5px" }}>
+                          {service.prompt}
+                        </span>
+                        <textarea
+                          value={serviceDetails[service.title] || ""}
+                          onChange={(event) =>
+                            setServiceDetails((current) => ({
+                              ...current,
+                              [service.title]: event.target.value,
+                            }))
+                          }
+                          rows={5}
+                          style={{ ...inputStyle, resize: "vertical" }}
+                          placeholder="Tell us what you have in mind..."
+                        />
+                      </label>
+                    ))}
+
+                  <button
+                    type="button"
+                    className="hero-button primary-btn"
+                    style={{ width: "100%", marginTop: "8px" }}
+                    onClick={() => alert("Thanks! Your service selections have been noted. Submission storage will be connected next.")}
+                  >
+                    Continue
+                  </button>
+                </div>
+              )}
+            </section>
           )}
         </div>
       </div>
+
+      <style jsx>{`
+        .get-started-card {
+          position: relative;
+        }
+
+        .step-panel {
+          animation: revealStep 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .step-panel-two {
+          animation-name: sweepIn;
+        }
+
+        .service-choice {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          border: 2px solid #78A987;
+          border-radius: 18px;
+          padding: 0;
+          background: #F3F0E7;
+          color: #1E1E1E;
+          text-align: left;
+          cursor: pointer;
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-choice:hover {
+          transform: translateY(-4px);
+          border-color: #048243;
+          box-shadow: 0 12px 25px rgba(4, 130, 67, 0.12);
+        }
+
+        .service-choice-fill {
+          position: absolute;
+          inset: 0;
+          background: #048243;
+          transform: scaleX(0);
+          transform-origin: left center;
+          transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .service-choice-selected .service-choice-fill {
+          transform: scaleX(1);
+        }
+
+        .service-choice-content {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 22px;
+          transition: color 0.3s ease;
+        }
+
+        .service-choice-icon {
+          font-size: 2rem;
+          flex-shrink: 0;
+        }
+
+        .service-choice-title,
+        .service-choice-description {
+          display: block;
+        }
+
+        .service-choice-title {
+          font-size: 1.2rem;
+          font-weight: 800;
+          margin-bottom: 5px;
+        }
+
+        .service-choice-description {
+          color: #6B7280;
+          line-height: 1.5;
+          font-weight: 400;
+        }
+
+        .service-choice-check {
+          font-size: 1.5rem;
+          font-weight: 800;
+          flex-shrink: 0;
+        }
+
+        .service-choice-selected .service-choice-content {
+          color: white;
+        }
+
+        .service-choice-selected .service-choice-description {
+          color: rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes sweepIn {
+          from {
+            opacity: 0;
+            transform: translate3d(-100%, 18px, 0) skewX(-7deg);
+          }
+          to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) skewX(0deg);
+          }
+        }
+
+        @keyframes revealStep {
+          from {
+            opacity: 0;
+            transform: translate3d(-45px, 20px, 0);
+          }
+          to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+          }
+        }
+
+        @media (max-width: 640px) {
+          .service-choice-content {
+            align-items: flex-start;
+            padding: 18px;
+          }
+
+          .service-choice-icon {
+            font-size: 1.7rem;
+          }
+
+          .service-choice-description {
+            font-size: 0.95rem;
+          }
+        }
+      `}</style>
     </main>
   );
 }
