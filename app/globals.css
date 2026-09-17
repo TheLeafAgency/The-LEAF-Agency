@@ -43,7 +43,7 @@ section { width: 100%; }
 .choice-button {
   min-height: 250px !important;
   padding: 38px !important;
-  border: 2px solid var(--leaf-green-light) !important;
+  border: 2px solid var(--leaf-eden-green) !important;
   border-radius: 24px !important;
   background: var(--leaf-white-dove) !important;
   overflow: hidden;
@@ -63,7 +63,7 @@ section { width: 100%; }
   position: absolute !important;
   inset: 0 !important;
   z-index: 0 !important;
-  background: var(--leaf-green-light) !important;
+  background: var(--leaf-eden-green) !important;
   transform: scaleX(0) !important;
   transform-origin: left center !important;
   transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) !important;
@@ -108,24 +108,12 @@ section { width: 100%; }
   max-width: 95%;
   overflow-wrap: break-word;
 }
-.choice-button.selected .choice-title {
-  color: var(--leaf-eden-green) !important;
-}
+.choice-button.selected .choice-title,
 .choice-button.selected .choice-description {
-  color: var(--leaf-text) !important;
+  color: var(--leaf-white-dove) !important;
 }
 .choice-button .choice-check {
-  position: absolute !important;
-  z-index: 3 !important;
-  width: 32px !important;
-  height: 32px !important;
-  top: 20px !important;
-  right: 22px !important;
-}
-.choice-button.selected .choice-check {
-  border-color: var(--leaf-eden-green) !important;
-  color: white !important;
-  background: var(--leaf-eden-green) !important;
+  display: none !important;
 }
 .choice-button:disabled {
   transform: none !important;
