@@ -3,14 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 
 const serviceAreaZipCodes = new Set([
-  "10001", "10002", "10003", "10004", "10005", "10006", "10007", "10009", "10010", "10011", "10012", "10013", "10014", "10016", "10017", "10018", "10019", "10020", "10021", "10022", "10023", "10024", "10025", "10026", "10027", "10028", "10029", "10030", "10031", "10032", "10033", "10034", "10035", "10036", "10037", "10038", "10039", "10040", "10044", "10065", "10069", "10075", "10103", "10104", "10105", "10106", "10107", "10110", "10111", "10112", "10115", "10118", "10119", "10120", "10121", "10122", "10123", "10128", "10152", "10153", "10154", "10155", "10158", "10162", "10165", "10166", "10167", "10168", "10169", "10170", "10171", "10172", "10173", "10174", "10175", "10176", "10177", "10178", "10179", "10185", "10280", "10281", "10282", "10285", "10286",
-  "10301", "10302", "10303", "10304", "10305", "10306", "10307", "10308", "10309", "10310", "10312", "10314",
-  "10451", "10452", "10453", "10454", "10455", "10456", "10457", "10458", "10459", "10460", "10461", "10462", "10463", "10464", "10465", "10466", "10467", "10468", "10469", "10470", "10471", "10472", "10473", "10474", "10475",
-  "11004", "11005", "11101", "11102", "11103", "11104", "11105", "11106", "11354", "11355", "11356", "11357", "11358", "11360", "11361", "11362", "11363", "11364", "11365", "11366", "11367", "11368", "11369", "11370", "11371", "11372", "11373", "11374", "11375", "11377", "11378", "11379", "11385", "11411", "11412", "11413", "11414", "11415", "11416", "11417", "11418", "11419", "11420", "11421", "11422", "11423", "11426", "11427", "11428", "11429", "11430", "11432", "11433", "11434", "11435", "11436", "11691", "11692", "11693", "11694", "11697",
-  "11201", "11203", "11204", "11205", "11206", "11207", "11208", "11209", "11210", "11211", "11212", "11213", "11214", "11215", "11216", "11217", "11218", "11219", "11220", "11221", "11222", "11223", "11224", "11225", "11226", "11228", "11229", "11230", "11231", "11232", "11233", "11234", "11235", "11236", "11237", "11238", "11239", "11241", "11242", "11243", "11249", "11251",
-  "10801", "10802", "10803", "10804", "10805",
-  "10701", "10702", "10703", "10704", "10705", "10706", "10707", "10708", "10709", "10710",
-  "10601", "10602", "10603", "10604", "10605", "10606", "10607",
+  "10001","10002","10003","10004","10005","10006","10007","10009","10010","10011","10012","10013","10014","10016","10017","10018","10019","10020","10021","10022","10023","10024","10025","10026","10027","10028","10029","10030","10031","10032","10033","10034","10035","10036","10037","10038","10039","10040","10044","10065","10069","10075","10103","10104","10105","10106","10107","10110","10111","10112","10115","10118","10119","10120","10121","10122","10123","10128","10152","10153","10154","10155","10158","10162","10165","10166","10167","10168","10169","10170","10171","10172","10173","10174","10175","10176","10177","10178","10179","10185","10280","10281","10282","10285","10286",
+  "10301","10302","10303","10304","10305","10306","10307","10308","10309","10310","10312","10314",
+  "10451","10452","10453","10454","10455","10456","10457","10458","10459","10460","10461","10462","10463","10464","10465","10466","10467","10468","10469","10470","10471","10472","10473","10474","10475",
+  "11004","11005","11101","11102","11103","11104","11105","11106",
+  "11201","11203","11204","11205","11206","11207","11208","11209","11210","11211","11212","11213","11214","11215","11216","11217","11218","11219","11220","11221","11222","11223","11224","11225","11226","11228","11229","11230","11231","11232","11233","11234","11235","11236","11237","11238","11239","11241","11242","11243","11249","11251",
+  "10801","10802","10803","10804","10805","10701","10702","10703","10704","10705","10706","10707","10708","10709","10710","10601","10602","10603","10604","10605","10606","10607",
 ]);
 
 const promotionOptions = [
@@ -29,6 +27,8 @@ const authenticAdOptions = [
   { icon: "🌱", title: "Everything", description: "You want LEAF to handle the process from concept through completion." },
 ];
 
+const heardOptions = ["Social Media", "Google", "Friend or Family", "Another Business", "Event or Pop-Up", "Other"];
+
 const promotionDetails: Record<string, string> = {
   Billboards: "Tell us what you would like to promote, where you would like the billboard, and anything important about the campaign.",
   "Social Media": "Tell us which platforms you have in mind, what you want to promote, and the kind of content you are looking for.",
@@ -43,23 +43,20 @@ export default function GetStarted() {
   const [section, setSection] = useState(1);
   const [promoting, setPromoting] = useState<string[]>([]);
   const [authenticAdServices, setAuthenticAdServices] = useState<string[]>([]);
+  const [howHeard, setHowHeard] = useState("");
   const [details, setDetails] = useState("");
   const sectionRefs = useRef<Record<number, HTMLElement | null>>({});
 
   const isServiceAreaZip = zipCode.length === 5 && serviceAreaZipCodes.has(zipCode);
   const showZipNotice = zipCode.length === 5 && !isServiceAreaZip;
-  const hasPromotionSelection = promoting.some((item) =>
-    promotionOptions.some((option) => option.title === item)
-  );
+  const hasPromotionSelection = promoting.some((item) => promotionOptions.some((option) => option.title === item));
+  const hasWhatSelection = promoting.some((item) => ["Product", "Business", "Something Else"].includes(item));
 
   useEffect(() => {
     if (section <= 1) return;
     const target = sectionRefs.current[section];
     if (!target) return;
-
-    window.setTimeout(() => {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 80);
+    window.setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
   }, [section]);
 
   function goToSection(nextSection: number) {
@@ -67,44 +64,20 @@ export default function GetStarted() {
   }
 
   function toggleSelection(value: string, setter: React.Dispatch<React.SetStateAction<string[]>>) {
-    setter((current) =>
-      current.includes(value) ? current.filter((item) => item !== value) : [...current, value]
-    );
+    setter((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
   }
 
-  const selectedPromotionDetails = promoting
-    .map((title) => promotionDetails[title])
-    .filter(Boolean)
-    .join("\n\n");
+  const selectedPromotionDetails = promoting.map((title) => promotionDetails[title]).filter(Boolean).join("\n\n");
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#F3F0E7",
-        padding: "120px 20px 100px",
-      }}
-    >
+    <main style={{ minHeight: "100vh", background: "#F3F0E7", padding: "120px 20px 100px" }}>
       <div style={{ maxWidth: "820px", margin: "0 auto" }}>
-        <a
-          href="/"
-          style={{
-            display: "inline-block",
-            color: "#048243",
-            fontWeight: 800,
-            fontSize: "1.8rem",
-            marginBottom: "45px",
-          }}
-        >
-          LEAF
-        </a>
+        <a href="/" style={{ display: "inline-block", color: "#048243", fontWeight: 800, fontSize: "1.8rem", marginBottom: "45px" }}>LEAF</a>
 
         <div className="intro-heading">
           <p className="eyebrow">Let&apos;s get started</p>
           <h1>Let&apos;s build something for your business.</h1>
-          <p className="intro-copy">
-            We&apos;ll walk you through a few quick choices so we can understand what you are looking for.
-          </p>
+          <p className="intro-copy">We&apos;ll walk you through a few quick choices so we can understand what you are looking for.</p>
         </div>
 
         <div className="flow-stack">
@@ -113,64 +86,32 @@ export default function GetStarted() {
             <p className="eyebrow">First, tell us about you</p>
             <h2>Your business information</h2>
 
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                goToSection(2);
-              }}
-            >
-              <label style={labelStyle}>
-                Company Name
-                <input name="companyName" type="text" required style={inputStyle} placeholder="Your company name" />
-              </label>
+            <form onSubmit={(event) => { event.preventDefault(); goToSection(2); }}>
+              <label style={labelStyle}>Company Name<input name="companyName" type="text" required style={inputStyle} placeholder="Your company name" /></label>
+              <label style={labelStyle}>Email<input name="email" type="email" required style={inputStyle} placeholder="you@company.com" /></label>
+              <label style={labelStyle}>Phone Number<input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" /></label>
 
               <label style={labelStyle}>
-                Email
-                <input name="email" type="email" required style={inputStyle} placeholder="you@company.com" />
+                Company ZIP Code
+                <input name="zipCode" type="text" inputMode="numeric" maxLength={5} required value={zipCode} onChange={(event) => setZipCode(event.target.value.replace(/\D/g, "").slice(0, 5))} style={{ ...inputStyle, borderColor: showZipNotice ? "#0B1F3A" : "#E5E7EB" }} placeholder="10001" aria-invalid={showZipNotice} />
+                {showZipNotice && <span style={zipNoticeStyle}><strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? Some in-person promotion options may be limited, but we can still help with remote creative work.</span>}
               </label>
 
-              <label style={labelStyle}>
-                Phone Number
-                <input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" />
-              </label>
+              <div className="heard-section">
+                <div className="heard-heading">
+                  <span>How did you hear about us?</span>
+                  <span className="optional-label">Optional</span>
+                </div>
+                <div className="heard-grid" role="group" aria-label="How did you hear about us">
+                  {heardOptions.map((option) => (
+                    <button key={option} type="button" className={`heard-option ${howHeard === option ? "selected" : ""}`} onClick={() => setHowHeard(howHeard === option ? "" : option)} aria-pressed={howHeard === option}>
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-              <label style={labelStyle}>
-                Company ZIP Code {showZipNotice && <span style={{ color: "#0B1F3A" }}>*</span>}
-                <input
-                  name="zipCode"
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={5}
-                  required
-                  value={zipCode}
-                  onChange={(event) => setZipCode(event.target.value.replace(/\D/g, "").slice(0, 5))}
-                  style={{ ...inputStyle, borderColor: showZipNotice ? "#0B1F3A" : "#E5E7EB" }}
-                  placeholder="10001"
-                  aria-invalid={showZipNotice}
-                />
-                {showZipNotice && (
-                  <span style={zipNoticeStyle}>
-                    <strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? Some in-person promotion options may be limited, but we can still help with remote creative work.
-                  </span>
-                )}
-              </label>
-
-              <label style={labelStyle}>
-                How did you hear about us?
-                <select name="howHeard" required style={inputStyle} defaultValue="">
-                  <option value="" disabled>Select an option</option>
-                  <option value="social-media">Social Media</option>
-                  <option value="google">Google</option>
-                  <option value="friend">Friend or Family</option>
-                  <option value="business">Another Business</option>
-                  <option value="event">Event or Pop-Up</option>
-                  <option value="other">Other</option>
-                </select>
-              </label>
-
-              <button type="submit" className="done-button">
-                Done <span>→</span>
-              </button>
+              <button type="submit" className="done-button">Done <span>→</span></button>
             </form>
           </section>
 
@@ -180,36 +121,14 @@ export default function GetStarted() {
               <p className="eyebrow">What are you promoting?</p>
               <h2>Choose what you want LEAF to promote.</h2>
               <p className="section-copy">Pick one or as many as apply.</p>
-
               <div className="choice-grid three-column">
                 {[
                   { icon: "📦", title: "Product", description: "A product, service, launch, or offer." },
                   { icon: "🏢", title: "Business", description: "Your business, brand, location, or company." },
                   { icon: "✨", title: "Something Else", description: "Something that does not fit either option." },
-                ].map((choice) => (
-                  <ChoiceButton
-                    key={choice.title}
-                    icon={choice.icon}
-                    title={choice.title}
-                    description={choice.description}
-                    selected={promoting.includes(choice.title)}
-                    onClick={() => toggleSelection(choice.title, setPromoting)}
-                  />
-                ))}
+                ].map((choice) => <ChoiceButton key={choice.title} {...choice} selected={promoting.includes(choice.title)} onClick={() => toggleSelection(choice.title, setPromoting)} />)}
               </div>
-
-              <button
-                type="button"
-                className="done-button"
-                disabled={promoting.filter((item) => ["Product", "Business", "Something Else"].includes(item)).length === 0}
-                onClick={() => goToSection(3)}
-                style={{
-                  opacity: promoting.some((item) => ["Product", "Business", "Something Else"].includes(item)) ? 1 : 0.55,
-                  cursor: promoting.some((item) => ["Product", "Business", "Something Else"].includes(item)) ? "pointer" : "not-allowed",
-                }}
-              >
-                Done <span>→</span>
-              </button>
+              <button type="button" className="done-button" disabled={!hasWhatSelection} onClick={() => goToSection(3)}>Done <span>→</span></button>
             </section>
           )}
 
@@ -219,44 +138,14 @@ export default function GetStarted() {
               <p className="eyebrow">How do you want to promote it?</p>
               <h2>Choose how you want people to see you.</h2>
               <p className="section-copy">Pick one or as many as you want. We can build around your choices.</p>
-
               <div className="choice-grid">
                 {promotionOptions.map((choice) => {
                   const restricted = !isServiceAreaZip && (choice.title === "Billboards" || choice.title === "Public Events");
-                  const selected = promoting.includes(choice.title);
-
-                  return (
-                    <ChoiceButton
-                      key={choice.title}
-                      icon={choice.icon}
-                      title={choice.title}
-                      description={restricted ? "Currently unavailable outside our service area." : choice.description}
-                      selected={selected}
-                      disabled={restricted}
-                      onClick={() => toggleSelection(choice.title, setPromoting)}
-                    />
-                  );
+                  return <ChoiceButton key={choice.title} {...choice} description={restricted ? "Currently unavailable outside our service area." : choice.description} selected={promoting.includes(choice.title)} disabled={restricted} onClick={() => toggleSelection(choice.title, setPromoting)} />;
                 })}
               </div>
-
-              {!isServiceAreaZip && (
-                <p className="limited-notice">
-                  Unfortunately, some options are limited because you are outside our service area. Remote creative services are still available.
-                </p>
-              )}
-
-              <button
-                type="button"
-                className="done-button"
-                disabled={!hasPromotionSelection}
-                onClick={() => goToSection(promoting.includes("Authentic Ads") ? 4 : 5)}
-                style={{
-                  opacity: hasPromotionSelection ? 1 : 0.55,
-                  cursor: hasPromotionSelection ? "pointer" : "not-allowed",
-                }}
-              >
-                Done <span>→</span>
-              </button>
+              {!isServiceAreaZip && <p className="limited-notice">Unfortunately, some options are limited because you are outside our service area. Remote creative services are still available.</p>}
+              <button type="button" className="done-button" disabled={!hasPromotionSelection} onClick={() => goToSection(promoting.includes("Authentic Ads") ? 4 : 5)}>Done <span>→</span></button>
             </section>
           )}
 
@@ -266,29 +155,10 @@ export default function GetStarted() {
               <p className="eyebrow">Authentic ads</p>
               <h2>How do you want to approach your ad?</h2>
               <p className="section-copy">Choose one, several, or all four.</p>
-
               <div className="choice-grid">
-                {authenticAdOptions.map((choice) => (
-                  <ChoiceButton
-                    key={choice.title}
-                    icon={choice.icon}
-                    title={choice.title}
-                    description={choice.description}
-                    selected={authenticAdServices.includes(choice.title)}
-                    onClick={() => toggleSelection(choice.title, setAuthenticAdServices)}
-                  />
-                ))}
+                {authenticAdOptions.map((choice) => <ChoiceButton key={choice.title} {...choice} selected={authenticAdServices.includes(choice.title)} onClick={() => toggleSelection(choice.title, setAuthenticAdServices)} />)}
               </div>
-
-              <button
-                type="button"
-                className="done-button"
-                disabled={authenticAdServices.length === 0}
-                onClick={() => goToSection(5)}
-                style={{ opacity: authenticAdServices.length ? 1 : 0.55, cursor: authenticAdServices.length ? "pointer" : "not-allowed" }}
-              >
-                Done <span>→</span>
-              </button>
+              <button type="button" className="done-button" disabled={authenticAdServices.length === 0} onClick={() => goToSection(5)}>Done <span>→</span></button>
             </section>
           )}
 
@@ -297,368 +167,78 @@ export default function GetStarted() {
               <span className="step-number">{promoting.includes("Authentic Ads") ? "05" : "04"}</span>
               <p className="eyebrow">Now, make it yours</p>
               <h2>Tell us exactly what you have in mind.</h2>
-              <p className="section-copy">
-                This is where you can go into detail. Tell us about your vision, goals, audience, style, locations, deadlines, references, or anything else you think we should know.
-              </p>
-
-              {promoting.length > 0 && (
-                <div className="summary-box">
-                  <strong>You selected</strong>
-                  <div className="summary-tags">
-                    {promoting.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                    {authenticAdServices.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <textarea
-                value={details}
-                onChange={(event) => setDetails(event.target.value)}
-                rows={9}
-                style={{ ...inputStyle, resize: "vertical", marginTop: "22px" }}
-                placeholder={selectedPromotionDetails || "Tell us everything you would like us to know..."}
-              />
-
-              <button
-                type="button"
-                className="done-button"
-                onClick={() => alert("Thanks! Your project details have been captured for the next step. Submission storage will be connected next.")}
-              >
-                Done <span>✓</span>
-              </button>
+              <p className="section-copy">This is where you can go into detail. Tell us about your vision, goals, audience, style, locations, deadlines, references, or anything else you think we should know.</p>
+              {promoting.length > 0 && <div className="summary-box"><strong>You selected</strong><div className="summary-tags">{promoting.map((item) => <span key={item}>{item}</span>)}{authenticAdServices.map((item) => <span key={item}>{item}</span>)}</div></div>}
+              <textarea value={details} onChange={(event) => setDetails(event.target.value)} rows={9} style={{ ...inputStyle, resize: "vertical", marginTop: "22px" }} placeholder={selectedPromotionDetails || "Tell us everything you would like us to know..."} />
+              <button type="button" className="done-button" onClick={() => alert("Thanks! Your project details have been captured for the next step. Submission storage will be connected next.")}>Done <span>✓</span></button>
             </section>
           )}
         </div>
       </div>
 
       <style jsx>{`
-        .intro-heading {
-          margin-bottom: 48px;
-          animation: fadeUp 0.7s ease both;
-        }
+        .intro-heading { margin-bottom: 48px; animation: fadeUp 0.7s ease both; }
+        .eyebrow { color: #048243; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-size: 0.9rem; }
+        .intro-heading h1 { font-family: "BPMF Huninn", sans-serif; color: #048243; font-size: clamp(3rem, 8vw, 5.6rem); line-height: 1.02; margin: 0 0 18px; }
+        .intro-copy, .section-copy { color: #6B7280; line-height: 1.75; max-width: 700px; }
+        .flow-stack { display: grid; gap: 28px; }
+        .flow-card { position: relative; scroll-margin-top: 35px; background: #F3F0E7; border: 2px solid #D8E0D9; border-radius: 28px; padding: 48px; box-shadow: 0 20px 50px rgba(0,0,0,0.06); }
+        .flow-card-active { border-color: #78A987; }
+        .flow-card-reveal { animation: sweepIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .step-number { position: absolute; top: 28px; right: 32px; color: #048243; font-weight: 800; letter-spacing: 1px; font-size: 0.9rem; }
+        .flow-card h2 { font-family: "BPMF Huninn", sans-serif; color: #048243; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; margin: 0 0 14px; max-width: 650px; }
 
-        .eyebrow {
-          color: #048243;
-          font-weight: 800;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          margin-bottom: 12px;
-          font-size: 0.9rem;
-        }
+        .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+        .three-column { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .choice-button { position: relative; isolation: isolate; overflow: hidden; min-height: 145px; width: 100%; text-align: left; border: 2px solid #78A987; border-radius: 20px; padding: 24px; background: #F3F0E7; cursor: pointer; transform: translateZ(0); transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease; }
+        .choice-button:hover:not(:disabled) { transform: translateY(-5px) translateZ(0); border-color: #048243; box-shadow: 0 14px 28px rgba(4,130,67,0.12); }
+        .choice-button:disabled { cursor: not-allowed; border-color: #C8CBC9; background: #E1E2E0; opacity: 0.78; }
+        .choice-fill { position: absolute; inset: 0; background: #048243; transform: scale3d(0,1,1); transform-origin: left center; will-change: transform; backface-visibility: hidden; z-index: -1; transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
+        .choice-button.selected .choice-fill { transform: scale3d(1,1,1); }
+        .choice-content { position: relative; z-index: 1; display: block; }
+        .choice-icon { display: block; font-size: 2rem; margin-bottom: 9px; }
+        .choice-title { display: block; font-size: 1.2rem; font-weight: 800; line-height: 1.2; color: #048243; margin-bottom: 7px; transition: color 0.2s ease; }
+        .choice-description { display: block; color: #6B7280; line-height: 1.5; font-size: 0.95rem; transition: color 0.2s ease; }
+        .choice-button.selected .choice-title, .choice-button.selected .choice-description { color: white; }
+        .choice-button:disabled .choice-title, .choice-button:disabled .choice-description { color: #858887; }
+        .choice-check { position: absolute; top: 18px; right: 20px; z-index: 2; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; border: 2px solid #78A987; color: #048243; background: #F3F0E7; font-weight: 900; transition: all 0.3s ease; }
+        .choice-button.selected .choice-check { border-color: white; color: #048243; background: white; }
+        .choice-button:disabled .choice-check { border-color: #B8BCBA; color: #858887; background: #F0F1EF; }
 
-        .intro-heading h1 {
-          font-family: "BPMF Huninn", sans-serif;
-          color: #048243;
-          font-size: clamp(3rem, 8vw, 5.6rem);
-          line-height: 1.02;
-          margin: 0 0 18px;
-        }
+        .heard-section { margin-bottom: 20px; }
+        .heard-heading { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; color: #1E1E1E; font-weight: 700; }
+        .optional-label { color: #6B7280; font-size: 0.82rem; font-weight: 500; }
+        .heard-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+        .heard-option { min-height: 50px; padding: 12px 14px; border: 2px solid #E5E7EB; border-radius: 12px; background: #FFFFFF; color: #1E1E1E; font: inherit; font-weight: 600; text-align: center; transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, transform 0.2s ease; }
+        .heard-option:hover { border-color: #78A987; transform: translateY(-2px); }
+        .heard-option.selected { border-color: #048243; background: rgba(4,130,67,0.08); color: #048243; }
 
-        .intro-copy,
-        .section-copy {
-          color: #6B7280;
-          line-height: 1.75;
-          max-width: 700px;
-        }
+        .limited-notice { margin: 18px 0 0; text-align: center; color: #0B1F3A; font-weight: 700; line-height: 1.6; }
+        .done-button { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-top: 28px; padding: 16px 28px; border: none; border-radius: 999px; background: #048243; color: white; font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .done-button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(4,130,67,0.22); }
+        .done-button:disabled { cursor: not-allowed; opacity: 0.55; }
+        .summary-box { margin-top: 28px; padding: 20px; border-radius: 18px; background: rgba(4,130,67,0.06); border: 1px solid rgba(4,130,67,0.18); }
+        .summary-box strong { color: #048243; }
+        .summary-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .summary-tags span { padding: 7px 12px; border-radius: 999px; background: #048243; color: white; font-size: 0.85rem; font-weight: 700; }
 
-        .flow-stack {
-          display: grid;
-          gap: 28px;
-        }
-
-        .flow-card {
-          position: relative;
-          scroll-margin-top: 35px;
-          background: #F3F0E7;
-          border: 2px solid #D8E0D9;
-          border-radius: 28px;
-          padding: 48px;
-          box-shadow: 0 20px 50px rgba(0,0,0,0.06);
-        }
-
-        .flow-card-active {
-          border-color: #78A987;
-        }
-
-        .flow-card-reveal {
-          animation: sweepIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
-
-        .step-number {
-          position: absolute;
-          top: 28px;
-          right: 32px;
-          color: #048243;
-          font-weight: 800;
-          letter-spacing: 1px;
-          font-size: 0.9rem;
-        }
-
-        .flow-card h2 {
-          font-family: "BPMF Huninn", sans-serif;
-          color: #048243;
-          font-size: clamp(2.2rem, 5vw, 3.8rem);
-          line-height: 1.05;
-          margin: 0 0 14px;
-          max-width: 650px;
-        }
-
-        .choice-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 16px;
-          margin-top: 30px;
-        }
-
-        .three-column {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        .choice-button {
-          position: relative;
-          overflow: hidden;
-          min-height: 145px;
-          text-align: left;
-          border: 2px solid #78A987;
-          border-radius: 20px;
-          padding: 24px;
-          background: #F3F0E7;
-          cursor: pointer;
-          transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
-        }
-
-        .choice-button:hover:not(:disabled) {
-          transform: translateY(-5px);
-          border-color: #048243;
-          box-shadow: 0 14px 28px rgba(4,130,67,0.12);
-        }
-
-        .choice-button:disabled {
-          cursor: not-allowed;
-          border-color: #C8CBC9;
-          background: #E1E2E0;
-          opacity: 0.78;
-        }
-
-        .choice-button:disabled .choice-fill {
-          display: none;
-        }
-
-        .choice-button:disabled .choice-title,
-        .choice-button:disabled .choice-description,
-        .choice-button:disabled .choice-icon {
-          color: #858887;
-        }
-
-        .choice-fill {
-          position: absolute;
-          inset: 0;
-          background: #048243;
-          transform: scaleX(0);
-          transform-origin: left center;
-          transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .choice-button.selected .choice-fill {
-          transform: scaleX(1);
-        }
-
-        .choice-content {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .choice-icon {
-          font-size: 2rem;
-          transition: color 0.3s ease;
-        }
-
-        .choice-title {
-          font-size: 1.2rem;
-          font-weight: 800;
-          color: #1E1E1E;
-          transition: color 0.3s ease;
-        }
-
-        .choice-description {
-          color: #6B7280;
-          line-height: 1.5;
-          font-size: 0.95rem;
-          transition: color 0.3s ease;
-        }
-
-        .choice-button.selected .choice-title,
-        .choice-button.selected .choice-description,
-        .choice-button.selected .choice-icon {
-          color: white;
-        }
-
-        .choice-check {
-          position: absolute;
-          top: 18px;
-          right: 20px;
-          z-index: 2;
-          width: 28px;
-          height: 28px;
-          display: grid;
-          place-items: center;
-          border-radius: 50%;
-          border: 2px solid #78A987;
-          color: #048243;
-          background: #F3F0E7;
-          font-weight: 900;
-          transition: all 0.3s ease;
-        }
-
-        .choice-button.selected .choice-check {
-          border-color: white;
-          color: #048243;
-          background: white;
-        }
-
-        .choice-button:disabled .choice-check {
-          border-color: #B8BCBA;
-          color: #858887;
-          background: #F0F1EF;
-        }
-
-        .limited-notice {
-          margin: 18px 0 0;
-          text-align: center;
-          color: #0B1F3A;
-          font-weight: 700;
-          line-height: 1.6;
-        }
-
-        .done-button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          width: 100%;
-          margin-top: 28px;
-          padding: 16px 28px;
-          border: none;
-          border-radius: 999px;
-          background: #048243;
-          color: white;
-          font: inherit;
-          font-weight: 800;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .done-button:hover:not(:disabled) {
-          transform: translateY(-3px);
-          box-shadow: 0 12px 25px rgba(4,130,67,0.22);
-        }
-
-        .done-button:disabled {
-          cursor: not-allowed;
-          opacity: 0.55;
-        }
-
-        .summary-box {
-          margin-top: 28px;
-          padding: 20px;
-          border-radius: 18px;
-          background: rgba(4,130,67,0.06);
-          border: 1px solid rgba(4,130,67,0.18);
-        }
-
-        .summary-box strong {
-          color: #048243;
-        }
-
-        .summary-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-top: 12px;
-        }
-
-        .summary-tags span {
-          padding: 7px 12px;
-          border-radius: 999px;
-          background: #048243;
-          color: white;
-          font-size: 0.85rem;
-          font-weight: 700;
-        }
-
-        @keyframes sweepIn {
-          from {
-            opacity: 0;
-            transform: translate3d(-100%, 18px, 0) skewX(-7deg);
-          }
-          to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) skewX(0deg);
-          }
-        }
-
-        @keyframes fadeUp {
-          from {
-            opacity: 0;
-            transform: translateY(24px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
+        @keyframes sweepIn { from { opacity: 0; transform: translate3d(-100%, 18px, 0) skewX(-7deg); } to { opacity: 1; transform: translate3d(0, 0, 0) skewX(0deg); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 700px) {
-          .flow-card {
-            padding: 32px 22px;
-          }
-
-          .choice-grid,
-          .three-column {
-            grid-template-columns: 1fr;
-          }
-
-          .step-number {
-            top: 22px;
-            right: 22px;
-          }
+          .flow-card { padding: 32px 22px; }
+          .choice-grid, .three-column { grid-template-columns: 1fr; }
+          .heard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .step-number { top: 22px; right: 22px; }
         }
       `}</style>
     </main>
   );
 }
 
-function ChoiceButton({
-  icon,
-  title,
-  description,
-  selected,
-  disabled = false,
-  onClick,
-}: {
-  icon: string;
-  title: string;
-  description: string;
-  selected: boolean;
-  disabled?: boolean;
-  onClick: () => void;
-}) {
+function ChoiceButton({ icon, title, description, selected, disabled = false, onClick }: { icon: string; title: string; description: string; selected: boolean; disabled?: boolean; onClick: () => void; }) {
   return (
-    <button
-      type="button"
-      className={`choice-button ${selected ? "selected" : ""}`}
-      onClick={onClick}
-      disabled={disabled}
-      aria-pressed={selected}
-    >
+    <button type="button" className={`choice-button ${selected ? "selected" : ""}`} onClick={onClick} disabled={disabled} aria-pressed={selected}>
       <span className="choice-fill" aria-hidden="true" />
       <span className="choice-check">{selected ? "✓" : "＋"}</span>
       <span className="choice-content">
@@ -670,30 +250,6 @@ function ChoiceButton({
   );
 }
 
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  color: "#1E1E1E",
-  fontWeight: 700,
-  marginBottom: "20px",
-};
-
-const inputStyle: React.CSSProperties = {
-  display: "block",
-  width: "100%",
-  marginTop: "8px",
-  padding: "14px 16px",
-  border: "2px solid #E5E7EB",
-  borderRadius: "12px",
-  background: "#FFFFFF",
-  color: "#1E1E1E",
-  font: "inherit",
-  outline: "none",
-};
-
-const zipNoticeStyle: React.CSSProperties = {
-  display: "block",
-  color: "#0B1F3A",
-  fontSize: "0.92rem",
-  lineHeight: 1.5,
-  marginTop: "8px",
-};
+const labelStyle: React.CSSProperties = { display: "block", color: "#1E1E1E", fontWeight: 700, marginBottom: "20px" };
+const inputStyle: React.CSSProperties = { display: "block", width: "100%", marginTop: "8px", padding: "14px 16px", border: "2px solid #E5E7EB", borderRadius: "12px", background: "#FFFFFF", color: "#1E1E1E", font: "inherit", outline: "none" };
+const zipNoticeStyle: React.CSSProperties = { display: "block", color: "#0B1F3A", fontSize: "0.92rem", lineHeight: 1.5, marginTop: "8px" };
