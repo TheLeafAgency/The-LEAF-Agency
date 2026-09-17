@@ -48,6 +48,9 @@ export default function GetStarted() {
 
   const isServiceAreaZip = zipCode.length === 5 && serviceAreaZipCodes.has(zipCode);
   const showZipNotice = zipCode.length === 5 && !isServiceAreaZip;
+  const hasPromotionSelection = promoting.some((item) =>
+    promotionOptions.some((option) => option.title === item)
+  );
 
   useEffect(() => {
     if (section <= 1) return;
@@ -113,7 +116,7 @@ export default function GetStarted() {
             <form
               onSubmit={(event) => {
                 event.preventDefault();
-                if (isServiceAreaZip) goToSection(2);
+                goToSection(2);
               }}
             >
               <label style={labelStyle}>
@@ -147,7 +150,7 @@ export default function GetStarted() {
                 />
                 {showZipNotice && (
                   <span style={zipNoticeStyle}>
-                    <strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? We can still create your ad remotely and send it straight to you!
+                    <strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? Some in-person promotion options may be limited, but we can still help with remote creative work.
                   </span>
                 )}
               </label>
@@ -165,12 +168,7 @@ export default function GetStarted() {
                 </select>
               </label>
 
-              <button
-                type="submit"
-                disabled={!isServiceAreaZip}
-                className="done-button"
-                style={{ opacity: isServiceAreaZip ? 1 : 0.55, cursor: isServiceAreaZip ? "pointer" : "not-allowed" }}
-              >
+              <button type="submit" className="done-button">
                 Done <span>→</span>
               </button>
             </form>
@@ -188,27 +186,27 @@ export default function GetStarted() {
                   { icon: "📦", title: "Product", description: "A product, service, launch, or offer." },
                   { icon: "🏢", title: "Business", description: "Your business, brand, location, or company." },
                   { icon: "✨", title: "Something Else", description: "Something that does not fit either option." },
-                ].map((choice) => {
-                  const selected = promoting.includes(choice.title);
-                  return (
-                    <ChoiceButton
-                      key={choice.title}
-                      icon={choice.icon}
-                      title={choice.title}
-                      description={choice.description}
-                      selected={selected}
-                      onClick={() => toggleSelection(choice.title, setPromoting)}
-                    />
-                  );
-                })}
+                ].map((choice) => (
+                  <ChoiceButton
+                    key={choice.title}
+                    icon={choice.icon}
+                    title={choice.title}
+                    description={choice.description}
+                    selected={promoting.includes(choice.title)}
+                    onClick={() => toggleSelection(choice.title, setPromoting)}
+                  />
+                ))}
               </div>
 
               <button
                 type="button"
                 className="done-button"
-                disabled={promoting.length === 0}
+                disabled={promoting.filter((item) => ["Product", "Business", "Something Else"].includes(item)).length === 0}
                 onClick={() => goToSection(3)}
-                style={{ opacity: promoting.length ? 1 : 0.55, cursor: promoting.length ? "pointer" : "not-allowed" }}
+                style={{
+                  opacity: promoting.some((item) => ["Product", "Business", "Something Else"].includes(item)) ? 1 : 0.55,
+                  cursor: promoting.some((item) => ["Product", "Business", "Something Else"].includes(item)) ? "pointer" : "not-allowed",
+                }}
               >
                 Done <span>→</span>
               </button>
@@ -224,28 +222,37 @@ export default function GetStarted() {
 
               <div className="choice-grid">
                 {promotionOptions.map((choice) => {
+                  const restricted = !isServiceAreaZip && (choice.title === "Billboards" || choice.title === "Public Events");
                   const selected = promoting.includes(choice.title);
+
                   return (
                     <ChoiceButton
                       key={choice.title}
                       icon={choice.icon}
                       title={choice.title}
-                      description={choice.description}
+                      description={restricted ? "Currently unavailable outside our service area." : choice.description}
                       selected={selected}
+                      disabled={restricted}
                       onClick={() => toggleSelection(choice.title, setPromoting)}
                     />
                   );
                 })}
               </div>
 
+              {!isServiceAreaZip && (
+                <p className="limited-notice">
+                  Unfortunately, some options are limited because you are outside our service area. Remote creative services are still available.
+                </p>
+              )}
+
               <button
                 type="button"
                 className="done-button"
-                disabled={promoting.filter((item) => promotionOptions.some((option) => option.title === item)).length === 0}
+                disabled={!hasPromotionSelection}
                 onClick={() => goToSection(promoting.includes("Authentic Ads") ? 4 : 5)}
                 style={{
-                  opacity: promoting.some((item) => promotionOptions.some((option) => option.title === item)) ? 1 : 0.55,
-                  cursor: promoting.some((item) => promotionOptions.some((option) => option.title === item)) ? "pointer" : "not-allowed",
+                  opacity: hasPromotionSelection ? 1 : 0.55,
+                  cursor: hasPromotionSelection ? "pointer" : "not-allowed",
                 }}
               >
                 Done <span>→</span>
@@ -261,19 +268,16 @@ export default function GetStarted() {
               <p className="section-copy">Choose one, several, or all four.</p>
 
               <div className="choice-grid">
-                {authenticAdOptions.map((choice) => {
-                  const selected = authenticAdServices.includes(choice.title);
-                  return (
-                    <ChoiceButton
-                      key={choice.title}
-                      icon={choice.icon}
-                      title={choice.title}
-                      description={choice.description}
-                      selected={selected}
-                      onClick={() => toggleSelection(choice.title, setAuthenticAdServices)}
-                    />
-                  );
-                })}
+                {authenticAdOptions.map((choice) => (
+                  <ChoiceButton
+                    key={choice.title}
+                    icon={choice.icon}
+                    title={choice.title}
+                    description={choice.description}
+                    selected={authenticAdServices.includes(choice.title)}
+                    onClick={() => toggleSelection(choice.title, setAuthenticAdServices)}
+                  />
+                ))}
               </div>
 
               <button
@@ -424,13 +428,30 @@ export default function GetStarted() {
           padding: 24px;
           background: #F3F0E7;
           cursor: pointer;
-          transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+          transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
         }
 
-        .choice-button:hover {
+        .choice-button:hover:not(:disabled) {
           transform: translateY(-5px);
           border-color: #048243;
           box-shadow: 0 14px 28px rgba(4,130,67,0.12);
+        }
+
+        .choice-button:disabled {
+          cursor: not-allowed;
+          border-color: #C8CBC9;
+          background: #E1E2E0;
+          opacity: 0.78;
+        }
+
+        .choice-button:disabled .choice-fill {
+          display: none;
+        }
+
+        .choice-button:disabled .choice-title,
+        .choice-button:disabled .choice-description,
+        .choice-button:disabled .choice-icon {
+          color: #858887;
         }
 
         .choice-fill {
@@ -456,6 +477,7 @@ export default function GetStarted() {
 
         .choice-icon {
           font-size: 2rem;
+          transition: color 0.3s ease;
         }
 
         .choice-title {
@@ -501,6 +523,20 @@ export default function GetStarted() {
           background: white;
         }
 
+        .choice-button:disabled .choice-check {
+          border-color: #B8BCBA;
+          color: #858887;
+          background: #F0F1EF;
+        }
+
+        .limited-notice {
+          margin: 18px 0 0;
+          text-align: center;
+          color: #0B1F3A;
+          font-weight: 700;
+          line-height: 1.6;
+        }
+
         .done-button {
           display: flex;
           align-items: center;
@@ -523,6 +559,11 @@ export default function GetStarted() {
         .done-button:hover:not(:disabled) {
           transform: translateY(-3px);
           box-shadow: 0 12px 25px rgba(4,130,67,0.22);
+        }
+
+        .done-button:disabled {
+          cursor: not-allowed;
+          opacity: 0.55;
         }
 
         .summary-box {
@@ -600,16 +641,24 @@ function ChoiceButton({
   title,
   description,
   selected,
+  disabled = false,
   onClick,
 }: {
   icon: string;
   title: string;
   description: string;
   selected: boolean;
+  disabled?: boolean;
   onClick: () => void;
 }) {
   return (
-    <button type="button" className={`choice-button ${selected ? "selected" : ""}`} onClick={onClick}>
+    <button
+      type="button"
+      className={`choice-button ${selected ? "selected" : ""}`}
+      onClick={onClick}
+      disabled={disabled}
+      aria-pressed={selected}
+    >
       <span className="choice-fill" aria-hidden="true" />
       <span className="choice-check">{selected ? "✓" : "＋"}</span>
       <span className="choice-content">
