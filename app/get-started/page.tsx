@@ -44,7 +44,7 @@ export default function GetStarted() {
   const [promoting, setPromoting] = useState<string[]>([]);
   const [authenticAdServices, setAuthenticAdServices] = useState<string[]>([]);
   const [details, setDetails] = useState("");
-  const sectionRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const sectionRefs = useRef<Record<number, HTMLElement | null>>({});
 
   const isServiceAreaZip = zipCode.length === 5 && serviceAreaZipCodes.has(zipCode);
   const showZipNotice = zipCode.length === 5 && !isServiceAreaZip;
