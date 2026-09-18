@@ -36,6 +36,9 @@ export default function GetStarted() {
   const [authenticAdServices, setAuthenticAdServices] = useState<string[]>([]);
   const [howHeard, setHowHeard] = useState("");
   const [details, setDetails] = useState("");
+  const [whatConfirmed, setWhatConfirmed] = useState(false);
+  const [promotionConfirmed, setPromotionConfirmed] = useState(false);
+  const [authenticAdConfirmed, setAuthenticAdConfirmed] = useState(false);
   const sectionRefs = useRef<Record<number, HTMLElement | null>>({});
 
   const isServiceAreaZip = zipCode.length === 5 && serviceAreaZipCodes.has(zipCode);
@@ -45,6 +48,7 @@ export default function GetStarted() {
   const hasWhatSelection = promoting.some((item) => whatSelections.includes(item));
   const hasPromotionSelection = promoting.some((item) => promotionOptions.some((option) => option.title === item));
   const hasAuthenticAdSelection = authenticAdServices.length > 0;
+  const everythingSelected = authenticAdServices.includes("Everything");
 
   useEffect(() => {
     if (section <= 1) return;
@@ -57,16 +61,53 @@ export default function GetStarted() {
     setSection(nextSection);
   }
 
-  function toggleSelection(value: string, setter: React.Dispatch<React.SetStateAction<string[]>>) {
-    setter((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
-  }
-
   function toggleWhatSelection(value: string) {
     setPromoting((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
+    setWhatConfirmed(false);
+    setPromotionConfirmed(false);
+    setAuthenticAdConfirmed(false);
   }
 
   function togglePromotionSelection(value: string) {
     setPromoting((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
+    setPromotionConfirmed(false);
+    setAuthenticAdConfirmed(false);
+  }
+
+  function toggleAuthenticAdSelection(value: string) {
+    setAuthenticAdServices((current) => {
+      if (value === "Everything") {
+        return current.includes("Everything") ? [] : ["Everything"];
+      }
+
+      if (current.includes("Everything")) {
+        return current.filter((item) => item !== "Everything").concat(value);
+      }
+
+      return current.includes(value) ? current.filter((item) => item !== value) : [...current, value];
+    });
+    setAuthenticAdConfirmed(false);
+  }
+
+  function handleWhatDone() {
+    if (!hasWhatSelection) return;
+    setWhatConfirmed(true);
+    setPromotionConfirmed(false);
+    setAuthenticAdConfirmed(false);
+    goToSection(3);
+  }
+
+  function handlePromotionDone() {
+    if (!hasPromotionSelection) return;
+    setPromotionConfirmed(true);
+    setAuthenticAdConfirmed(false);
+    goToSection(promoting.includes("Authentic Ads") ? 4 : 5);
+  }
+
+  function handleAuthenticAdDone() {
+    if (!hasAuthenticAdSelection) return;
+    setAuthenticAdConfirmed(true);
+    goToSection(5);
   }
 
   return (
@@ -123,11 +164,11 @@ export default function GetStarted() {
                   { icon: "✨", title: "Something Else", description: "Something that does not fit either option." },
                 ].map((choice) => <ChoiceButton key={choice.title} {...choice} selected={promoting.includes(choice.title)} onClick={() => toggleWhatSelection(choice.title)} />)}
               </div>
-              <button type="button" className="done-button" disabled={!hasWhatSelection} onClick={() => goToSection(3)}>Done <span>→</span></button>
+              <button type="button" className="done-button" disabled={!hasWhatSelection} onClick={handleWhatDone}>Done <span>→</span></button>
             </section>
           )}
 
-          {section >= 3 && hasWhatSelection && (
+          {section >= 3 && whatConfirmed && hasWhatSelection && (
             <section ref={(node) => { sectionRefs.current[3] = node; }} className="flow-card flow-card-reveal">
               <span className="step-number">03</span>
               <p className="eyebrow">How do you want to promote it?</p>
@@ -140,24 +181,27 @@ export default function GetStarted() {
                 })}
               </div>
               {!isServiceAreaZip && <p className="limited-notice">Unfortunately, some options are limited because you are outside our service area. Remote creative services are still available.</p>}
-              <button type="button" className="done-button" disabled={!hasPromotionSelection} onClick={() => goToSection(promoting.includes("Authentic Ads") ? 4 : 5)}>Done <span>→</span></button>
+              <button type="button" className="done-button" disabled={!hasPromotionSelection} onClick={handlePromotionDone}>Done <span>→</span></button>
             </section>
           )}
 
-          {section >= 4 && hasWhatSelection && promoting.includes("Authentic Ads") && (
+          {section >= 4 && whatConfirmed && promotionConfirmed && hasWhatSelection && promoting.includes("Authentic Ads") && (
             <section ref={(node) => { sectionRefs.current[4] = node; }} className="flow-card flow-card-reveal">
               <span className="step-number">04</span>
               <p className="eyebrow">Authentic ads</p>
               <h2>How do you want to approach your ad?</h2>
               <p className="section-copy">Choose one, several, or all four.</p>
               <div className="choice-grid">
-                {authenticAdOptions.map((choice) => <ChoiceButton key={choice.title} {...choice} selected={authenticAdServices.includes(choice.title)} onClick={() => toggleSelection(choice.title, setAuthenticAdServices)} />)}
+                {authenticAdOptions.map((choice) => {
+                  const disabled = everythingSelected && choice.title !== "Everything";
+                  return <ChoiceButton key={choice.title} {...choice} selected={authenticAdServices.includes(choice.title)} disabled={disabled} onClick={() => toggleAuthenticAdSelection(choice.title)} />;
+                })}
               </div>
-              <button type="button" className="done-button" disabled={!hasAuthenticAdSelection} onClick={() => goToSection(5)}>Done <span>→</span></button>
+              <button type="button" className="done-button" disabled={!hasAuthenticAdSelection} onClick={handleAuthenticAdDone}>Done <span>→</span></button>
             </section>
           )}
 
-          {section >= 5 && hasWhatSelection && hasPromotionSelection && (!promoting.includes("Authentic Ads") || hasAuthenticAdSelection) && (
+          {section >= 5 && whatConfirmed && promotionConfirmed && hasWhatSelection && hasPromotionSelection && (!promoting.includes("Authentic Ads") || authenticAdConfirmed) && (
             <section ref={(node) => { sectionRefs.current[5] = node; }} className="flow-card flow-card-reveal final-card">
               <span className="step-number">{promoting.includes("Authentic Ads") ? "05" : "04"}</span>
               <p className="eyebrow">Now, make it yours</p>
@@ -185,7 +229,7 @@ export default function GetStarted() {
 
         .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 30px; }
         .three-column { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .choice-button { position: relative; isolation: isolate; overflow: hidden; min-height: 200px; width: 100%; text-align: left; border: 2px solid #78A987; border-radius: 22px; padding: 32px; background: #F3F0E7; cursor: pointer; transform: translateZ(0); transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease; }
+        .choice-button { position: relative; isolation: isolate; overflow: hidden; min-height: 200px; width: 100%; text-align: left; border: 2px solid #78A987; border-radius: 22px; padding: 32px; background: #F3F0E7; cursor: pointer; transform: translateZ(0); transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, opacity 0.28s ease; }
         .choice-button:hover:not(:disabled) { transform: translateY(-5px) translateZ(0); border-color: #048243; box-shadow: 0 14px 28px rgba(4,130,67,0.12); }
         .choice-button:disabled { cursor: not-allowed; border-color: #C8CBC9; background: #E1E2E0; opacity: 0.78; }
         .choice-fill { position: absolute; inset: 0; background: #048243; transform: scale3d(0,1,1); transform-origin: left center; will-change: transform; backface-visibility: hidden; z-index: -1; transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
