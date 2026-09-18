@@ -29,15 +29,6 @@ const authenticAdOptions = [
 
 const heardOptions = ["Social Media", "Google", "Friend or Family", "Another Business", "Event or Pop-Up", "Other"];
 
-const promotionDetails: Record<string, string> = {
-  Billboards: "Tell us what you would like to promote, where you would like the billboard, and anything important about the campaign.",
-  "Social Media": "Tell us which platforms you have in mind, what you want to promote, and the kind of content you are looking for.",
-  "Public Events": "Tell us about the event, experience, or activation you have in mind and what you want people to do.",
-  Media: "Tell us what you would like to promote and any media outlets, formats, or audiences you have in mind.",
-  "Authentic Ads": "Tell us what you want the advertisement to communicate and what you want people to remember.",
-  Copywriting: "Tell us what you need written, who it is for, and the message or tone you want.",
-};
-
 export default function GetStarted() {
   const [zipCode, setZipCode] = useState("");
   const [section, setSection] = useState(1);
@@ -49,8 +40,11 @@ export default function GetStarted() {
 
   const isServiceAreaZip = zipCode.length === 5 && serviceAreaZipCodes.has(zipCode);
   const showZipNotice = zipCode.length === 5 && !isServiceAreaZip;
+
+  const whatSelections = ["Product", "Business", "Something Else"];
+  const hasWhatSelection = promoting.some((item) => whatSelections.includes(item));
   const hasPromotionSelection = promoting.some((item) => promotionOptions.some((option) => option.title === item));
-  const hasWhatSelection = promoting.some((item) => ["Product", "Business", "Something Else"].includes(item));
+  const hasAuthenticAdSelection = authenticAdServices.length > 0;
 
   useEffect(() => {
     if (section <= 1) return;
@@ -67,7 +61,13 @@ export default function GetStarted() {
     setter((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
   }
 
-  const selectedPromotionDetails = promoting.map((title) => promotionDetails[title]).filter(Boolean).join("\n\n");
+  function toggleWhatSelection(value: string) {
+    setPromoting((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
+  }
+
+  function togglePromotionSelection(value: string) {
+    setPromoting((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
+  }
 
   return (
     <main style={{ minHeight: "100vh", background: "#F3F0E7", padding: "120px 20px 100px" }}>
@@ -121,13 +121,13 @@ export default function GetStarted() {
                   { icon: "📦", title: "Product", description: "A product, service, launch, or offer." },
                   { icon: "🏢", title: "Business", description: "Your business, brand, location, or company." },
                   { icon: "✨", title: "Something Else", description: "Something that does not fit either option." },
-                ].map((choice) => <ChoiceButton key={choice.title} {...choice} selected={promoting.includes(choice.title)} onClick={() => toggleSelection(choice.title, setPromoting)} />)}
+                ].map((choice) => <ChoiceButton key={choice.title} {...choice} selected={promoting.includes(choice.title)} onClick={() => toggleWhatSelection(choice.title)} />)}
               </div>
               <button type="button" className="done-button" disabled={!hasWhatSelection} onClick={() => goToSection(3)}>Done <span>→</span></button>
             </section>
           )}
 
-          {section >= 3 && (
+          {section >= 3 && hasWhatSelection && (
             <section ref={(node) => { sectionRefs.current[3] = node; }} className="flow-card flow-card-reveal">
               <span className="step-number">03</span>
               <p className="eyebrow">How do you want to promote it?</p>
@@ -136,7 +136,7 @@ export default function GetStarted() {
               <div className="choice-grid">
                 {promotionOptions.map((choice) => {
                   const restricted = !isServiceAreaZip && (choice.title === "Billboards" || choice.title === "Public Events");
-                  return <ChoiceButton key={choice.title} {...choice} description={restricted ? "Currently unavailable outside our service area." : choice.description} selected={promoting.includes(choice.title)} disabled={restricted} onClick={() => toggleSelection(choice.title, setPromoting)} />;
+                  return <ChoiceButton key={choice.title} {...choice} description={restricted ? "Currently unavailable outside our service area." : choice.description} selected={promoting.includes(choice.title)} disabled={restricted} onClick={() => togglePromotionSelection(choice.title)} />;
                 })}
               </div>
               {!isServiceAreaZip && <p className="limited-notice">Unfortunately, some options are limited because you are outside our service area. Remote creative services are still available.</p>}
@@ -144,7 +144,7 @@ export default function GetStarted() {
             </section>
           )}
 
-          {section >= 4 && promoting.includes("Authentic Ads") && (
+          {section >= 4 && hasWhatSelection && promoting.includes("Authentic Ads") && (
             <section ref={(node) => { sectionRefs.current[4] = node; }} className="flow-card flow-card-reveal">
               <span className="step-number">04</span>
               <p className="eyebrow">Authentic ads</p>
@@ -153,18 +153,18 @@ export default function GetStarted() {
               <div className="choice-grid">
                 {authenticAdOptions.map((choice) => <ChoiceButton key={choice.title} {...choice} selected={authenticAdServices.includes(choice.title)} onClick={() => toggleSelection(choice.title, setAuthenticAdServices)} />)}
               </div>
-              <button type="button" className="done-button" disabled={authenticAdServices.length === 0} onClick={() => goToSection(5)}>Done <span>→</span></button>
+              <button type="button" className="done-button" disabled={!hasAuthenticAdSelection} onClick={() => goToSection(5)}>Done <span>→</span></button>
             </section>
           )}
 
-          {section >= 5 && (
+          {section >= 5 && hasWhatSelection && hasPromotionSelection && (!promoting.includes("Authentic Ads") || hasAuthenticAdSelection) && (
             <section ref={(node) => { sectionRefs.current[5] = node; }} className="flow-card flow-card-reveal final-card">
               <span className="step-number">{promoting.includes("Authentic Ads") ? "05" : "04"}</span>
               <p className="eyebrow">Now, make it yours</p>
               <h2>Tell us exactly what you have in mind.</h2>
-              <p className="section-copy">This is where you can go into detail. Tell us about your vision, goals, audience, style, locations, deadlines, references, or anything else you think we should know.</p>
+              <p className="section-copy">This is where you tell us about your business, how you want to advertise, what you are hoping to achieve, and anything else that matters to you. Go into detail — the more you tell us, the better we can understand your vision.</p>
               {promoting.length > 0 && <div className="summary-box"><strong>You selected</strong><div className="summary-tags">{promoting.map((item) => <span key={item}>{item}</span>)}{authenticAdServices.map((item) => <span key={item}>{item}</span>)}</div></div>}
-              <textarea value={details} onChange={(event) => setDetails(event.target.value)} rows={9} style={{ ...inputStyle, resize: "vertical", marginTop: "22px" }} placeholder={selectedPromotionDetails || "Tell us everything you would like us to know..."} />
+              <textarea value={details} onChange={(event) => setDetails(event.target.value)} rows={9} style={{ ...inputStyle, resize: "vertical", marginTop: "22px" }} placeholder="Tell us about your business, how you want to advertise, what you have in mind, and any details you think we should know. Go into detail!" />
               <button type="button" className="done-button" onClick={() => alert("Thanks! Your project details have been captured for the next step. Submission storage will be connected next.")}>Done <span>✓</span></button>
             </section>
           )}
@@ -194,11 +194,8 @@ export default function GetStarted() {
         .choice-icon { display: block; font-size: 2.2rem; line-height: 1; margin-bottom: 14px; }
         .choice-title { display: block; width: 100%; font-size: 1.3rem; font-weight: 800; line-height: 1.2; color: #048243; margin-bottom: 8px; transition: color 0.2s ease; }
         .choice-description { display: block; width: 100%; color: #6B7280; line-height: 1.55; font-size: 0.98rem; transition: color 0.2s ease; }
-        .choice-button.selected .choice-title, .choice-button.selected .choice-description { color: white; }
+        .choice-button.selected .choice-title, .choice-button.selected .choice-description { color: #F3F0E7; }
         .choice-button:disabled .choice-title, .choice-button:disabled .choice-description { color: #858887; }
-        .choice-check { position: absolute; top: 18px; right: 20px; z-index: 2; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; border: 2px solid #78A987; color: #048243; background: #F3F0E7; font-weight: 900; transition: all 0.3s ease; }
-        .choice-button.selected .choice-check { border-color: white; color: #048243; background: white; }
-        .choice-button:disabled .choice-check { border-color: #B8BCBA; color: #858887; background: #F0F1EF; }
 
         .heard-section { margin-bottom: 20px; }
         .heard-heading { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; color: #1E1E1E; font-weight: 700; }
@@ -235,7 +232,6 @@ function ChoiceButton({ icon, title, description, selected, disabled = false, on
   return (
     <button type="button" className={`choice-button ${selected ? "selected" : ""}`} onClick={onClick} disabled={disabled} aria-pressed={selected}>
       <span className="choice-fill" aria-hidden="true" />
-      <span className="choice-check">{selected ? "✓" : "＋"}</span>
       <span className="choice-content">
         <span className="choice-icon">{icon}</span>
         <span className="choice-title">{title}</span>
