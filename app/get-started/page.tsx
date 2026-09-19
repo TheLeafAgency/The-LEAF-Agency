@@ -37,6 +37,7 @@ export default function GetStarted() {
   const [howHeard, setHowHeard] = useState("");
   const [details, setDetails] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [showIncompleteNotice, setShowIncompleteNotice] = useState(false);
   const [whatConfirmed, setWhatConfirmed] = useState(false);
   const [promotionConfirmed, setPromotionConfirmed] = useState(false);
   const [authenticAdConfirmed, setAuthenticAdConfirmed] = useState(false);
@@ -128,18 +129,12 @@ export default function GetStarted() {
             <p className="eyebrow">First, tell us about you</p>
             <h2>Your business information</h2>
 
-            <form onSubmit={(event) => { event.preventDefault(); goToSection(2); }}>
-              <label style={labelStyle}>
-                Company Name
-                <input name="companyName" type="text" required value={companyName} onChange={(event) => setCompanyName(event.target.value)} style={inputStyle} placeholder="Your company name" />
+            <form noValidate onSubmit={(event) => {\n              event.preventDefault();\n              const formData = new FormData(event.currentTarget);\n              const requiredFields = ["companyName", "email", "phone", "zipCode"];\n              const isIncomplete = requiredFields.some((field) => !String(formData.get(field) ?? "").trim());\n              if (isIncomplete) {\n                setShowIncompleteNotice(true);\n                return;\n              }\n              setShowIncompleteNotice(false);\n              goToSection(2);\n            }}>\n              {showIncompleteNotice && <p className="incomplete-notice"><span>*</span> We&apos;re not quite done yet! Please fill in all required information above.</p>}\n              <label style={labelStyle}>\n                Company Name <span className="required-star">*</span>\n                <input name="companyName" type="text" required value={companyName} onChange={(event) => setCompanyName(event.target.value)} style={inputStyle} placeholder="Your company name" />
                 {isLeafAgencyMention(companyName) && <span className="leaf-easter-egg">* Hey, that&apos;s us!</span>}
               </label>
-              <label style={labelStyle}>Email<input name="email" type="email" required style={inputStyle} placeholder="you@company.com" /></label>
-              <label style={labelStyle}>Phone Number<input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" /></label>
-
+              <label style={labelStyle}>Email <span className="required-star">*</span><input name="email" type="email" required style={inputStyle} placeholder="you@company.com" /></label>\n              <label style={labelStyle}>Phone Number <span className="required-star">*</span><input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" /></label>\n
               <label style={labelStyle}>
-                Company ZIP Code
-                <input name="zipCode" type="text" inputMode="numeric" maxLength={5} required value={zipCode} onChange={(event) => setZipCode(event.target.value.replace(/\D/g, "").slice(0, 5))} style={{ ...inputStyle, borderColor: showZipNotice ? "#0B1F3A" : "#E5E7EB" }} placeholder="10001" aria-invalid={showZipNotice} />
+                Company ZIP Code <span className="required-star">*</span>\n                <input name="zipCode" type="text" inputMode="numeric" maxLength={5} required value={zipCode} onChange={(event) => setZipCode(event.target.value.replace(/\D/g, "").slice(0, 5))} style={{ ...inputStyle, borderColor: showZipNotice ? "#0B1F3A" : "#E5E7EB" }} placeholder="10001" aria-invalid={showZipNotice} />
                 {showZipNotice && <span style={zipNoticeStyle}><strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? Some in-person promotion options may be limited, but we can still help with remote creative work.</span>}
               </label>
 
@@ -255,8 +250,7 @@ export default function GetStarted() {
         .heard-option:hover { border-color: #78A987; transform: translateY(-2px); }
         .heard-option.selected { border-color: #048243; background: rgba(4,130,67,0.08); color: #048243; }
 
-        .limited-notice { margin: 18px 0 0; text-align: center; color: #0B1F3A; font-weight: 700; line-height: 1.6; }
-        .leaf-easter-egg { display: block; margin-top: 8px; color: #048243; font-weight: 800; font-size: 0.92rem; animation: easterEggPop 0.35s ease both; }
+        .limited-notice { margin: 18px 0 0; text-align: center; color: #0B1F3A; font-weight: 700; line-height: 1.6; }\n        .required-star { color: #D11A2A; font-weight: 900; }\n        .incomplete-notice { margin: 0 0 24px; padding: 14px 16px; border: 1px solid rgba(209,26,42,0.25); border-radius: 12px; background: rgba(209,26,42,0.06); color: #D11A2A; font-weight: 800; line-height: 1.5; }\n        .incomplete-notice span { font-size: 1.1rem; margin-right: 4px; }\n        .leaf-easter-egg { display: block; margin-top: 8px; color: #048243; font-weight: 800; font-size: 0.92rem; animation: easterEggPop 0.35s ease both; }
         .details-easter-egg { margin-top: 10px; }
 
         .done-button { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-top: 28px; padding: 16px 28px; border: none; border-radius: 999px; background: #048243; color: white; font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; }
