@@ -36,6 +36,7 @@ export default function GetStarted() {
   const [authenticAdServices, setAuthenticAdServices] = useState<string[]>([]);
   const [howHeard, setHowHeard] = useState("");
   const [details, setDetails] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [whatConfirmed, setWhatConfirmed] = useState(false);
   const [promotionConfirmed, setPromotionConfirmed] = useState(false);
   const [authenticAdConfirmed, setAuthenticAdConfirmed] = useState(false);
@@ -128,7 +129,11 @@ export default function GetStarted() {
             <h2>Your business information</h2>
 
             <form onSubmit={(event) => { event.preventDefault(); goToSection(2); }}>
-              <label style={labelStyle}>Company Name<input name="companyName" type="text" required style={inputStyle} placeholder="Your company name" /></label>
+              <label style={labelStyle}>
+                Company Name
+                <input name="companyName" type="text" required value={companyName} onChange={(event) => setCompanyName(event.target.value)} style={inputStyle} placeholder="Your company name" />
+                {isLeafAgencyMention(companyName) && <span className="leaf-easter-egg">* Hey, that&apos;s us!</span>}
+              </label>
               <label style={labelStyle}>Email<input name="email" type="email" required style={inputStyle} placeholder="you@company.com" /></label>
               <label style={labelStyle}>Phone Number<input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" /></label>
 
@@ -209,6 +214,7 @@ export default function GetStarted() {
               <p className="section-copy">This is where you tell us about your business, how you want to advertise, what you are hoping to achieve, and anything else that matters to you. Go into detail — the more you tell us, the better we can understand your vision.</p>
               {promoting.length > 0 && <div className="summary-box"><strong>You selected</strong><div className="summary-tags">{promoting.map((item) => <span key={item}>{item}</span>)}{authenticAdServices.map((item) => <span key={item}>{item}</span>)}</div></div>}
               <textarea value={details} onChange={(event) => setDetails(event.target.value)} rows={9} style={{ ...inputStyle, resize: "vertical", marginTop: "22px" }} placeholder="Tell us about your business, how you want to advertise, what you have in mind, and any details you think we should know. Go into detail!" />
+              {isLeafAgencyMention(details) && <span className="leaf-easter-egg details-easter-egg">* Hey, that&apos;s us!</span>}
               <button type="button" className="done-button" onClick={() => alert("Thanks! Your project details have been captured for the next step. Submission storage will be connected next.")}>Done <span>✓</span></button>
             </section>
           )}
@@ -250,6 +256,9 @@ export default function GetStarted() {
         .heard-option.selected { border-color: #048243; background: rgba(4,130,67,0.08); color: #048243; }
 
         .limited-notice { margin: 18px 0 0; text-align: center; color: #0B1F3A; font-weight: 700; line-height: 1.6; }
+        .leaf-easter-egg { display: block; margin-top: 8px; color: #048243; font-weight: 800; font-size: 0.92rem; animation: easterEggPop 0.35s ease both; }
+        .details-easter-egg { margin-top: 10px; }
+
         .done-button { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-top: 28px; padding: 16px 28px; border: none; border-radius: 999px; background: #048243; color: white; font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; }
         .done-button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(4,130,67,0.22); }
         .done-button:disabled { cursor: not-allowed; opacity: 0.55; }
@@ -260,6 +269,7 @@ export default function GetStarted() {
 
         @keyframes sweepIn { from { opacity: 0; transform: translate3d(-100%, 18px, 0) skewX(-7deg); } to { opacity: 1; transform: translate3d(0, 0, 0) skewX(0deg); } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes easterEggPop { from { opacity: 0; transform: translateY(-4px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
         @media (max-width: 700px) {
           .flow-card { padding: 32px 22px; }
@@ -270,6 +280,10 @@ export default function GetStarted() {
       `}</style>
     </main>
   );
+}
+
+function isLeafAgencyMention(value: string) {
+  return /(?:the\\s+)?leaf\\s+agency/i.test(value);
 }
 
 function ChoiceButton({ icon, title, description, selected, disabled = false, onClick }: { icon: string; title: string; description: string; selected: boolean; disabled?: boolean; onClick: () => void; }) {
