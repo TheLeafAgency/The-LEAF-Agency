@@ -283,7 +283,7 @@ export default function GetStarted() {
 }
 
 function isLeafAgencyMention(value: string) {
-  return /(?:the\\s+)?leaf\\s+agency/i.test(value);
+  return /(?:the\s+)?leaf\s+agency/i.test(value);
 }
 
 function ChoiceButton({ icon, title, description, selected, disabled = false, onClick }: { icon: string; title: string; description: string; selected: boolean; disabled?: boolean; onClick: () => void; }) {
