@@ -338,9 +338,9 @@ const adminStyles = `
   .close-stat { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; cursor:pointer; }
   .stat-empty { text-align:center; padding:40px 20px 15px; color:#657168; font-weight:700; }
   @keyframes statExpandFull {
-    0% { opacity:0; transform:translateY(-166px) translateX(var(--start-x, 0%)) scaleX(.25); transform-origin:center top; }
-    12% { opacity:1; transform:translateY(-142px) translateX(var(--start-x, 0%)) scaleX(.34); }
-    55% { opacity:1; transform:translateY(8px) translateX(0) scaleX(1.015); }
+    0% { opacity:1; transform:translateY(-166px) translateX(var(--start-x, 0%)) scaleX(.28); transform-origin:center top; }
+    62% { opacity:1; transform:translateY(-18px) translateX(var(--start-x, 0%)) scaleX(.28); }
+    72% { opacity:1; transform:translateY(0) translateX(var(--start-x, 0%)) scaleX(.28); }
     100% { opacity:1; transform:translateY(0) translateX(0) scaleX(1); }
   }
   .stat-index-0 { --start-x:-37.5%; }
