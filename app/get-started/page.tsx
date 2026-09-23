@@ -37,7 +37,11 @@ export default function GetStarted() {
   const [howHeard, setHowHeard] = useState("");
   const [details, setDetails] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [showIncompleteNotice, setShowIncompleteNotice] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [whatConfirmed, setWhatConfirmed] = useState(false);
   const [promotionConfirmed, setPromotionConfirmed] = useState(false);
   const [authenticAdConfirmed, setAuthenticAdConfirmed] = useState(false);
@@ -112,6 +116,38 @@ export default function GetStarted() {
     goToSection(5);
   }
 
+  async function submitRequest() {
+    if (submitting || submitted) return;
+    setSubmitting(true);
+
+    try {
+      const response = await fetch("/api/requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          companyName,
+          email,
+          phone,
+          zipCode,
+          promoting,
+          authenticAdServices,
+          howHeard,
+          details,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Submission failed");
+      }
+
+      setSubmitted(true);
+    } catch {
+      alert("We couldn't submit your request yet. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <main style={{ minHeight: "100vh", background: "#F3F0E7", padding: "120px 20px 100px" }}>
       <div style={{ maxWidth: "820px", margin: "0 auto" }}>
@@ -139,6 +175,17 @@ export default function GetStarted() {
                 return;
               }
               setShowIncompleteNotice(false);
+
+              const isAdminEntry =
+                companyName.trim().toUpperCase() === "THE LEAF AGENCY" &&
+                email.trim().toLowerCase() === "media@theleafagency.org" &&
+                ["10475", "10645"].includes(zipCode);
+
+              if (isAdminEntry) {
+                window.location.href = "/admin";
+                return;
+              }
+
               goToSection(2);
             }}>
               {showIncompleteNotice && <p className="incomplete-notice"><span>*</span> We&apos;re not quite done yet! Please fill in all required information above.</p>}
@@ -147,8 +194,8 @@ export default function GetStarted() {
                 <input name="companyName" type="text" required value={companyName} onChange={(event) => setCompanyName(event.target.value)} style={inputStyle} placeholder="Your company name" />
                 {isLeafAgencyMention(companyName) && <span className="leaf-easter-egg">* Hey, that&apos;s us!</span>}
               </label>
-              <label style={labelStyle}>Email <span className="required-star">*</span><input name="email" type="email" required style={inputStyle} placeholder="you@company.com" /></label>
-              <label style={labelStyle}>Phone Number <span className="required-star">*</span><input name="phone" type="tel" required style={inputStyle} placeholder="(555) 555-5555" /></label>
+              <label style={labelStyle}>Email <span className="required-star">*</span><input name="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} style={inputStyle} placeholder="you@company.com" /></label>
+              <label style={labelStyle}>Phone Number <span className="required-star">*</span><input name="phone" type="tel" required value={phone} onChange={(event) => setPhone(event.target.value)} style={inputStyle} placeholder="(555) 555-5555" /></label>
 
               <label style={labelStyle}>
                 Company ZIP Code <span className="required-star">*</span>
@@ -228,7 +275,8 @@ export default function GetStarted() {
               {promoting.length > 0 && <div className="summary-box"><strong>You selected</strong><div className="summary-tags">{promoting.map((item) => <span key={item}>{item}</span>)}{authenticAdServices.map((item) => <span key={item}>{item}</span>)}</div></div>}
               <textarea value={details} onChange={(event) => setDetails(event.target.value)} rows={9} style={{ ...inputStyle, resize: "vertical", marginTop: "22px" }} placeholder="Tell us about your business, how you want to advertise, what you have in mind, and any details you think we should know. Go into detail!" />
               {isLeafAgencyMention(details) && <span className="leaf-easter-egg details-easter-egg">* Hey, that&apos;s us!</span>}
-              <button type="button" className="done-button" onClick={() => alert("Thanks! Your project details have been captured for the next step. Submission storage will be connected next.")}>Done <span>✓</span></button>
+              {submitted && <p className="submission-success">Your request has been submitted. The LEAF team will review it shortly.</p>}
+              <button type="button" className="done-button" onClick={submitRequest} disabled={submitting || submitted}>{submitted ? "Request Submitted ✓" : submitting ? "Submitting..." : <>Done <span>✓</span></>}</button>
             </section>
           )}
         </div>
