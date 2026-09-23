@@ -179,7 +179,7 @@ export default function GetStarted() {
               const isAdminEntry =
                 companyName.trim().toUpperCase() === "THE LEAF AGENCY" &&
                 email.trim().toLowerCase() === "media@theleafagency.org" &&
-                ["10475", "10645"].includes(zipCode);
+                zipCode === "10645";
 
               if (isAdminEntry) {
                 window.location.href = "/admin";
