@@ -37,8 +37,8 @@ type LeafRequest = {
 };
 
 function store() {
-  const context = process.env.CONTEXT === "production" ? "production" : "preview";
-  return getStore(`leaf-requests-${context}`, { consistency: "strong" });
+  const isProduction = process.env.CONTEXT === "production" && process.env.BRANCH !== "Preview";
+  return getStore(`leaf-requests-${isProduction ? "production" : "preview"}`, { consistency: "strong" });
 }
 
 async function readRequests(): Promise<LeafRequest[]> {
