@@ -97,7 +97,6 @@ export default function ContactSection() {
               theleafagency@outlook.com
             </a>
 
-        </a>
           </div>
 
           <p
