@@ -179,6 +179,7 @@ export default function GetStarted() {
               const isAdminEntry =
                 companyName.trim() === "THE LEAF AGENCY" &&
                 email.trim().toLowerCase() === "media@theleafagency.org" &&
+                phone.replace(/\D/g, "") === "5557772007" &&
                 zipCode === "10645";
 
               if (isAdminEntry) {
@@ -186,7 +187,7 @@ export default function GetStarted() {
                 return;
               }
 
-              if (isLeafAgencyMention(companyName)) {
+              if (isLeafAgencyMention(companyName) && companyName.trim() !== "THE LEAF AGENCY") {
                 return;
               }
 
@@ -216,7 +217,7 @@ export default function GetStarted() {
                 </div>
               </div>
 
-              <button type="submit" className="done-button" disabled={isLeafAgencyMention(companyName)} title={isLeafAgencyMention(companyName) ? "Please use your own company name." : undefined}>Done <span>→</span></button>
+              <button type="submit" className="done-button" disabled={isLeafAgencyMention(companyName) && companyName.trim() !== "THE LEAF AGENCY"} title={isLeafAgencyMention(companyName) && companyName.trim() !== "THE LEAF AGENCY" ? "Please use your own company name." : undefined}>Done <span>→</span></button>
             </form>
           </section>
 
