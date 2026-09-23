@@ -45,6 +45,7 @@ export default function AdminPage() {
   const [status, setStatus] = useState("New");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [expandedStat, setExpandedStat] = useState<string | null>(null);
 
   async function loadRequests() {
     const response = await fetch("/api/requests", { cache: "no-store" });
@@ -74,9 +75,18 @@ export default function AdminPage() {
   const counts = useMemo(() => ({
     newRequests: requests.filter((item) => item.status === "New").length,
     active: requests.filter((item) => !["Completed", "Declined"].includes(item.status)).length,
-    production: requests.filter((item) => ["In Production", "Editing", "Publishing"].includes(item.status)).length,
+    preProduction: requests.filter((item) => ["Reviewing", "Contacted", "Discussing", "Proposal Sent", "Approved"].includes(item.status)).length,
     awaiting: requests.filter((item) => ["Contacted", "Discussing", "Proposal Sent"].includes(item.status)).length,
   }), [requests]);
+
+  const expandedRequests = useMemo(() => {
+    if (!expandedStat) return [];
+    if (expandedStat === "new") return requests.filter((item) => item.status === "New");
+    if (expandedStat === "active") return requests.filter((item) => !["Completed", "Declined"].includes(item.status));
+    if (expandedStat === "pre-production") return requests.filter((item) => ["Reviewing", "Contacted", "Discussing", "Proposal Sent", "Approved"].includes(item.status));
+    if (expandedStat === "awaiting") return requests.filter((item) => ["Contacted", "Discussing", "Proposal Sent"].includes(item.status));
+    return [];
+  }, [expandedStat, requests]);
 
   async function login(event: React.FormEvent) {
     event.preventDefault();
@@ -158,10 +168,36 @@ export default function AdminPage() {
         </header>
 
         <section className="stats-grid">
-          <Stat label="NEW REQUESTS" value={counts.newRequests} />
-          <Stat label="ACTIVE PROJECTS" value={counts.active} />
-          <Stat label="IN PRODUCTION" value={counts.production} />
-          <Stat label="AWAITING CLIENT" value={counts.awaiting} />
+          <Stat label="NEW REQUESTS" value={counts.newRequests} statKey="new" expanded={expandedStat === "new"} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} />
+          <Stat label="ACTIVE PROJECTS" value={counts.active} statKey="active" expanded={expandedStat === "active"} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} />
+          <Stat label="PRE-PRODUCTION" value={counts.preProduction} statKey="pre-production" expanded={expandedStat === "pre-production"} onClick={() => setExpandedStat(expandedStat === "pre-production" ? null : "pre-production")} />
+          <Stat label="AWAITING CLIENT" value={counts.awaiting} statKey="awaiting" expanded={expandedStat === "awaiting"} onClick={() => setExpandedStat(expandedStat === "awaiting" ? null : "awaiting")} />
+
+          {expandedStat && (
+            <div className="expanded-stat-panel">
+              <div className="expanded-stat-header">
+                <div>
+                  <p className="admin-eyebrow">{expandedStat.replace("-", " ")}</p>
+                  <h2>{expandedStat === "new" ? "New Requests" : expandedStat === "active" ? "Active Projects" : expandedStat === "pre-production" ? "Pre-Production" : "Awaiting Client"}</h2>
+                </div>
+                <button className="close-stat" onClick={() => setExpandedStat(null)}>Close</button>
+              </div>
+              {expandedRequests.length === 0 ? (
+                <div className="stat-empty">Nothing here yet.</div>
+              ) : (
+                <div className="request-list">
+                  {expandedRequests.map((item) => (
+                    <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
+                      <span className="request-id">{item.id}</span>
+                      <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
+                      <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                      <span className={`status-pill status-${item.status.toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.status}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </section>
 
         <section className="request-section">
@@ -248,8 +284,14 @@ export default function AdminPage() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: number }) {
-  return <div className="stat-card"><span>{label}</span><strong>{value}</strong></div>;
+function Stat({ label, value, statKey, expanded, onClick }: { label: string; value: number; statKey: string; expanded: boolean; onClick: () => void }) {
+  return (
+    <button className={`stat-card ${expanded ? "expanded" : ""}`} onClick={onClick} aria-expanded={expanded}>
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <small>{expanded ? "Open" : "View details"} {expanded ? "↑" : "↓"}</small>
+    </button>
+  );
 }
 
 function Info({ label, value }: { label: string; value: string }) {
@@ -275,10 +317,18 @@ const adminStyles = `
   .dashboard-header h1 { font-size: clamp(3rem, 7vw, 5rem); line-height: .95; margin-bottom: 14px; }
   .dashboard-header p:last-child { color:#657168; }
   .logout, .refresh, .close-detail { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; }
-  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:42px; }
-  .stat-card { background:#fff; border:2px solid #D8E0D9; border-radius:20px; padding:24px; }
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:42px; align-items:start; }
+  .stat-card { width:100%; min-height:150px; background:#fff; border:2px solid #D8E0D9; border-radius:20px; padding:24px; text-align:left; cursor:pointer; color:#193024; transition:all .3s ease; }
+  .stat-card:hover, .stat-card.expanded { border-color:#048243; box-shadow:0 14px 32px rgba(4,130,67,.1); transform:translateY(-2px); }
   .stat-card span { display:block; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1.5px; }
   .stat-card strong { display:block; margin-top:10px; color:#048243; font-size:3rem; line-height:1; }
+  .stat-card small { display:block; margin-top:16px; color:#657168; font-weight:800; }
+  .expanded-stat-panel { grid-column:1 / -1; background:#fff; border:2px solid #048243; border-radius:26px; padding:30px; animation:statDrop .3s ease both; }
+  .expanded-stat-header { display:flex; justify-content:space-between; align-items:center; gap:20px; }
+  .expanded-stat-header h2 { font-family:"BPMF Huninn", sans-serif; color:#048243; font-size:2.6rem; margin:0; }
+  .close-stat { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; cursor:pointer; }
+  .stat-empty { text-align:center; padding:40px 20px 15px; color:#657168; font-weight:700; }
+  @keyframes statDrop { from { opacity:0; transform:translateY(-18px) scaleY(.92); transform-origin:top; } to { opacity:1; transform:translateY(0) scaleY(1); } }
   .request-section, .detail-section { background:#fff; border:2px solid #D8E0D9; border-radius:26px; padding:32px; margin-bottom:28px; }
   .section-heading, .detail-header, .status-area { display:flex; justify-content:space-between; align-items:center; gap:20px; }
   .section-heading h2, .detail-header h2 { font-size:2.8rem; line-height:1; }
