@@ -123,6 +123,7 @@ export default function AdminPage() {
     await fetch("/api/admin/login", { method: "DELETE" });
     setAuthenticated(false);
     setSelectedId(null);
+    window.location.href = "/";
   }
 
   if (!authenticated) {
