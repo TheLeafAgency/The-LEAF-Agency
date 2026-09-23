@@ -97,22 +97,7 @@ export default function ContactSection() {
               theleafagency@outlook.com
             </a>
 
-            <a
-              href="mailto:media@theleafagency.org"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "15px 24px",
-                borderRadius: "999px",
-                border: "2px solid #78A987",
-                color: "var(--leaf-white-dove)",
-                fontWeight: 700,
-                transition: "transform 0.3s ease, background 0.3s ease",
-              }}
-            >
-              media@theleafagency.org
-            </a>
+        </a>
           </div>
 
           <p
