@@ -336,9 +336,7 @@ const adminStyles = `
   .stat-card span { display:block; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1.5px; }
   .stat-card strong { display:block; margin-top:10px; color:#048243; font-size:3rem; line-height:1; }
   .stat-card small { display:block; margin-top:16px; color:#657168; font-weight:800; }
-  .stat-card-content { max-height:0; opacity:0; overflow:hidden; padding:0 30px; transform:translateY(-8px); transition:max-height .45s ease,opacity .25s ease,padding .45s ease,transform .45s ease; }
-  .stat-card-content.visible { max-height:900px; opacity:1; padding:0 30px 30px; transform:translateY(0); animation:statContentReveal .45s ease both; }
-  .expanded-stat-header { display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid #E5E7EB; padding-top:24px; }
+  .stat-card-content { display:none; padding:0 30px 30px; }\n  .stat-card-content.visible { display:block; animation:statContentReveal .3s ease both; }\n  .expanded-stat-header { display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid #E5E7EB; padding-top:24px; }
   .expanded-stat-header h2 { font-family:"BPMF Huninn", sans-serif; color:#048243; font-size:2.6rem; margin:0; }
   .close-stat { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; cursor:pointer; }
   .stat-empty { text-align:center; padding:40px 20px 15px; color:#657168; font-weight:700; }
