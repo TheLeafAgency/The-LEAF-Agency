@@ -167,7 +167,7 @@ export default function AdminPage() {
           <button className="logout" onClick={logout}>Log out</button>
         </header>
 
-        <section className={`stats-grid ${expandedStat ? "has-expanded" : ""}`}>
+        <section className={`stats-grid ${expandedStat ? `has-expanded expanded-${["new", "active", "pre-production", "awaiting"].indexOf(expandedStat)}` : ""}`}>
           <Stat index={0} label="NEW REQUESTS" title="New Requests" value={counts.newRequests} expanded={expandedStat === "new"} requests={expandedStat === "new" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
           <Stat index={1} label="ACTIVE PROJECTS" title="Active Projects" value={counts.active} expanded={expandedStat === "active"} requests={expandedStat === "active" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
           <Stat index={2} label="PRE-PRODUCTION" title="Pre-Production" value={counts.preProduction} expanded={expandedStat === "pre-production"} requests={expandedStat === "pre-production" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "pre-production" ? null : "pre-production")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
@@ -326,9 +326,18 @@ const adminStyles = `
   .dashboard-header h1 { font-size: clamp(3rem, 7vw, 5rem); line-height: .95; margin-bottom: 14px; }
   .dashboard-header p:last-child { color:#657168; }
   .logout, .refresh, .close-detail { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; }
-  .stats-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:42px; align-items:flex-start; }\n  .stat-card { flex:0 1 calc((100% - 48px) / 4); }\n  .stats-grid.has-expanded { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
-  .stat-card { width:100%; min-height:150px; background:#fff; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; color:#193024; box-shadow:0 0 0 rgba(4,130,67,0); transition:min-height .5s cubic-bezier(.22,1,.36,1),border-color .3s ease,box-shadow .3s ease,transform .45s cubic-bezier(.22,1,.36,1); }
-  .stats-grid.has-expanded .stat-card:not(.expanded) { grid-row:1; }\n  .stat-card.expanded { grid-column:1 / -1; grid-row:2; border-color:#048243; box-shadow:0 18px 42px rgba(4,130,67,.13); transform:none; animation:statExpandFull 1s cubic-bezier(.22,1,.36,1) both; }\n  .stat-card-trigger { width:100%; min-height:150px; border:0; background:transparent; padding:24px; text-align:left; cursor:pointer; color:#193024; transition:padding .45s cubic-bezier(.22,1,.36,1),background .3s ease; }\n  .stat-card-trigger:hover { background:#F7FBF8; }\n  .stat-card.expanded .stat-card-trigger { min-height:142px; padding:24px 30px; background:#F7FBF8; }
+  .stats-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:42px; align-items:flex-start; }\n  .stat-card { flex:0 1 calc((100% - 48px) / 4); }\n  .stats-grid.has-expanded { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .stat-card { width:100%; min-height:150px; background:#fff; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; color:#193024; box-shadow:0 0 0 rgba(4,130,67,0); transition:min-height .5s cubic-bezier(.22,1,.36,1),border-color .3s ease,box-shadow .3s ease,transform .36s cubic-bezier(.22,1,.36,1) .64s; }
+  .stats-grid.has-expanded .stat-card:not(.expanded) { grid-row:1; }
+  .stats-grid.has-expanded.expanded-0 .stat-card:not(.expanded) { transform:translateX(calc(-100% - 16px)); }
+  .stats-grid.has-expanded.expanded-1 .stat-card:not(.expanded) { transform:translateX(calc(-100% - 16px)); }
+  .stats-grid.has-expanded.expanded-1 .stat-card.stat-index-0 { transform:none; }
+  .stats-grid.has-expanded.expanded-2 .stat-card:not(.expanded) { transform:translateX(calc(100% + 16px)); }
+  .stats-grid.has-expanded.expanded-2 .stat-card.stat-index-3 { transform:none; }
+  .stats-grid.has-expanded.expanded-3 .stat-card:not(.expanded) { transform:translateX(calc(100% + 16px)); }
+  .stats-grid.has-expanded.expanded-3 .stat-card.stat-index-3 { transform:none; }
+  .stat-card.expanded { grid-column:1 / -1; grid-row:2; width:calc((100% - 48px) / 4); margin-left:var(--drop-left, 0px); border-color:#048243; box-shadow:0 18px 42px rgba(4,130,67,.13); transform:translateY(0); animation:statExpandFull 1s cubic-bezier(.22,1,.36,1) both; }
+  .stat-card-trigger { width:100%; min-height:150px; border:0; background:transparent; padding:24px; text-align:left; cursor:pointer; color:#193024; transition:padding .45s cubic-bezier(.22,1,.36,1),background .3s ease; }\n  .stat-card-trigger:hover { background:#F7FBF8; }\n  .stat-card.expanded .stat-card-trigger { min-height:142px; padding:24px 30px; background:#F7FBF8; }
   .stat-card span { display:block; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1.5px; }
   .stat-card strong { display:block; margin-top:10px; color:#048243; font-size:3rem; line-height:1; }
   .stat-card small { display:block; margin-top:16px; color:#657168; font-weight:800; }
@@ -338,14 +347,13 @@ const adminStyles = `
   .close-stat { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; cursor:pointer; }
   .stat-empty { text-align:center; padding:40px 20px 15px; color:#657168; font-weight:700; }
   @keyframes statExpandFull {
-    0% { opacity:1; transform:translateY(-166px) translateX(var(--start-x, 0%)) scaleX(.25); transform-origin:center top; }
-    64% { opacity:1; transform:translateY(0) translateX(var(--start-x, 0%)) scaleX(.25); }
-    100% { opacity:1; transform:translateY(0) translateX(0) scaleX(1); }
+    0%, 64% { opacity:1; width:calc((100% - 48px) / 4); margin-left:var(--drop-left, 0px); transform:translateY(-166px); }
+    100% { opacity:1; width:100%; margin-left:0; transform:translateY(0); }
   }
-  .stat-index-0 { --start-x:-37.5%; }
-  .stat-index-1 { --start-x:-12.5%; }
-  .stat-index-2 { --start-x:12.5%; }
-  .stat-index-3 { --start-x:37.5%; }
+  .stat-index-0 { --drop-left:0px; }
+  .stat-index-1 { --drop-left:calc((100% - 48px) / 4 + 16px); }
+  .stat-index-2 { --drop-left:calc(((100% - 48px) / 4 + 16px) * 2); }
+  .stat-index-3 { --drop-left:calc(((100% - 48px) / 4 + 16px) * 3); }
   @keyframes statContentReveal {
     0%, 42% { opacity:0; transform:translateY(-10px); }
     72% { opacity:.75; transform:translateY(2px); }
