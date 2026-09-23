@@ -177,12 +177,16 @@ export default function GetStarted() {
               setShowIncompleteNotice(false);
 
               const isAdminEntry =
-                companyName.trim().toUpperCase() === "THE LEAF AGENCY" &&
+                companyName.trim() === "THE LEAF AGENCY" &&
                 email.trim().toLowerCase() === "media@theleafagency.org" &&
                 zipCode === "10645";
 
               if (isAdminEntry) {
                 window.location.href = "/admin";
+                return;
+              }
+
+              if (isLeafAgencyMention(companyName)) {
                 return;
               }
 
@@ -212,7 +216,7 @@ export default function GetStarted() {
                 </div>
               </div>
 
-              <button type="submit" className="done-button">Done <span>→</span></button>
+              <button type="submit" className="done-button" disabled={isLeafAgencyMention(companyName)} title={isLeafAgencyMention(companyName) ? "Please use your own company name." : undefined}>Done <span>→</span></button>
             </form>
           </section>
 
