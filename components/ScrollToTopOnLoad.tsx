@@ -4,11 +4,8 @@ import { useEffect } from "react";
 
 export default function ScrollToTopOnLoad() {
   useEffect(() => {
+    if (window.location.hash) return;
     window.scrollTo(0, 0);
-
-    if (window.location.hash) {
-      window.history.replaceState(null, "", window.location.pathname + window.location.search);
-    }
   }, []);
 
   return null;
