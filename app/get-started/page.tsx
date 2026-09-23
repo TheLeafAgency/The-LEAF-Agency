@@ -57,6 +57,14 @@ export default function GetStarted() {
   const everythingSelected = authenticAdServices.includes("Everything");
 
   useEffect(() => {
+    if (!submitted) return;
+    const timer = window.setTimeout(() => {
+      window.location.href = "/";
+    }, 3500);
+    return () => window.clearTimeout(timer);
+  }, [submitted]);
+
+  useEffect(() => {
     if (section <= 1) return;
     const target = sectionRefs.current[section];
     if (!target) return;
@@ -146,6 +154,21 @@ export default function GetStarted() {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  if (submitted) {
+    return (
+      <main style={{ minHeight: "100vh", background: "#F3F0E7", padding: "120px 20px 100px", display: "grid", placeItems: "center" }}>
+        <div style={{ maxWidth: "720px", width: "100%", textAlign: "center", padding: "60px 28px", border: "2px solid #D8E0D9", borderRadius: "28px", background: "#F3F0E7", boxShadow: "0 20px 50px rgba(0,0,0,0.06)" }}>
+          <div style={{ fontSize: "3.5rem", marginBottom: "20px" }}>🌱</div>
+          <p className="eyebrow">Request received</p>
+          <h1 style={{ fontFamily: '"BPMF Huninn", sans-serif', color: "#048243", fontSize: "clamp(2.8rem, 8vw, 5rem)", lineHeight: 1.05, margin: "0 0 18px" }}>Thank you for choosing our services!</h1>
+          <p style={{ color: "#6B7280", lineHeight: 1.75, fontSize: "1.08rem", maxWidth: "560px", margin: "0 auto 28px" }}>We&apos;re excited to learn more about what you&apos;re building. Your request has been sent to the LEAF team, and we&apos;ll take a look at it shortly.</p>
+          <p style={{ color: "#6B7280", marginBottom: "24px" }}>Taking you back home...</p>
+          <a href="/" className="done-button" style={{ maxWidth: "420px", margin: "0 auto", textDecoration: "none" }}>Back to Home <span>→</span></a>
+        </div>
+      </main>
+    );
   }
 
   return (
