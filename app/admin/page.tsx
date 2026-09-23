@@ -167,7 +167,7 @@ export default function AdminPage() {
           <button className="logout" onClick={logout}>Log out</button>
         </header>
 
-        <section className={`stats-grid ${expandedStat ? `has-expanded expanded-${["new", "active", "pre-production", "awaiting"].indexOf(expandedStat)}` : ""}`}>
+        <section className="stats-grid">
           <Stat index={0} label="NEW REQUESTS" title="New Requests" value={counts.newRequests} expanded={expandedStat === "new"} requests={expandedStat === "new" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
           <Stat index={1} label="ACTIVE PROJECTS" title="Active Projects" value={counts.active} expanded={expandedStat === "active"} requests={expandedStat === "active" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
           <Stat index={2} label="PRE-PRODUCTION" title="Pre-Production" value={counts.preProduction} expanded={expandedStat === "pre-production"} requests={expandedStat === "pre-production" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "pre-production" ? null : "pre-production")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
@@ -326,9 +326,9 @@ const adminStyles = `
   .dashboard-header h1 { font-size: clamp(3rem, 7vw, 5rem); line-height: .95; margin-bottom: 14px; }
   .dashboard-header p:last-child { color:#657168; }
   .logout, .refresh, .close-detail { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; }
-  .stats-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-bottom:42px; align-items:flex-start; }
-  .stat-card { flex:0 1 calc((100% - 48px) / 4); width:100%; min-height:150px; background:#fff; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; color:#193024; box-shadow:0 0 0 rgba(4,130,67,0); transition:border-color .25s ease,box-shadow .25s ease; }
-  .stat-card.expanded { border-color:#048243; box-shadow:0 12px 30px rgba(4,130,67,.10); }
+  .stats-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-bottom:42px; align-items:start; }
+  .stat-card { width:100%; min-height:150px; background:#fff; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; color:#193024; box-shadow:0 0 0 rgba(4,130,67,0); transition:border-color .25s ease,box-shadow .25s ease; }
+  .stat-card.expanded { grid-column:1 / -1; border-color:#048243; box-shadow:0 12px 30px rgba(4,130,67,.10); animation:statDropDown .45s cubic-bezier(.22,1,.36,1) both; }
   .stat-card-trigger { width:100%; min-height:150px; border:0; background:transparent; padding:24px; text-align:left; cursor:pointer; color:#193024; transition:background .2s ease,transform .12s ease; transform-origin:center; }
   .stat-card-trigger:hover { background:#F7FBF8; }
   .stat-card-trigger:active { transform:scale(.97); }
@@ -345,7 +345,7 @@ const adminStyles = `
     45% { transform:scale(.96); }
     100% { transform:scale(1); }
   }
-  @keyframes statContentReveal {
+  @keyframes statDropDown {\n    0% { opacity:0; transform:translateY(-34px) scaleY(.86); transform-origin:top center; }\n    65% { opacity:1; transform:translateY(6px) scaleY(1.02); transform-origin:top center; }\n    100% { opacity:1; transform:translateY(0) scaleY(1); transform-origin:top center; }\n  }\n  @keyframes statContentReveal {
     0% { opacity:0; transform:translateY(-8px); }
     100% { opacity:1; transform:translateY(0); }
   }
