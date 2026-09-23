@@ -31,7 +31,7 @@ export default function ServiceCards() {
   return (
     <FadeInOnScroll>
       <section
-        id="services"
+        id="service-options"
         style={{
           padding: "100px 0",
           background: "var(--leaf-white-dove)",
