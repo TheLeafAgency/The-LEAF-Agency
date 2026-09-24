@@ -2,16 +2,16 @@ import { getStore } from "@netlify/blobs";
 import { isAdminRequest } from "../_lib/admin";
 
 const statuses = [
-  "New",
-  "Reviewing",
+  "Untouched",
+  "Reviewed",
   "Contacted",
-  "Discussing",
   "Proposal Sent",
-  "Approved",
   "In Production",
   "Editing",
-  "Publishing",
+  "Contacting Agencies",
   "Completed",
+  "Urgent",
+  "Failed",
   "Declined",
 ] as const;
 
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
       description: String(body.details || "").trim(),
       files: [],
       internalNotes: "",
-      status: "New",
+      status: "Untouched",
       createdAt: new Date().toISOString(),
       howHeard: String(body.howHeard || "").trim(),
     };
