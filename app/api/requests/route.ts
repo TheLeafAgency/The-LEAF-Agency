@@ -31,6 +31,8 @@ type LeafRequest = {
   description: string;
   files: { name: string; url?: string }[];
   internalNotes: string;
+  failureExplanation?: string;
+  proposal?: string;
   status: RequestStatus;
   createdAt: string;
   howHeard?: string;
@@ -90,6 +92,8 @@ export async function POST(request: Request) {
       description: String(body.details || "").trim(),
       files: [],
       internalNotes: "",
+      failureExplanation: "",
+      proposal: "",
       status: "Untouched",
       createdAt: new Date().toISOString(),
       howHeard: String(body.howHeard || "").trim(),
@@ -123,6 +127,8 @@ export async function PATCH(request: Request) {
       ...requests[index],
       status: status as RequestStatus,
       internalNotes: String(body.internalNotes ?? requests[index].internalNotes),
+      failureExplanation: String(body.failureExplanation ?? requests[index].failureExplanation ?? ""),
+      proposal: String(body.proposal ?? requests[index].proposal ?? ""),
     };
 
     requests[index] = updated;
