@@ -168,11 +168,35 @@ export default function AdminPage() {
         </header>
 
         <section className="stats-grid">
-          <Stat index={0} label="NEW REQUESTS" title="New Requests" value={counts.newRequests} expanded={expandedStat === "new"} requests={expandedStat === "new" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
-          <Stat index={1} label="ACTIVE PROJECTS" title="Active Projects" value={counts.active} expanded={expandedStat === "active"} requests={expandedStat === "active" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
-          <Stat index={2} label="PRE-PRODUCTION" title="Pre-Production" value={counts.preProduction} expanded={expandedStat === "pre-production"} requests={expandedStat === "pre-production" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "pre-production" ? null : "pre-production")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
-          <Stat index={3} label="AWAITING CLIENT" title="Awaiting Client" value={counts.awaiting} expanded={expandedStat === "awaiting"} requests={expandedStat === "awaiting" ? expandedRequests : []} onClick={() => setExpandedStat(expandedStat === "awaiting" ? null : "awaiting")} onClose={() => setExpandedStat(null)} onSelectRequest={setSelectedId} selectedId={selectedId} />
+          <Stat index={0} label="NEW REQUESTS" value={counts.newRequests} selected={expandedStat === "new"} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} />
+          <Stat index={1} label="ACTIVE PROJECTS" value={counts.active} selected={expandedStat === "active"} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} />
+          <Stat index={2} label="PRE-PRODUCTION" value={counts.preProduction} selected={expandedStat === "pre-production"} onClick={() => setExpandedStat(expandedStat === "pre-production" ? null : "pre-production")} />
+          <Stat index={3} label="AWAITING CLIENT" value={counts.awaiting} selected={expandedStat === "awaiting"} onClick={() => setExpandedStat(expandedStat === "awaiting" ? null : "awaiting")} />
         </section>
+
+        {expandedStat && (
+          <section className="stat-details-panel">
+            <div className="expanded-stat-header">
+              <div>
+                <p className="admin-eyebrow">{expandedStat === "new" ? "NEW REQUESTS" : expandedStat === "active" ? "ACTIVE PROJECTS" : expandedStat === "pre-production" ? "PRE-PRODUCTION" : "AWAITING CLIENT"}</p>
+                <h2>{expandedStat === "new" ? "New Requests" : expandedStat === "active" ? "Active Projects" : expandedStat === "pre-production" ? "Pre-Production" : "Awaiting Client"}</h2>
+              </div>
+              <button className="close-stat" onClick={() => setExpandedStat(null)}>Close ↑</button>
+            </div>
+            {expandedRequests.length === 0 ? <div className="stat-empty">Nothing here yet.</div> : (
+              <div className="request-list">
+                {expandedRequests.map((item) => (
+                  <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
+                    <span className="request-id">{item.id}</span>
+                    <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
+                    <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                    <span className={`status-pill status-${item.status.toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.status}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
         <section className="request-section">
           <div className="section-heading">
             <div>
@@ -257,49 +281,19 @@ export default function AdminPage() {
   );
 }
 
-function Stat({ index, label, title, value, expanded, requests, onClick, onClose, onSelectRequest, selectedId }: {
+function Stat({ index, label, value, selected, onClick }: {
   index: number;
   label: string;
-  title: string;
   value: number;
-  expanded: boolean;
-  requests: LeafRequest[];
+  selected: boolean;
   onClick: () => void;
-  onClose: () => void;
-  onSelectRequest: (id: string) => void;
-  selectedId: string | null;
 }) {
   return (
-    <div className={`stat-card stat-index-${index} ${expanded ? "expanded" : ""}`} aria-expanded={expanded}>
-      <button className="stat-card-trigger" onClick={onClick} aria-label={expanded ? `Close ${title}` : `Open ${title}`}>
-        <span>{label}</span>
-        <strong>{value}</strong>
-        <small>{expanded ? "Open" : "View details"} {expanded ? "↑" : "↓"}</small>
-      </button>
-      <div className={`stat-card-content ${expanded ? "visible" : ""}`}>
-        <div className="expanded-stat-header">
-          <div>
-            <p className="admin-eyebrow">{label}</p>
-            <h2>{title}</h2>
-          </div>
-          <button className="close-stat" onClick={onClose}>Close ↑</button>
-        </div>
-        {requests.length === 0 ? (
-          <div className="stat-empty">Nothing here yet.</div>
-        ) : (
-          <div className="request-list">
-            {requests.map((item) => (
-              <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => onSelectRequest(item.id)}>
-                <span className="request-id">{item.id}</span>
-                <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
-                <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-                <span className={`status-pill status-${item.status.toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.status}</span>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+    <button className={`stat-card stat-index-${index} ${selected ? "selected" : ""}`} onClick={onClick} aria-pressed={selected}>
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <small>{selected ? "Selected ↑" : "View details ↓"}</small>
+    </button>
   );
 }
 
@@ -327,16 +321,16 @@ const adminStyles = `
   .dashboard-header p:last-child { color:#657168; }
   .logout, .refresh, .close-detail { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; }
   .stats-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-bottom:42px; align-items:start; }
-  .stat-card { width:100%; min-height:150px; background:#fff; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; color:#193024; box-shadow:0 0 0 rgba(4,130,67,0); transition:border-color .25s ease,box-shadow .25s ease; }
-  .stat-card.expanded { grid-column:1 / -1; grid-row:1; border-color:#048243; box-shadow:0 12px 30px rgba(4,130,67,.10); animation:statDropDown .45s cubic-bezier(.22,1,.36,1) both; }
-  .stat-card-trigger { width:100%; min-height:150px; border:0; background:transparent; padding:24px; text-align:left; cursor:pointer; color:#193024; transition:background .2s ease,transform .12s ease; transform-origin:center; }
-  .stat-card-trigger:hover { background:#F7FBF8; }
-  .stat-card-trigger:active { transform:scale(.97); }
-  .stat-card.expanded .stat-card-trigger { animation:statButtonPop .35s cubic-bezier(.22,1,.36,1); background:#F7FBF8; }
+  .stat-card { width:100%; min-height:150px; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; background:#fff; color:#193024; padding:24px; text-align:left; cursor:pointer; transition:border-color .2s ease,background .2s ease,box-shadow .2s ease,transform .12s ease; }
+  .stat-card:hover { border-color:#78A987; background:#F7FBF8; }
+  .stat-card:active { transform:scale(.97); }
+  .stat-card.selected { border-color:#048243; background:#048243; color:#fff; box-shadow:0 10px 26px rgba(4,130,67,.20); animation:statButtonPop .35s cubic-bezier(.22,1,.36,1); }
+  .stat-card.selected span, .stat-card.selected strong, .stat-card.selected small { color:#fff; }
   .stat-card span { display:block; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1.5px; }
   .stat-card strong { display:block; margin-top:10px; color:#048243; font-size:3rem; line-height:1; }
   .stat-card small { display:block; margin-top:16px; color:#657168; font-weight:800; }
-  .stat-card-content { display:none; padding:0 30px 30px; }\n  .stat-card-content.visible { display:block; animation:statContentReveal .3s ease both; }\n  .expanded-stat-header { display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid #E5E7EB; padding-top:24px; }
+  .stat-details-panel { background:#fff; border:2px solid #048243; border-radius:26px; padding:30px; margin:-18px 0 42px; box-shadow:0 12px 30px rgba(4,130,67,.10); animation:statPanelDrop .45s cubic-bezier(.22,1,.36,1) both; }
+  .expanded-stat-header { display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid #E5E7EB; padding-top:24px; }
   .expanded-stat-header h2 { font-family:"BPMF Huninn", sans-serif; color:#048243; font-size:2.6rem; margin:0; }
   .close-stat { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; cursor:pointer; }
   .stat-empty { text-align:center; padding:40px 20px 15px; color:#657168; font-weight:700; }
@@ -345,7 +339,8 @@ const adminStyles = `
     45% { transform:scale(.96); }
     100% { transform:scale(1); }
   }
-  @keyframes statDropDown {\n    0% { opacity:0; transform:translateY(-34px) scaleY(.86); transform-origin:top center; }\n    65% { opacity:1; transform:translateY(6px) scaleY(1.02); transform-origin:top center; }\n    100% { opacity:1; transform:translateY(0) scaleY(1); transform-origin:top center; }\n  }\n  @keyframes statContentReveal {
+  @keyframes statPanelDrop { 0% { opacity:0; transform:translateY(-18px); } 100% { opacity:1; transform:translateY(0); } }
+  @keyframes statContentReveal {
     0% { opacity:0; transform:translateY(-8px); }
     100% { opacity:1; transform:translateY(0); }
   }
@@ -378,11 +373,6 @@ const adminStyles = `
   .save-button { width:auto; min-width:170px; margin-top:0; }
   .save-message { margin-top:12px; color:#048243; font-weight:800; }
   @media (max-width: 800px) {
-    .stats-grid, .stats-grid.has-expanded { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }\n    .stats-grid.has-expanded .stat-card:not(.expanded) { grid-column:auto; grid-row:1; }\n    .stats-grid.has-expanded .stat-card.expanded { grid-column:1 / -1; grid-row:2; }
-    .stat-index-0 { --start-x:-25%; }
-    .stat-index-1 { --start-x:25%; }
-    .stat-index-2 { --start-x:-25%; }
-    .stat-index-3 { --start-x:25%; }
     .detail-grid { grid-template-columns:repeat(2,1fr); }
     .request-row { grid-template-columns:1fr 1fr; }
   }
@@ -390,7 +380,6 @@ const adminStyles = `
     .admin-shell { padding:40px 16px; }
     .login-card, .request-section, .detail-section { padding:22px; }
     .dashboard-header { flex-direction:column; }
-    .stats-grid, .stats-grid.has-expanded, .detail-grid, .request-row { grid-template-columns:1fr; }\n    .stats-grid.has-expanded .stat-card.expanded { grid-column:1; grid-row:2; }
     .status-area { flex-direction:column; align-items:stretch; }
     .save-button { width:100%; }
   }
