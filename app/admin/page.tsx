@@ -197,24 +197,24 @@ export default function AdminPage() {
             )}
           </section>
         )}
-        <section className="request-section">
+        <section className="request-section urgent-section">
           <div className="section-heading">
             <div>
-              <p className="admin-eyebrow">Requests</p>
-              <h2>New Requests</h2>
+              <p className="admin-eyebrow">Urgent</p>
+              <h2>Urgent</h2>
             </div>
             <button className="refresh" onClick={() => loadRequests()}>Refresh</button>
           </div>
 
-          {requests.length === 0 ? (
+          {requests.filter((item) => item.status === "New" || item.status === "Contacted").length === 0 ? (
             <div className="empty-state">
-              <div className="empty-icon">🌱</div>
-              <h3>No requests yet.</h3>
-              <p>When a customer completes the Get Started process, their request will appear here.</p>
+              <div className="empty-icon">✓</div>
+              <h3>Nothing urgent right now.</h3>
+              <p>Requests needing immediate attention will appear here.</p>
             </div>
           ) : (
             <div className="request-list">
-              {requests.map((item) => (
+              {requests.filter((item) => item.status === "New" || item.status === "Contacted").map((item) => (
                 <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
                   <span className="request-id">{item.id}</span>
                   <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
