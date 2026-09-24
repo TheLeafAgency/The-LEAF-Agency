@@ -42,6 +42,8 @@ type LeafRequest = {
   description: string;
   files: { name: string; url?: string }[];
   internalNotes: string;
+  failureExplanation?: string;
+  proposal?: string;
   status: string;
   createdAt: string;
   howHeard?: string;
@@ -55,6 +57,7 @@ export default function AdminPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
   const [proposal, setProposal] = useState("");
+  const [failureExplanation, setFailureExplanation] = useState("");
   const [status, setStatus] = useState("Untouched");
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -89,6 +92,7 @@ export default function AdminPage() {
     if (selected) {
       setNotes(selected.internalNotes || "");
       setProposal(selected.proposal || "");
+      setFailureExplanation(selected.failureExplanation || "");
       setStatus(displayStatus(selected.status || "Untouched"));
       setMessage("");
     }
@@ -140,7 +144,7 @@ export default function AdminPage() {
     setStatusError("");
 
     if (["Failed", "Declined"].includes(status)) {
-      const wordCount = notes.trim().split(/\s+/).filter(Boolean).length;
+      const wordCount = failureExplanation.trim().split(/\s+/).filter(Boolean).length;
       if (wordCount < 30) {
         setLoading(false);
         setStatusError("Please explain why this project was " + status.toLowerCase() + " in at least 30 words. (" + wordCount + "/30 words)");
@@ -150,7 +154,7 @@ export default function AdminPage() {
     const response = await fetch("/api/requests", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selected.id, status, internalNotes: notes, proposal }),
+      body: JSON.stringify({ id: selected.id, status, internalNotes: notes, proposal, failureExplanation }),
     });
     const data = await response.json();
     setLoading(false);
@@ -280,7 +284,7 @@ export default function AdminPage() {
                 <div className="proposal-box"><h3>What was the proposal?</h3><textarea value={proposal} onChange={(event) => { setProposal(event.target.value); if (statusError) setStatusError(""); }} placeholder="Describe what was proposed to the client..." /></div>
               )}
               {["Failed", "Declined"].includes(status) && (
-                <div className="failure-box"><h3>Why did this project fail/decline?</h3><textarea value={notes} onChange={(event) => { setNotes(event.target.value); if (statusError) setStatusError(""); }} placeholder="Explain why this project failed/was declined." /></div>
+                <div className="failure-box"><h3>Why did this project fail/decline?</h3><textarea value={notes} onChange={(event) => { setFailureExplanation(event.target.value); if (statusError) setStatusError(""); }} placeholder="Explain why this project failed/was declined." /></div>
               )}
               {["Failed", "Declined"].includes(status) && (
                 <p className="status-requirement">
