@@ -284,7 +284,7 @@ export default function AdminPage() {
                 <div className="proposal-box"><h3>What was the proposal?</h3><textarea value={proposal} onChange={(event) => { setProposal(event.target.value); if (statusError) setStatusError(""); }} placeholder="Describe what was proposed to the client..." /></div>
               )}
               {["Failed", "Declined"].includes(status) && (
-                <div className="failure-box"><h3>Why did this project fail/decline?</h3><textarea value={notes} onChange={(event) => { setFailureExplanation(event.target.value); if (statusError) setStatusError(""); }} placeholder="Explain why this project failed/was declined." /></div>
+                <div className="failure-box"><h3>Why did this project fail/decline?</h3><textarea value={failureExplanation} onChange={(event) => { setFailureExplanation(event.target.value); if (statusError) setStatusError(""); }} placeholder="Explain why this project failed/was declined." /></div>
               )}
               {["Failed", "Declined"].includes(status) && (
                 <p className="status-requirement">
