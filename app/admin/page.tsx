@@ -54,13 +54,21 @@ export default function AdminPage() {
   const [requests, setRequests] = useState<LeafRequest[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
+  const [proposal, setProposal] = useState("");
   const [status, setStatus] = useState("Untouched");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [expandedStat, setExpandedStat] = useState<string | null>(null);
   const [statusError, setStatusError] = useState("");
 
   async function loadRequests() {
+    if (status === "Proposal Sent" && !proposal.trim()) {
+      setLoading(false);
+      setStatusError("Please explain what the proposal was before saving this status.");
+      return;
+    }
     const response = await fetch("/api/requests", { cache: "no-store" });
     if (!response.ok) {
       setAuthenticated(false);
@@ -80,6 +88,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (selected) {
       setNotes(selected.internalNotes || "");
+      setProposal(selected.proposal || "");
       setStatus(displayStatus(selected.status || "Untouched"));
       setMessage("");
     }
@@ -94,12 +103,15 @@ export default function AdminPage() {
 
   const expandedRequests = useMemo(() => {
     if (!expandedStat) return [];
-    if (expandedStat === "new") return requests.filter((item) => displayStatus(item.status) === "Untouched");
-    if (expandedStat === "active") return requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status)));
-    if (expandedStat === "post-production") return requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status)));
-    if (expandedStat === "urgent") return requests.filter((item) => displayStatus(item.status) === "Urgent");
+    const term = searchTerm.trim().toLowerCase();
+    const matchesSearch = (item: LeafRequest) => !term || `${item.id} ${item.business}`.toLowerCase().includes(term);
+    const sortProjects = (items: LeafRequest[]) => [...items].filter(matchesSearch).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id));
+    if (expandedStat === "new") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Untouched"));
+    if (expandedStat === "active") return sortProjects(requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))));
+    if (expandedStat === "post-production") return sortProjects(requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))));
+    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Urgent"));
     return [];
-  }, [expandedStat, requests]);
+  }, [expandedStat, requests, searchTerm]);
 
   async function login(event: React.FormEvent) {
     event.preventDefault();
@@ -138,7 +150,7 @@ export default function AdminPage() {
     const response = await fetch("/api/requests", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selected.id, status, internalNotes: notes }),
+      body: JSON.stringify({ id: selected.id, status, internalNotes: notes, proposal }),
     });
     const data = await response.json();
     setLoading(false);
@@ -150,6 +162,7 @@ export default function AdminPage() {
 
     setRequests((current) => current.map((item) => item.id === data.request.id ? data.request : item));
     setMessage("Saved.");
+    setSelectedId(null);
   }
 
   async function logout() {
@@ -205,6 +218,8 @@ export default function AdminPage() {
                 <h2>{expandedStat === "new" ? "New Requests" : expandedStat === "active" ? "Active Projects" : expandedStat === "post-production" ? "Post Production" : "Urgent"}</h2>
               </div>
               <button className="close-stat" onClick={() => setExpandedStat(null)}>Close ↑</button>
+            <div className="search-wrap">
+              {!searchOpen ? <button className="search-toggle" onClick={() => setSearchOpen(true)}>Search projects 🔎</button> : <input autoFocus className="project-search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search by project or business..." />}
             </div>
             {expandedRequests.length === 0 ? <div className="stat-empty">Nothing here yet.</div> : (
               <div className="request-list">
@@ -252,15 +267,21 @@ export default function AdminPage() {
             </div>
 
             <div className="detail-block">
-              <h3>{["Failed", "Declined"].includes(status) ? "Why did this project fail/decline?" : "Internal notes"}</h3>
+              <h3>Internal notes</h3>
               <textarea
                 value={notes}
                 onChange={(event) => {
                   setNotes(event.target.value);
                   if (statusError) setStatusError("");
                 }}
-                placeholder={["Failed", "Declined"].includes(status) ? "Explain why this project failed/was declined." : "Add notes for the LEAF team..."}
+                placeholder="Add notes for the LEAF team..."
               />
+              {status === "Proposal Sent" && (
+                <div className="proposal-box"><h3>What was the proposal?</h3><textarea value={proposal} onChange={(event) => { setProposal(event.target.value); if (statusError) setStatusError(""); }} placeholder="Describe what was proposed to the client..." /></div>
+              )}
+              {["Failed", "Declined"].includes(status) && (
+                <div className="failure-box"><h3>Why did this project fail/decline?</h3><textarea value={notes} onChange={(event) => { setNotes(event.target.value); if (statusError) setStatusError(""); }} placeholder="Explain why this project failed/was declined." /></div>
+              )}
               {["Failed", "Declined"].includes(status) && (
                 <p className="status-requirement">
                   A minimum of 30 words is required before this project can be marked {status.toLowerCase()}.
@@ -279,7 +300,7 @@ export default function AdminPage() {
             {message && <p className="save-message">{message}</p>}
           </section>
         )}
-        <section className="request-section history-section">
+        <section className="request-section history-section completed-history">
           <div className="section-heading">
             <div>
               <p className="admin-eyebrow">Completed projects!</p>
@@ -304,7 +325,7 @@ export default function AdminPage() {
           )}
         </section>
 
-        <section className="request-section history-section">
+        <section className="request-section history-section failed-history">
           <div className="section-heading">
             <div>
               <p className="admin-eyebrow">Failed & declined</p>
@@ -457,9 +478,22 @@ const adminStyles = `
   .status-option:hover, .status-option.selected { background:#EAF4ED; color:#048243; }
   .status-check { font-size:.9rem; }
   .compact-empty { padding:48px 20px; }
-  .history-section { margin-top:28px; border-color:#048243; background:#EAF4ED; }
-  .history-section .request-row { background:#fff; }
-  .history-section .request-row:hover, .history-section .request-row.selected { border-color:#048243; background:#F7FBF8; }
+  .history-section { margin-top:28px; }
+  .completed-history { border-color:#048243; background:#048243; color:#fff; }
+  .completed-history .admin-eyebrow, .completed-history h2 { color:#fff; }
+  .completed-history .request-row { background:#fff; color:#193024; }
+  .completed-history .request-row:hover, .completed-history .request-row.selected { border-color:#048243; background:#F7FBF8; }
+  .failed-history { border-color:#B3122D; background:#B3122D; color:#fff; }
+  .failed-history .admin-eyebrow, .failed-history h2 { color:#fff; }
+  .failed-history .request-row { background:#fff; color:#193024; }
+  .failed-history .request-row:hover, .failed-history .request-row.selected { border-color:#B3122D; background:#FFF5F6; }
+  .search-wrap { margin-top:18px; }
+  .search-toggle { border:2px solid #78A987; background:#fff; color:#048243; border-radius:999px; padding:10px 16px; font-weight:800; cursor:pointer; }
+  .project-search { width:100%; border:2px solid #048243; border-radius:14px; background:#fff; color:#193024; padding:13px 16px; font:inherit; outline:none; }
+  .proposal-box, .failure-box { margin-top:22px; }
+  .proposal-box h3, .failure-box h3 { margin-bottom:10px; }
+  .failure-box textarea { border-color:#B3122D; }
+  .failure-box .status-requirement { color:#B3122D; }
   .status-requirement { margin:8px 0 0; color:#657168; font-size:.9rem; font-weight:700; }
   .status-error { margin-top:12px; color:#D11A2A; font-weight:800; }
   .save-button { width:auto; min-width:170px; margin-top:0; }
