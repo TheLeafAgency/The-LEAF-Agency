@@ -58,6 +58,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [expandedStat, setExpandedStat] = useState<string | null>(null);
+  const [statusError, setStatusError] = useState("");
 
   async function loadRequests() {
     const response = await fetch("/api/requests", { cache: "no-store" });
@@ -124,6 +125,16 @@ export default function AdminPage() {
     if (!selected) return;
     setLoading(true);
     setMessage("");
+    setStatusError("");
+
+    if (["Failed", "Declined"].includes(status)) {
+      const wordCount = notes.trim().split(/\s+/).filter(Boolean).length;
+      if (wordCount < 30) {
+        setLoading(false);
+        setStatusError("Please explain why this project was " + status.toLowerCase() + " in at least 30 words. (" + wordCount + "/30 words)");
+        return;
+      }
+    }
     const response = await fetch("/api/requests", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -209,6 +220,65 @@ export default function AdminPage() {
             )}
           </section>
         )}
+        {selected && (
+          <section className="detail-section">
+            <div className="detail-header">
+              <div>
+                <p className="admin-eyebrow">Request details</p>
+                <h2>{selected.id}</h2>
+              </div>
+              <button className="close-detail" onClick={() => setSelectedId(null)}>Close</button>
+            </div>
+
+            <div className="detail-grid">
+              <Info label="Business" value={selected.business} />
+              <Info label="Contact" value={selected.contact || "Not provided"} />
+              <Info label="Email" value={selected.email} />
+              <Info label="Phone" value={selected.phone} />
+              <Info label="Service" value={selected.service || "Not provided"} />
+              <Info label="Location" value={selected.location || selected.zipCode || "Not provided"} />
+              <Info label="Budget" value={selected.budget || "Not provided"} />
+              <Info label="Deadline" value={selected.deadline || "Not provided"} />
+            </div>
+
+            <div className="detail-block">
+              <h3>Description</h3>
+              <p className="description">{selected.description || "No description provided."}</p>
+            </div>
+
+            <div className="detail-block">
+              <h3>Files</h3>
+              {selected.files.length === 0 ? <p className="muted">No files attached.</p> : selected.files.map((file) => <a key={file.name} className="file-link" href={file.url || "#"}>{file.name}</a>)}
+            </div>
+
+            <div className="detail-block">
+              <h3>{["Failed", "Declined"].includes(status) ? "Why did this project fail/decline?" : "Internal notes"}</h3>
+              <textarea
+                value={notes}
+                onChange={(event) => {
+                  setNotes(event.target.value);
+                  if (statusError) setStatusError("");
+                }}
+                placeholder={["Failed", "Declined"].includes(status) ? "Explain why this project failed/was declined." : "Add notes for the LEAF team..."}
+              />
+              {["Failed", "Declined"].includes(status) && (
+                <p className="status-requirement">
+                  A minimum of 30 words is required before this project can be marked {status.toLowerCase()}.
+                </p>
+              )}
+            </div>
+
+            <div className="status-area">
+              <div>
+                <h3>Status</h3>
+                <StatusPicker value={status} onChange={setStatus} />
+              </div>
+              <button className="save-button" onClick={saveRequest} disabled={loading}>{loading ? "Saving..." : "Save Changes"}</button>
+            </div>
+            {statusError && <p className="status-error">{statusError}</p>}
+            {message && <p className="save-message">{message}</p>}
+          </section>
+        )}
         <section className="request-section history-section">
           <div className="section-heading">
             <div>
@@ -258,52 +328,7 @@ export default function AdminPage() {
           )}
         </section>
 
-        {selected && (
-          <section className="detail-section">
-            <div className="detail-header">
-              <div>
-                <p className="admin-eyebrow">Request details</p>
-                <h2>{selected.id}</h2>
-              </div>
-              <button className="close-detail" onClick={() => setSelectedId(null)}>Close</button>
-            </div>
 
-            <div className="detail-grid">
-              <Info label="Business" value={selected.business} />
-              <Info label="Contact" value={selected.contact || "Not provided"} />
-              <Info label="Email" value={selected.email} />
-              <Info label="Phone" value={selected.phone} />
-              <Info label="Service" value={selected.service || "Not provided"} />
-              <Info label="Location" value={selected.location || selected.zipCode || "Not provided"} />
-              <Info label="Budget" value={selected.budget || "Not provided"} />
-              <Info label="Deadline" value={selected.deadline || "Not provided"} />
-            </div>
-
-            <div className="detail-block">
-              <h3>Description</h3>
-              <p className="description">{selected.description || "No description provided."}</p>
-            </div>
-
-            <div className="detail-block">
-              <h3>Files</h3>
-              {selected.files.length === 0 ? <p className="muted">No files attached.</p> : selected.files.map((file) => <a key={file.name} className="file-link" href={file.url || "#"}>{file.name}</a>)}
-            </div>
-
-            <div className="detail-block">
-              <h3>Internal notes</h3>
-              <textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Add notes for the LEAF team..." />
-            </div>
-
-            <div className="status-area">
-              <div>
-                <h3>Status</h3>
-                <StatusPicker value={status} onChange={setStatus} />
-              </div>
-              <button className="save-button" onClick={saveRequest} disabled={loading}>{loading ? "Saving..." : "Save Changes"}</button>
-            </div>
-            {message && <p className="save-message">{message}</p>}
-          </section>
-        )}
       </div>
 
       <style jsx>{adminStyles}</style>
@@ -432,7 +457,11 @@ const adminStyles = `
   .status-option:hover, .status-option.selected { background:#EAF4ED; color:#048243; }
   .status-check { font-size:.9rem; }
   .compact-empty { padding:48px 20px; }
-  .history-section { margin-top:28px; }
+  .history-section { margin-top:28px; border-color:#048243; background:#EAF4ED; }
+  .history-section .request-row { background:#fff; }
+  .history-section .request-row:hover, .history-section .request-row.selected { border-color:#048243; background:#F7FBF8; }
+  .status-requirement { margin:8px 0 0; color:#657168; font-size:.9rem; font-weight:700; }
+  .status-error { margin-top:12px; color:#D11A2A; font-weight:800; }
   .save-button { width:auto; min-width:170px; margin-top:0; }
   .save-message { margin-top:12px; color:#048243; font-weight:800; }
   @media (max-width: 800px) {
