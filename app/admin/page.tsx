@@ -328,7 +328,7 @@ const adminStyles = `
   .logout, .refresh, .close-detail { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; }
   .stats-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-bottom:42px; align-items:start; }
   .stat-card { width:100%; min-height:150px; background:#fff; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; color:#193024; box-shadow:0 0 0 rgba(4,130,67,0); transition:border-color .25s ease,box-shadow .25s ease; }
-  .stat-card.expanded { grid-column:1 / -1; border-color:#048243; box-shadow:0 12px 30px rgba(4,130,67,.10); animation:statDropDown .45s cubic-bezier(.22,1,.36,1) both; }
+  .stat-card.expanded { grid-column:1 / -1; grid-row:1; border-color:#048243; box-shadow:0 12px 30px rgba(4,130,67,.10); animation:statDropDown .45s cubic-bezier(.22,1,.36,1) both; }
   .stat-card-trigger { width:100%; min-height:150px; border:0; background:transparent; padding:24px; text-align:left; cursor:pointer; color:#193024; transition:background .2s ease,transform .12s ease; transform-origin:center; }
   .stat-card-trigger:hover { background:#F7FBF8; }
   .stat-card-trigger:active { transform:scale(.97); }
