@@ -3,18 +3,30 @@
 import { useEffect, useMemo, useState } from "react";
 
 const statuses = [
-  "New",
-  "Reviewing",
+  "Untouched",
+  "Reviewed",
   "Contacted",
-  "Discussing",
   "Proposal Sent",
-  "Approved",
   "In Production",
   "Editing",
-  "Publishing",
+  "Contacting Agencies",
   "Completed",
+  "Urgent",
+  "Failed",
   "Declined",
-];
+] as const;
+
+const legacyStatusMap: Record<string, string> = {
+  New: "Untouched",
+  Reviewing: "Reviewed",
+  Discussing: "Contacted",
+  Approved: "Proposal Sent",
+  Publishing: "Contacting Agencies",
+};
+
+function displayStatus(status: string) {
+  return legacyStatusMap[status] || status;
+}
 
 type LeafRequest = {
   id: string;
@@ -42,7 +54,7 @@ export default function AdminPage() {
   const [requests, setRequests] = useState<LeafRequest[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
-  const [status, setStatus] = useState("New");
+  const [status, setStatus] = useState("Untouched");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [expandedStat, setExpandedStat] = useState<string | null>(null);
@@ -67,24 +79,24 @@ export default function AdminPage() {
   useEffect(() => {
     if (selected) {
       setNotes(selected.internalNotes || "");
-      setStatus(selected.status || "New");
+      setStatus(displayStatus(selected.status || "Untouched"));
       setMessage("");
     }
   }, [selectedId, selected]);
 
   const counts = useMemo(() => ({
-    newRequests: requests.filter((item) => item.status === "New").length,
-    active: requests.filter((item) => !["Completed", "Declined"].includes(item.status)).length,
-    preProduction: requests.filter((item) => ["Reviewing", "Contacted", "Discussing", "Proposal Sent", "Approved"].includes(item.status)).length,
-    awaiting: requests.filter((item) => ["Contacted", "Discussing", "Proposal Sent"].includes(item.status)).length,
+    newRequests: requests.filter((item) => displayStatus(item.status) === "Untouched").length,
+    active: requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))).length,
+    postProduction: requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))).length,
+    urgent: requests.filter((item) => displayStatus(item.status) === "Urgent").length,
   }), [requests]);
 
   const expandedRequests = useMemo(() => {
     if (!expandedStat) return [];
-    if (expandedStat === "new") return requests.filter((item) => item.status === "New");
-    if (expandedStat === "active") return requests.filter((item) => !["Completed", "Declined"].includes(item.status));
-    if (expandedStat === "pre-production") return requests.filter((item) => ["Reviewing", "Contacted", "Discussing", "Proposal Sent", "Approved"].includes(item.status));
-    if (expandedStat === "awaiting") return requests.filter((item) => ["Contacted", "Discussing", "Proposal Sent"].includes(item.status));
+    if (expandedStat === "new") return requests.filter((item) => displayStatus(item.status) === "Untouched");
+    if (expandedStat === "active") return requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status)));
+    if (expandedStat === "post-production") return requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status)));
+    if (expandedStat === "urgent") return requests.filter((item) => displayStatus(item.status) === "Urgent");
     return [];
   }, [expandedStat, requests]);
 
@@ -170,16 +182,16 @@ export default function AdminPage() {
         <section className="stats-grid">
           <Stat index={0} label="NEW REQUESTS" value={counts.newRequests} selected={expandedStat === "new"} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} />
           <Stat index={1} label="ACTIVE PROJECTS" value={counts.active} selected={expandedStat === "active"} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} />
-          <Stat index={2} label="PRE-PRODUCTION" value={counts.preProduction} selected={expandedStat === "pre-production"} onClick={() => setExpandedStat(expandedStat === "pre-production" ? null : "pre-production")} />
-          <Stat index={3} label="AWAITING CLIENT" value={counts.awaiting} selected={expandedStat === "awaiting"} onClick={() => setExpandedStat(expandedStat === "awaiting" ? null : "awaiting")} />
+          <Stat index={2} label="POST PRODUCTION" value={counts.postProduction} selected={expandedStat === "post-production"} onClick={() => setExpandedStat(expandedStat === "post-production" ? null : "post-production")} />
+          <Stat index={3} label="URGENT" value={counts.urgent} selected={expandedStat === "urgent"} onClick={() => setExpandedStat(expandedStat === "urgent" ? null : "urgent")} />
         </section>
 
         {expandedStat && (
           <section className="stat-details-panel">
             <div className="expanded-stat-header">
               <div>
-                <p className="admin-eyebrow">{expandedStat === "new" ? "NEW REQUESTS" : expandedStat === "active" ? "ACTIVE PROJECTS" : expandedStat === "pre-production" ? "PRE-PRODUCTION" : "AWAITING CLIENT"}</p>
-                <h2>{expandedStat === "new" ? "New Requests" : expandedStat === "active" ? "Active Projects" : expandedStat === "pre-production" ? "Pre-Production" : "Awaiting Client"}</h2>
+                <p className="admin-eyebrow">{expandedStat === "new" ? "NEW REQUESTS" : expandedStat === "active" ? "ACTIVE PROJECTS" : expandedStat === "post-production" ? "POST PRODUCTION" : "URGENT"}</p>
+                <h2>{expandedStat === "new" ? "New Requests" : expandedStat === "active" ? "Active Projects" : expandedStat === "post-production" ? "Post Production" : "Urgent"}</h2>
               </div>
               <button className="close-stat" onClick={() => setExpandedStat(null)}>Close ↑</button>
             </div>
@@ -190,36 +202,56 @@ export default function AdminPage() {
                     <span className="request-id">{item.id}</span>
                     <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
                     <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-                    <span className={`status-pill status-${item.status.toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.status}</span>
+                    <span className={`status-pill status-${displayStatus(item.status).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{displayStatus(item.status)}</span>
                   </button>
                 ))}
               </div>
             )}
           </section>
         )}
-        <section className="request-section urgent-section">
+        <section className="request-section history-section">
           <div className="section-heading">
             <div>
-              <p className="admin-eyebrow">Urgent</p>
-              <h2>Urgent</h2>
+              <p className="admin-eyebrow">Completed projects!</p>
+              <h2>Completed projects!</h2>
             </div>
             <button className="refresh" onClick={() => loadRequests()}>Refresh</button>
           </div>
 
-          {requests.filter((item) => item.status === "New" || item.status === "Contacted").length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">✓</div>
-              <h3>Nothing urgent right now.</h3>
-              <p>Requests needing immediate attention will appear here.</p>
-            </div>
+          {requests.filter((item) => displayStatus(item.status) === "Completed").length === 0 ? (
+            <div className="empty-state compact-empty"><h3>No completed projects yet.</h3><p>Completed projects will stay here as part of your project history.</p></div>
           ) : (
             <div className="request-list">
-              {requests.filter((item) => item.status === "New" || item.status === "Contacted").map((item) => (
+              {requests.filter((item) => displayStatus(item.status) === "Completed").map((item) => (
                 <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
                   <span className="request-id">{item.id}</span>
                   <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
                   <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-                  <span className={`status-pill status-${item.status.toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.status}</span>
+                  <span className="status-pill status-completed">Completed</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="request-section history-section">
+          <div className="section-heading">
+            <div>
+              <p className="admin-eyebrow">Failed & declined</p>
+              <h2>Failed & Declined Projects</h2>
+            </div>
+          </div>
+
+          {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status))).length === 0 ? (
+            <div className="empty-state compact-empty"><h3>No failed or declined projects.</h3><p>Projects that fail or are declined will be kept here for reference.</p></div>
+          ) : (
+            <div className="request-list">
+              {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status))).map((item) => (
+                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
+                  <span className="request-id">{item.id}</span>
+                  <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
+                  <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                  <span className={`status-pill status-${displayStatus(item.status).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{displayStatus(item.status)}</span>
                 </button>
               ))}
             </div>
@@ -265,9 +297,7 @@ export default function AdminPage() {
             <div className="status-area">
               <div>
                 <h3>Status</h3>
-                <select value={status} onChange={(event) => setStatus(event.target.value)}>
-                  {statuses.map((item) => <option key={item}>{item}</option>)}
-                </select>
+                <StatusPicker value={status} onChange={setStatus} />
               </div>
               <button className="save-button" onClick={saveRequest} disabled={loading}>{loading ? "Saving..." : "Save Changes"}</button>
             </div>
@@ -299,6 +329,29 @@ function Stat({ index, label, value, selected, onClick }: {
 
 function Info({ label, value }: { label: string; value: string }) {
   return <div className="info-item"><span>{label}</span><strong>{value}</strong></div>;
+}
+
+function StatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className={`status-picker ${open ? "open" : ""}`}>
+      <button type="button" className="status-picker-button" onClick={() => setOpen((current) => !current)} aria-expanded={open}>
+        <span>{value}</span>
+        <span className="status-picker-arrow">{open ? "↑" : "↓"}</span>
+      </button>
+      {open && (
+        <div className="status-picker-menu">
+          {statuses.map((item) => (
+            <button type="button" key={item} className={`status-option ${item === value ? "selected" : ""}`} onClick={() => { onChange(item); setOpen(false); }}>
+              <span>{item}</span>
+              {item === value && <span className="status-check">✓</span>}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 const adminStyles = `
@@ -370,6 +423,16 @@ const adminStyles = `
   .status-area { margin-top:30px; align-items:flex-end; }
   .status-area > div { width:min(340px,100%); }
   .status-area select { margin-top:4px; }
+  .status-picker { position:relative; margin-top:4px; }
+  .status-picker-button { width:100%; display:flex; justify-content:space-between; align-items:center; gap:12px; border:2px solid #D8E0D9; border-radius:14px; background:#fff; color:#193024; padding:14px 16px; font:inherit; font-weight:800; cursor:pointer; }
+  .status-picker-button:hover, .status-picker.open .status-picker-button { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
+  .status-picker-arrow { color:#048243; font-size:.9rem; }
+  .status-picker-menu { position:absolute; z-index:20; left:0; right:0; top:calc(100% + 8px); padding:8px; border:2px solid #D8E0D9; border-radius:16px; background:#fff; box-shadow:0 18px 40px rgba(22,59,39,.16); max-height:320px; overflow:auto; }
+  .status-option { width:100%; display:flex; align-items:center; justify-content:space-between; border:0; border-radius:11px; background:transparent; color:#193024; padding:12px 13px; text-align:left; font:inherit; font-weight:800; cursor:pointer; }
+  .status-option:hover, .status-option.selected { background:#EAF4ED; color:#048243; }
+  .status-check { font-size:.9rem; }
+  .compact-empty { padding:48px 20px; }
+  .history-section { margin-top:28px; }
   .save-button { width:auto; min-width:170px; margin-top:0; }
   .save-message { margin-top:12px; color:#048243; font-weight:800; }
   @media (max-width: 800px) {
