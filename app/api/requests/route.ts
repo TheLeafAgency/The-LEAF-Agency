@@ -104,7 +104,7 @@ export async function POST(request: Request) {
       contactSummary: String(body.contactSummary || body.contact || "").trim(),
       estimatedCost: Math.min(Number(String(body.estimatedCost || body.budget || "").replace(/[^0-9]/g, "") || 0), 1000000000).toString(),
       estimatedFinishDate: String(body.estimatedFinishDate || body.deadline || "").trim(),
-      progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String) : ["Untouched"],
+      progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String) : [],
     };
 
     await store().setJSON("requests", [...requests, item]);
