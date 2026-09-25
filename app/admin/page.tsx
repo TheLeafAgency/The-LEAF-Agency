@@ -607,6 +607,7 @@ const adminStyles = `
   .stat-card:hover { border-color:#78A987; background:#F7FBF8; }
   .stat-card:active { transform:scale(.97); }
   .stat-card.selected { border-color:#048243; background:#048243; color:#fff; box-shadow:0 10px 26px rgba(4,130,67,.20); animation:statButtonPop .35s cubic-bezier(.22,1,.36,1); }
+  .stat-card.stat-index-3.selected { border-color:#E67E22; background:#E67E22; color:#fff; box-shadow:0 10px 26px rgba(230,126,34,.22); }
   .stat-card.selected span, .stat-card.selected strong, .stat-card.selected small { color:#fff; }
   .stat-card span { display:block; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1.5px; }
   .stat-card strong { display:block; margin-top:10px; color:#048243; font-size:3rem; line-height:1; }
