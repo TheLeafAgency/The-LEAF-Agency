@@ -67,11 +67,6 @@ export default function AdminPage() {
   const [statusError, setStatusError] = useState("");
 
   async function loadRequests() {
-    if (status === "Proposal Sent" && !proposal.trim()) {
-      setLoading(false);
-      setStatusError("Please explain what the proposal was before saving this status.");
-      return;
-    }
     const response = await fetch("/api/requests", { cache: "no-store" });
     if (!response.ok) {
       setAuthenticated(false);
@@ -151,6 +146,13 @@ export default function AdminPage() {
         return;
       }
     }
+
+    if (status === "Proposal Sent" && !proposal.trim()) {
+      setLoading(false);
+      setStatusError("Please explain what the proposal was before saving this status.");
+      return;
+    }
+
     const response = await fetch("/api/requests", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -222,6 +224,7 @@ export default function AdminPage() {
                 <h2>{expandedStat === "new" ? "New Requests" : expandedStat === "active" ? "Active Projects" : expandedStat === "post-production" ? "Post Production" : "Urgent"}</h2>
               </div>
               <button className="close-stat" onClick={() => setExpandedStat(null)}>Close ↑</button>
+            </div>
             <div className="search-wrap">
               {!searchOpen ? <button className="search-toggle" onClick={() => setSearchOpen(true)}>Search projects 🔎</button> : <input autoFocus className="project-search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search by project or business..." />}
             </div>
@@ -239,6 +242,7 @@ export default function AdminPage() {
             )}
           </section>
         )}
+
         {selected && (
           <section className="detail-section">
             <div className="detail-header">
@@ -281,10 +285,16 @@ export default function AdminPage() {
                 placeholder="Add notes for the LEAF team..."
               />
               {status === "Proposal Sent" && (
-                <div className="proposal-box"><h3>What was the proposal?</h3><textarea value={proposal} onChange={(event) => { setProposal(event.target.value); if (statusError) setStatusError(""); }} placeholder="Describe what was proposed to the client..." /></div>
+                <div className="proposal-box">
+                  <h3>What was the proposal?</h3>
+                  <textarea value={proposal} onChange={(event) => { setProposal(event.target.value); if (statusError) setStatusError(""); }} placeholder="Describe what was proposed to the client..." />
+                </div>
               )}
               {["Failed", "Declined"].includes(status) && (
-                <div className="failure-box"><h3>Why did this project fail/decline?</h3><textarea value={failureExplanation} onChange={(event) => { setFailureExplanation(event.target.value); if (statusError) setStatusError(""); }} placeholder="Explain why this project failed/was declined." /></div>
+                <div className="failure-box">
+                  <h3>Why did this project fail/decline?</h3>
+                  <textarea value={failureExplanation} onChange={(event) => { setFailureExplanation(event.target.value); if (statusError) setStatusError(""); }} placeholder="Explain why this project failed/was declined." />
+                </div>
               )}
               {["Failed", "Declined"].includes(status) && (
                 <p className="status-requirement">
@@ -304,6 +314,7 @@ export default function AdminPage() {
             {message && <p className="save-message">{message}</p>}
           </section>
         )}
+
         <section className="request-section history-section completed-history">
           <div className="section-heading">
             <div>
@@ -352,8 +363,6 @@ export default function AdminPage() {
             </div>
           )}
         </section>
-
-
       </div>
 
       <style jsx>{adminStyles}</style>
@@ -437,16 +446,8 @@ const adminStyles = `
   .expanded-stat-header h2 { font-family:"BPMF Huninn", sans-serif; color:#048243; font-size:2.6rem; margin:0; }
   .close-stat { border:2px solid #78A987; background:transparent; color:#048243; border-radius:999px; padding:11px 18px; font-weight:800; cursor:pointer; }
   .stat-empty { text-align:center; padding:40px 20px 15px; color:#657168; font-weight:700; }
-  @keyframes statButtonPop {
-    0% { transform:scale(1); }
-    45% { transform:scale(.96); }
-    100% { transform:scale(1); }
-  }
+  @keyframes statButtonPop { 0% { transform:scale(1); } 45% { transform:scale(.96); } 100% { transform:scale(1); } }
   @keyframes statPanelDrop { 0% { opacity:0; transform:translateY(-18px); } 100% { opacity:1; transform:translateY(0); } }
-  @keyframes statContentReveal {
-    0% { opacity:0; transform:translateY(-8px); }
-    100% { opacity:1; transform:translateY(0); }
-  }
   .request-section, .detail-section { background:#fff; border:2px solid #D8E0D9; border-radius:26px; padding:32px; margin-bottom:28px; }
   .section-heading, .detail-header, .status-area { display:flex; justify-content:space-between; align-items:center; gap:20px; }
   .section-heading h2, .detail-header h2 { font-size:2.8rem; line-height:1; }
@@ -497,7 +498,6 @@ const adminStyles = `
   .proposal-box, .failure-box { margin-top:22px; }
   .proposal-box h3, .failure-box h3 { margin-bottom:10px; }
   .failure-box textarea { border-color:#B3122D; }
-  .failure-box .status-requirement { color:#B3122D; }
   .status-requirement { margin:8px 0 0; color:#657168; font-size:.9rem; font-weight:700; }
   .status-error { margin-top:12px; color:#D11A2A; font-weight:800; }
   .save-button { width:auto; min-width:170px; margin-top:0; }
