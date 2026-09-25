@@ -280,7 +280,7 @@ export default function AdminPage() {
                     <span className="request-id">{item.id}</span>
                     <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
                     <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-                    <span className={`status-pill status-${displayStatus(item.status).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{displayStatus(item.status)}</span>
+                    <span className={`status-pill status-${(isOverdue(item.estimatedFinishDate || item.deadline || "") ? "urgent" : displayStatus(item.status)).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{isOverdue(item.estimatedFinishDate || item.deadline || "") ? "Urgent" : displayStatus(item.status)}</span>
                   </button>
                 ))}
               </div>
