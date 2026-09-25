@@ -651,7 +651,7 @@ const adminStyles = `
   .checklist-box { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; border:2px solid #B8C5BC; border-radius:5px; background:#fff; color:#048243; font-size:.8rem; font-weight:900; flex:0 0 22px; }
   .checklist-item.checked .checklist-box { border-color:#048243; background:#fff; }
   .detail-section-enter { animation: detailReveal .22s ease-out; }\n  @keyframes detailReveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }\n  @media (prefers-reduced-motion: reduce) { .detail-section-enter { animation:none; } }\n  .money-input-wrap { display:flex; align-items:center; color:#193024; font-weight:800; }
-  .money-input-wrap > span { margin-right:6px; }\n  .money-input { width:145px; min-height:42px; padding:8px 12px; border:2px solid #D8E0D9; border-radius:10px; background:#fff; color:#193024; font:inherit; font-weight:800; outline:none; }\n  .money-input:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
+  .money-input-wrap > span { margin-right:6px; }\n  .money-input { width:165px; min-height:42px; padding:8px 12px; border:2px solid #D8E0D9; border-radius:10px; background:#fff; color:#193024; font:inherit; font-weight:800; outline:none; }\n  .money-input:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
   .detail-block { margin-top:28px; }
   .detail-block h3, .status-area h3 { margin-bottom:10px; }
   .description { white-space:pre-wrap; color:#405247; line-height:1.7; background:#F7F8F7; border-radius:14px; padding:18px; }
