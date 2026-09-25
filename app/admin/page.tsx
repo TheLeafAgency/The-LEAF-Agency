@@ -87,7 +87,19 @@ export default function AdminPage() {
   const [expandedStat, setExpandedStat] = useState<string | null>(null);
   const [statusError, setStatusError] = useState("");
 
-  function openRequest(id: string) {\n    setSelectedId(id);\n    window.setTimeout(() => {\n      document.querySelector(".detail-section")?.scrollIntoView({ behavior: "smooth", block: "start" });\n    }, 40);\n  }\n\n  function closeRequest() {\n    setSelectedId(null);\n    window.scrollTo({ top: 0, behavior: "smooth" });\n  }\n\n  async function loadRequests() {
+  function openRequest(id: string) {
+    setSelectedId(id);
+    window.setTimeout(() => {
+      document.querySelector(".detail-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 40);
+  }
+
+  function closeRequest() {
+    setSelectedId(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function loadRequests() {
     const response = await fetch("/api/requests", { cache: "no-store" });
     if (!response.ok) {
       setAuthenticated(false);
