@@ -16,7 +16,8 @@ const statuses = [
   "Declined",
 ] as const;
 
-function isOverdue(dateString: string, status?: string) {\n  if (["Completed", "Failed", "Declined"].includes(status || "")) return false;
+function isOverdue(dateString: string, status?: string) {
+  if (["Completed", "Failed", "Declined"].includes(status || "")) return false;
   const match = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   if (!match) return false;
   const month = Number(match[1]);
@@ -643,7 +644,9 @@ const adminStyles = `
   .inline-input { min-height:32px; font-weight:800; }
   .inline-input[type="text"] { min-height:48px; padding:10px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-size:1rem; }
   .inline-input[type="text"]:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
-  .inline-edit:disabled { opacity:1; background:#fff; color:#193024; border-color:#D8E0D9; cursor:not-allowed; }\n  .contact-conversation-item .inline-edit:not(:disabled) { background:#fff; color:#193024; border-color:#D8E0D9; }\n  .overdue-label { color:#B3122D; font-style:normal; font-weight:900; margin-left:7px; text-transform:none; letter-spacing:0; }
+  .inline-edit:disabled { opacity:1; background:#fff; color:#193024; border-color:#D8E0D9; cursor:not-allowed; }
+  .contact-conversation-item .inline-edit:not(:disabled) { background:#fff; color:#193024; border-color:#D8E0D9; }
+  .overdue-label { color:#B3122D; font-style:normal; font-weight:900; margin-left:7px; text-transform:none; letter-spacing:0; }
   .progress-checklist { display:grid; gap:8px; margin-top:4px; }
   .checklist-item { display:flex; align-items:center; gap:11px; padding:11px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-weight:800; cursor:pointer; transition:.15s ease; }
   .checklist-item:hover { border-color:#78A987; background:#F7FBF8; }
@@ -651,8 +654,13 @@ const adminStyles = `
   .checklist-item input { position:absolute; opacity:0; pointer-events:none; }
   .checklist-box { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; border:2px solid #B8C5BC; border-radius:5px; background:#fff; color:#048243; font-size:.8rem; font-weight:900; flex:0 0 22px; }
   .checklist-item.checked .checklist-box { border-color:#048243; background:#fff; }
-  .detail-section-enter { animation: detailReveal .22s ease-out; }\n  @keyframes detailReveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }\n  @media (prefers-reduced-motion: reduce) { .detail-section-enter { animation:none; } }\n  .money-input-wrap { display:flex; align-items:center; color:#193024; font-weight:800; }
-  .money-input-wrap > span { margin-right:6px; }\n  .money-input { width:165px; min-height:42px; padding:8px 12px; border:2px solid #D8E0D9; border-radius:10px; background:#fff; color:#193024; font:inherit; font-weight:800; outline:none; }\n  .money-input:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
+  .detail-section-enter { animation: detailReveal .22s ease-out; }
+  @keyframes detailReveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce) { .detail-section-enter { animation:none; } }
+  .money-input-wrap { display:flex; align-items:center; color:#193024; font-weight:800; }
+  .money-input-wrap > span { margin-right:6px; }
+  .money-input { width:165px; min-height:42px; padding:8px 12px; border:2px solid #D8E0D9; border-radius:10px; background:#fff; color:#193024; font:inherit; font-weight:800; outline:none; }
+  .money-input:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
   .detail-block { margin-top:28px; }
   .detail-block h3, .status-area h3 { margin-bottom:10px; }
   .description { white-space:pre-wrap; color:#405247; line-height:1.7; background:#F7F8F7; border-radius:14px; padding:18px; }
