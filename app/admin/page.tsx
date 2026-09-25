@@ -275,17 +275,16 @@ export default function AdminPage() {
 
             <div className="detail-grid">
               <Info label="Business" value={selected.business} />
-              {progressStatuses.includes("Contacted") && (
-                <div className="info-item editable-info-item">
-                  <span>Contact conversation</span>
-                  <textarea
-                    className="inline-edit"
-                    value={contactSummary}
-                    onChange={(event) => setContactSummary(event.target.value)}
-                    placeholder="Short summary of the contact conversation..."
-                  />
-                </div>
-              )}
+              <div className="info-item editable-info-item contact-conversation-item">
+                <span>Contact conversation</span>
+                <textarea
+                  className="inline-edit"
+                  value={contactSummary}
+                  disabled={!progressStatuses.includes("Contacted")}
+                  onChange={(event) => setContactSummary(event.target.value)}
+                  placeholder={progressStatuses.includes("Contacted") ? "Short summary of the contact conversation..." : "Locked until Contacted is checked."}
+                />
+              </div>
               <Info label="Email" value={selected.email} />
               <Info label="Phone" value={selected.phone} />
               <Info label="Service" value={selected.service || "Not provided"} />
@@ -311,9 +310,18 @@ export default function AdminPage() {
                 <span>Estimated finish date</span>
                 <input
                   className="inline-input"
-                  type="date"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={10}
                   value={estimatedFinishDate}
-                  onChange={(event) => setEstimatedFinishDate(event.target.value)}
+                  onChange={(event) => {
+                    const digits = event.target.value.replace(/[^0-9]/g, "").slice(0, 8);
+                    let formatted = digits;
+                    if (digits.length > 2) formatted = digits.slice(0, 2) + "/" + digits.slice(2);
+                    if (digits.length > 4) formatted = formatted.slice(0, 5) + "/" + digits.slice(4);
+                    setEstimatedFinishDate(formatted);
+                  }}
+                  placeholder="__/__/____"
                 />
               </div>
             </div>
@@ -607,9 +615,9 @@ const adminStyles = `
   .inline-edit, .inline-input { width:100%; border:0; background:transparent; color:#193024; font:inherit; outline:none; padding:0; resize:vertical; }
   .inline-edit { min-height:72px; line-height:1.5; }
   .inline-input { min-height:32px; font-weight:800; }
-  .inline-input[type="date"] { min-height:48px; padding:10px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#F7FBF8; color:#193024; accent-color:#048243; font-size:1rem; cursor:pointer; }
-  .inline-input[type="date"]:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
-  .inline-input[type="date"]::-webkit-calendar-picker-indicator { width:24px; height:24px; padding:3px; cursor:pointer; }
+  .inline-input[type="text"] { min-height:48px; padding:10px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#F7FBF8; color:#193024; font-size:1rem; }
+  .inline-input[type="text"]:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
+  .inline-edit:disabled { opacity:.58; background:#F3F0E7; cursor:not-allowed; }
   .progress-checklist { display:grid; gap:8px; margin-top:4px; }
   .checklist-item { display:flex; align-items:center; gap:11px; padding:11px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-weight:800; cursor:pointer; transition:.15s ease; }
   .checklist-item:hover { border-color:#78A987; background:#F7FBF8; }
