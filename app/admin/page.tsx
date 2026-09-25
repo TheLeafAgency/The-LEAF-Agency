@@ -139,7 +139,7 @@ export default function AdminPage() {
   }, [selectedId, selected]);
 
   const counts = useMemo(() => ({
-    newRequests: requests.filter((item) => !item.progressStatuses?.length && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))).length,
+    newRequests: requests.filter((item) => (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))).length,
     active: requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))).length,
     postProduction: requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))).length,
     urgent: requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)).length,
