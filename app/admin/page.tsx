@@ -17,7 +17,7 @@ const statuses = [
 ] as const;
 
 function isOverdue(dateString: string) {
-  const match = dateString.match(/^(\\d{2})\\/(\\d{2})\\/(\\d{4})$/);
+  const match = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   if (!match) return false;
   const month = Number(match[1]);
   const day = Number(match[2]);
