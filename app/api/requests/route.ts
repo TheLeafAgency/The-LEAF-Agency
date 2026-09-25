@@ -102,7 +102,7 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
       howHeard: String(body.howHeard || "").trim(),
       contactSummary: String(body.contactSummary || body.contact || "").trim(),
-      estimatedCost: Math.min(Number(String(body.estimatedCost || body.budget || "").replace(/[^0-9]/g, "") || 0), 100000000).toString(),
+      estimatedCost: Math.min(Number(String(body.estimatedCost || body.budget || "").replace(/[^0-9]/g, "") || 0), 1000000000).toString(),
       estimatedFinishDate: String(body.estimatedFinishDate || body.deadline || "").trim(),
       progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String) : ["Untouched"],
     };
@@ -137,7 +137,7 @@ export async function PATCH(request: Request) {
       internalNotes: String(body.internalNotes ?? requests[index].internalNotes),
       progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String) : (requests[index].progressStatuses || ["Untouched"]),
       contactSummary: String(body.contactSummary ?? requests[index].contactSummary ?? requests[index].contact ?? ""),
-      estimatedCost: Math.min(Number(String(body.estimatedCost ?? requests[index].estimatedCost ?? requests[index].budget ?? "").replace(/[^0-9]/g, "") || 0), 100000000).toString(),
+      estimatedCost: Math.min(Number(String(body.estimatedCost ?? requests[index].estimatedCost ?? requests[index].budget ?? "").replace(/[^0-9]/g, "") || 0), 1000000000).toString(),
       estimatedFinishDate: String(body.estimatedFinishDate ?? requests[index].estimatedFinishDate ?? requests[index].deadline ?? "").trim(),
       failureExplanation: String(body.failureExplanation ?? requests[index].failureExplanation ?? ""),
       proposal: String(body.proposal ?? requests[index].proposal ?? ""),
