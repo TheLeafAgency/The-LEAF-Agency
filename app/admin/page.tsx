@@ -151,9 +151,9 @@ export default function AdminPage() {
     const matchesSearch = (item: LeafRequest) => !term || `${item.id} ${item.business}`.toLowerCase().includes(term);
     const sortProjects = (items: LeafRequest[]) => [...items].filter(matchesSearch).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id));
     if (expandedStat === "new") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Untouched"));
-    if (expandedStat === "active") return sortProjects(requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))));
+    if (expandedStat === "active") return sortProjects(requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status)) && !isOverdue(item.estimatedFinishDate || item.deadline || "")));
     if (expandedStat === "post-production") return sortProjects(requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))));
-    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "")));
+    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "")).sort((a, b) => Number(isOverdue(b.estimatedFinishDate || b.deadline || "")) - Number(isOverdue(a.estimatedFinishDate || a.deadline || ""))));
     return [];
   }, [expandedStat, requests, searchTerm]);
 
