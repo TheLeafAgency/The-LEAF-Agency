@@ -142,7 +142,7 @@ export default function AdminPage() {
     newRequests: requests.filter((item) => displayStatus(item.status) === "Untouched").length,
     active: requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))).length,
     postProduction: requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))).length,
-    urgent: requests.filter((item) => displayStatus(item.status) === "Urgent").length,
+    urgent: requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "")).length,
   }), [requests]);
 
   const expandedRequests = useMemo(() => {
