@@ -304,11 +304,15 @@ export default function AdminPage() {
             </div>
 
             <div className="status-area">
-              <button className="save-button" onClick={saveRequest} disabled={loading}>{loading ? "Saving..." : "Save Changes"}</button>
-              <div className="status-final">
-                <h3>Final status reached</h3>
+              <div className="status-workflow">
+                <h3>Project progress</h3>
                 <StatusPicker value={status} onChange={setStatus} />
               </div>
+              <div className="status-final">
+                <h3>Final status</h3>
+                <FinalStatusPicker value={["Untouched", "Completed", "Failed", "Declined"].includes(status) ? status : ""} onChange={setStatus} />
+              </div>
+              <button className="save-button" onClick={saveRequest} disabled={loading}>{loading ? "Saving..." : "Save Changes"}</button>
             </div>
             {statusError && <p className="status-error">{statusError}</p>}
             {message && <p className="save-message">{message}</p>}
@@ -392,21 +396,7 @@ function Info({ label, value }: { label: string; value: string }) {
 
 function StatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const terminalStatuses = ["Untouched", "Completed", "Failed", "Declined", "Urgent"];
   const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies", "Completed"];
-
-  const isTerminal = terminalStatuses.includes(value);
-  const currentIndex = workflowStatuses.indexOf(value);
-
-  const available = workflowStatuses.map((item, index) => ({
-    item,
-    checked: !isTerminal && currentIndex >= 0 && index <= currentIndex,
-    enabled: isTerminal ? item === value : index <= currentIndex + 1,
-  }));
-
-  const options = isTerminal && value !== "Untouched"
-    ? [{ item: value, checked: true, enabled: true }]
-    : available;
 
   return (
     <div className={`status-picker ${open ? "open" : ""}`}>
@@ -417,22 +407,53 @@ function StatusPicker({ value, onChange }: { value: string; onChange: (value: st
       {open && (
         <div className="status-picker-menu">
           <p className="status-picker-label">Project progress</p>
-          {options.map(({ item, checked, enabled }) => (
+          {workflowStatuses.map((item) => (
             <button
               type="button"
               key={item}
-              className={`status-option ${checked ? "checked" : ""} ${!enabled ? "disabled" : ""}`}
-              disabled={!enabled}
+              className={`status-option ${item === value ? "checked" : ""}`}
               onClick={() => { onChange(item); setOpen(false); }}
             >
               <span className="status-option-left">
-                <span className="status-checkbox" aria-hidden="true">{checked ? "✓" : ""}</span>
+                <span className="status-checkbox" aria-hidden="true">{item === value ? "✓" : ""}</span>
                 <span>{item}</span>
               </span>
               {item === value && <span className="status-current">Current</span>}
             </button>
           ))}
-          {!isTerminal && <p className="status-picker-hint">Only the next step is available. Earlier steps stay checked.</p>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FinalStatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const finalStatuses = ["Untouched", "Completed", "Failed", "Declined"];
+
+  return (
+    <div className={`status-picker final-status-picker ${open ? "open" : ""}`}>
+      <button type="button" className="status-picker-button" onClick={() => setOpen((current) => !current)} aria-expanded={open}>
+        <span>{finalStatuses.includes(value) ? value : "Choose final status"}</span>
+        <span className="status-picker-arrow">{open ? "↑" : "☷"}</span>
+      </button>
+      {open && (
+        <div className="status-picker-menu">
+          <p className="status-picker-label">Final status</p>
+          {finalStatuses.map((item) => (
+            <button
+              type="button"
+              key={item}
+              className={`status-option ${item === value ? "checked" : ""}`}
+              onClick={() => { onChange(item); setOpen(false); }}
+            >
+              <span className="status-option-left">
+                <span className="status-checkbox" aria-hidden="true">{item === value ? "✓" : ""}</span>
+                <span>{item}</span>
+              </span>
+              {item === value && <span className="status-current">Current</span>}
+            </button>
+          ))}
         </div>
       )}
     </div>
@@ -498,8 +519,8 @@ const adminStyles = `
   .detail-block textarea { min-height:130px; resize:vertical; }
   .file-link { display:inline-block; margin:0 8px 8px 0; padding:9px 12px; border-radius:10px; background:#F3F0E7; color:#048243; font-weight:800; }
   .status-area { margin-top:30px; align-items:flex-end; }
-  .status-area > div { width:min(340px,100%); }
-  .status-final { margin-left:auto; width:min(380px,100%) !important; text-align:right; }
+  .status-workflow { width:min(340px,100%); }
+  .status-final { margin-left:auto; width:min(340px,100%); text-align:right; }
   .status-final h3 { text-align:right; }
   .status-picker { position:relative; margin-top:4px; }
   .status-picker-button { width:100%; display:flex; justify-content:space-between; align-items:center; gap:12px; border:2px solid #D8E0D9; border-radius:14px; background:#fff; color:#193024; padding:14px 16px; font:inherit; font-weight:800; cursor:pointer; }
@@ -509,12 +530,10 @@ const adminStyles = `
   .status-picker-label { margin:4px 8px 8px; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1px; text-transform:uppercase; }
   .status-option { width:100%; display:flex; align-items:center; justify-content:space-between; border:0; border-radius:11px; background:transparent; color:#193024; padding:11px 12px; text-align:left; font:inherit; font-weight:800; cursor:pointer; }
   .status-option:hover:not(:disabled), .status-option.checked { background:#EAF4ED; color:#048243; }
-  .status-option.disabled { color:#A3ADA6; cursor:not-allowed; opacity:.65; }
   .status-option-left { display:flex; align-items:center; gap:10px; }
   .status-checkbox { width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; border:2px solid #B8C5BC; border-radius:5px; background:#fff; color:#048243; font-size:.78rem; font-weight:900; flex:0 0 20px; }
   .status-option.checked .status-checkbox { border-color:#048243; background:#EAF4ED; }
   .status-current { color:#048243; font-size:.72rem; font-weight:900; text-transform:uppercase; letter-spacing:.7px; }
-  .status-picker-hint { margin:8px 8px 4px; color:#657168; font-size:.78rem; line-height:1.4; }
   .compact-empty { padding:48px 20px; }
   .history-section { margin-top:28px; }
   .completed-history { border-color:#048243; background:#fff; color:#193024; }
@@ -544,7 +563,8 @@ const adminStyles = `
     .login-card, .request-section, .detail-section { padding:22px; }
     .dashboard-header { flex-direction:column; }
     .status-area { flex-direction:column; align-items:stretch; }
-    .status-final, .status-final h3 { width:100% !important; margin-left:0; text-align:left; }
+    .status-workflow, .status-final { width:100%; margin-left:0; text-align:left; }
+    .status-final h3 { text-align:left; }
     .status-picker-menu { left:0; right:0; width:100%; }
     .save-button { width:100%; }
   }
