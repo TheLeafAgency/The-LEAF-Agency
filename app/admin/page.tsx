@@ -16,6 +16,19 @@ const statuses = [
   "Declined",
 ] as const;
 
+function isOverdue(dateString: string) {
+  const match = dateString.match(/^(\\d{2})\\/(\\d{2})\\/(\\d{4})$/);
+  if (!match) return false;
+  const month = Number(match[1]);
+  const day = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return false;
+  const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  return date < todayStart;
+}
+
 const legacyStatusMap: Record<string, string> = {
   New: "Untouched",
   Reviewing: "Reviewed",
@@ -298,16 +311,16 @@ export default function AdminPage() {
                     inputMode="numeric"
                     value={estimatedCost}
                     onChange={(event) => {
-                      const digits = event.target.value.replace(/[^0-9]/g, "").slice(0, 9);
+                      const digits = event.target.value.replace(/[^0-9]/g, "").slice(0, 10);
                       const amount = Number(digits || 0);
-                      setEstimatedCost(digits && amount <= 100000000 ? amount.toLocaleString("en-US") : "");
+                      setEstimatedCost(digits && amount <= 1000000000 ? amount.toLocaleString("en-US") : "");
                     }}
                     placeholder="0"
                   />
                 </div>
               </div>
               <div className="info-item editable-info-item">
-                <span>Estimated finish date</span>
+                <span>Estimated finish date{isOverdue(estimatedFinishDate) && <em className="overdue-label">* overdue!</em>}</span>
                 <input
                   className="inline-input"
                   type="text"
@@ -615,9 +628,9 @@ const adminStyles = `
   .inline-edit, .inline-input { width:100%; border:0; background:transparent; color:#193024; font:inherit; outline:none; padding:0; resize:vertical; }
   .inline-edit { min-height:72px; line-height:1.5; }
   .inline-input { min-height:32px; font-weight:800; }
-  .inline-input[type="text"] { min-height:48px; padding:10px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#F7FBF8; color:#193024; font-size:1rem; }
+  .inline-input[type="text"] { min-height:48px; padding:10px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-size:1rem; }
   .inline-input[type="text"]:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
-  .inline-edit:disabled { opacity:.58; background:#F3F0E7; cursor:not-allowed; }
+  .inline-edit:disabled { opacity:1; background:#048243; color:#fff; border-color:#048243; cursor:not-allowed; }\n  .contact-conversation-item .inline-edit:not(:disabled) { background:#fff; color:#193024; border-color:#D8E0D9; }\n  .overdue-label { color:#B3122D; font-style:normal; font-weight:900; margin-left:7px; text-transform:none; letter-spacing:0; }
   .progress-checklist { display:grid; gap:8px; margin-top:4px; }
   .checklist-item { display:flex; align-items:center; gap:11px; padding:11px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-weight:800; cursor:pointer; transition:.15s ease; }
   .checklist-item:hover { border-color:#78A987; background:#F7FBF8; }
