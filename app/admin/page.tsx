@@ -484,12 +484,12 @@ const adminStyles = `
   .status-check { font-size:.9rem; }
   .compact-empty { padding:48px 20px; }
   .history-section { margin-top:28px; }
-  .completed-history { border-color:#048243; background:#048243; color:#fff; }
-  .completed-history .admin-eyebrow, .completed-history h2 { color:#fff; }
+  .completed-history { border-color:#048243; background:#fff; color:#193024; }
+  .completed-history .admin-eyebrow, .completed-history h2 { color:#048243; }
   .completed-history .request-row { background:#fff; color:#193024; }
   .completed-history .request-row:hover, .completed-history .request-row.selected { border-color:#048243; background:#F7FBF8; }
-  .failed-history { border-color:#B3122D; background:#B3122D; color:#fff; }
-  .failed-history .admin-eyebrow, .failed-history h2 { color:#fff; }
+  .failed-history { border-color:#B3122D; background:#fff; color:#193024; }
+  .failed-history .admin-eyebrow, .failed-history h2 { color:#B3122D; }
   .failed-history .request-row { background:#fff; color:#193024; }
   .failed-history .request-row:hover, .failed-history .request-row.selected { border-color:#B3122D; background:#FFF5F6; }
   .search-wrap { margin-top:18px; }
