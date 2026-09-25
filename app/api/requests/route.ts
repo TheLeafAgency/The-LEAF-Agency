@@ -31,6 +31,7 @@ type LeafRequest = {
   contactSummary?: string;
   estimatedCost?: string;
   estimatedFinishDate?: string;
+  progressStatuses?: string[];
   description: string;
   files: { name: string; url?: string }[];
   internalNotes: string;
@@ -103,6 +104,7 @@ export async function POST(request: Request) {
       contactSummary: String(body.contactSummary || body.contact || "").trim(),
       estimatedCost: String(body.estimatedCost || body.budget || "").replace(/[^0-9]/g, ""),
       estimatedFinishDate: String(body.estimatedFinishDate || body.deadline || "").trim(),
+      progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String) : ["Untouched"],
     };
 
     await store().setJSON("requests", [...requests, item]);
@@ -133,6 +135,7 @@ export async function PATCH(request: Request) {
       ...requests[index],
       status: status as RequestStatus,
       internalNotes: String(body.internalNotes ?? requests[index].internalNotes),
+      progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String) : (requests[index].progressStatuses || ["Untouched"]),
       contactSummary: String(body.contactSummary ?? requests[index].contactSummary ?? requests[index].contact ?? ""),
       estimatedCost: String(body.estimatedCost ?? requests[index].estimatedCost ?? requests[index].budget ?? "").replace(/[^0-9]/g, ""),
       estimatedFinishDate: String(body.estimatedFinishDate ?? requests[index].estimatedFinishDate ?? requests[index].deadline ?? "").trim(),
