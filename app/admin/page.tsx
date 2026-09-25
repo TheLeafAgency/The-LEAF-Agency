@@ -39,6 +39,9 @@ type LeafRequest = {
   zipCode: string;
   budget: string;
   deadline: string;
+  contactSummary?: string;
+  estimatedCost?: string;
+  estimatedFinishDate?: string;
   description: string;
   files: { name: string; url?: string }[];
   internalNotes: string;
@@ -56,6 +59,9 @@ export default function AdminPage() {
   const [requests, setRequests] = useState<LeafRequest[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
+  const [contactSummary, setContactSummary] = useState("");
+  const [estimatedCost, setEstimatedCost] = useState("");
+  const [estimatedFinishDate, setEstimatedFinishDate] = useState("");
   const [proposal, setProposal] = useState("");
   const [failureExplanation, setFailureExplanation] = useState("");
   const [status, setStatus] = useState("Untouched");
@@ -86,6 +92,9 @@ export default function AdminPage() {
   useEffect(() => {
     if (selected) {
       setNotes(selected.internalNotes || "");
+      setContactSummary(selected.contactSummary || selected.contact || "");
+      setEstimatedCost(formatMoney(selected.estimatedCost || selected.budget || ""));
+      setEstimatedFinishDate(selected.estimatedFinishDate || selected.deadline || "");
       setProposal(selected.proposal || "");
       setFailureExplanation(selected.failureExplanation || "");
       setStatus(displayStatus(selected.status || "Untouched"));
@@ -156,7 +165,7 @@ export default function AdminPage() {
     const response = await fetch("/api/requests", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selected.id, status, internalNotes: notes, proposal, failureExplanation }),
+      body: JSON.stringify({ id: selected.id, status, internalNotes: notes, contactSummary, estimatedCost: estimatedCost.replace(/[^0-9]/g, ""), estimatedFinishDate, proposal, failureExplanation }),
     });
     const data = await response.json();
     setLoading(false);
@@ -255,13 +264,44 @@ export default function AdminPage() {
 
             <div className="detail-grid">
               <Info label="Business" value={selected.business} />
-              <Info label="Contact" value={selected.contact || "Not provided"} />
+              <div className="info-item editable-info-item">
+                <span>Contact conversation</span>
+                <textarea
+                  className="inline-edit"
+                  value={contactSummary}
+                  onChange={(event) => setContactSummary(event.target.value)}
+                  placeholder="Short summary of the contact conversation..."
+                />
+              </div>
               <Info label="Email" value={selected.email} />
               <Info label="Phone" value={selected.phone} />
               <Info label="Service" value={selected.service || "Not provided"} />
               <Info label="Location" value={selected.location || selected.zipCode || "Not provided"} />
-              <Info label="Budget" value={selected.budget || "Not provided"} />
-              <Info label="Deadline" value={selected.deadline || "Not provided"} />
+              <div className="info-item editable-info-item">
+                <span>Estimated cost</span>
+                <div className="money-input-wrap">
+                  <span>$</span>
+                  <input
+                    className="inline-input money-input"
+                    inputMode="numeric"
+                    value={estimatedCost}
+                    onChange={(event) => {
+                      const digits = event.target.value.replace(/[^0-9]/g, "");
+                      setEstimatedCost(digits ? Number(digits).toLocaleString("en-US") : "");
+                    }}
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+              <div className="info-item editable-info-item">
+                <span>Estimated finish date</span>
+                <input
+                  className="inline-input"
+                  type="date"
+                  value={estimatedFinishDate}
+                  onChange={(event) => setEstimatedFinishDate(event.target.value)}
+                />
+              </div>
             </div>
 
             <div className="detail-block">
@@ -390,13 +430,18 @@ function Stat({ index, label, value, selected, onClick }: {
   );
 }
 
+function formatMoney(value: string) {
+  const digits = value.replace(/[^0-9]/g, "");
+  return digits ? Number(digits).toLocaleString("en-US") : "";
+}
+
 function Info({ label, value }: { label: string; value: string }) {
   return <div className="info-item"><span>{label}</span><strong>{value}</strong></div>;
 }
 
 function StatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+  const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
 
   return (
     <div className={`status-picker ${open ? "open" : ""}`}>
@@ -429,7 +474,7 @@ function StatusPicker({ value, onChange }: { value: string; onChange: (value: st
 
 function FinalStatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const finalStatuses = ["Untouched", "Completed", "Failed", "Declined"];
+  const finalStatuses = ["Completed", "Failed", "Declined"];
 
   return (
     <div className={`status-picker final-status-picker ${open ? "open" : ""}`}>
@@ -513,6 +558,12 @@ const adminStyles = `
   .info-item { border:2px solid #E5E7EB; border-radius:14px; padding:15px; }
   .info-item span { display:block; color:#657168; font-size:.78rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:7px; }
   .info-item strong { display:block; overflow-wrap:anywhere; }
+  .editable-info-item { display:flex; flex-direction:column; }
+  .inline-edit, .inline-input { width:100%; border:0; background:transparent; color:#193024; font:inherit; outline:none; padding:0; resize:vertical; }
+  .inline-edit { min-height:72px; line-height:1.5; }
+  .inline-input { min-height:32px; font-weight:800; }
+  .money-input-wrap { display:flex; align-items:center; color:#193024; font-weight:800; }
+  .money-input-wrap > span { margin-right:2px; }
   .detail-block { margin-top:28px; }
   .detail-block h3, .status-area h3 { margin-bottom:10px; }
   .description { white-space:pre-wrap; color:#405247; line-height:1.7; background:#F7F8F7; border-radius:14px; padding:18px; }
