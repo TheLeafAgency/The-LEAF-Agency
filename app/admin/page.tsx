@@ -396,7 +396,7 @@ function Info({ label, value }: { label: string; value: string }) {
 
 function StatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies", "Completed"];
+  const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
 
   return (
     <div className={`status-picker ${open ? "open" : ""}`}>
