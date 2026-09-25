@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 
 const statuses = [
-  "Untouched",
   "Reviewed",
   "Contacted",
   "Proposal Sent",
@@ -80,7 +79,7 @@ export default function AdminPage() {
   const [proposal, setProposal] = useState("");
   const [failureExplanation, setFailureExplanation] = useState("");
   const [status, setStatus] = useState("Untouched");
-  const [progressStatuses, setProgressStatuses] = useState<string[]>(["Untouched"]);
+  const [progressStatuses, setProgressStatuses] = useState<string[]>([]);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -126,13 +125,13 @@ export default function AdminPage() {
       setProposal(selected.proposal || "");
       setFailureExplanation(selected.failureExplanation || "");
       const currentStatus = displayStatus(selected.status || "Untouched");
-      const workflowOrder = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+      const workflowOrder = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
       const savedProgress = Array.isArray(selected.progressStatuses) ? selected.progressStatuses : [];
       if (savedProgress.length) {
         setProgressStatuses(savedProgress);
       } else {
         const currentIndex = workflowOrder.indexOf(currentStatus);
-        setProgressStatuses(currentIndex >= 0 ? workflowOrder.slice(0, currentIndex + 1) : ["Untouched"]);
+        setProgressStatuses(currentIndex >= 0 ? workflowOrder.slice(0, currentIndex + 1) : []);
       }
       setStatus(currentStatus);
       setMessage("");
@@ -140,7 +139,7 @@ export default function AdminPage() {
   }, [selectedId, selected]);
 
   const counts = useMemo(() => ({
-    newRequests: requests.filter((item) => displayStatus(item.status) === "Untouched").length,
+    newRequests: requests.filter((item) => !item.progressStatuses?.length && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))).length,
     active: requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))).length,
     postProduction: requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))).length,
     urgent: requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)).length,
@@ -151,7 +150,7 @@ export default function AdminPage() {
     const term = searchTerm.trim().toLowerCase();
     const matchesSearch = (item: LeafRequest) => !term || `${item.id} ${item.business}`.toLowerCase().includes(term);
     const sortProjects = (items: LeafRequest[]) => [...items].filter(matchesSearch).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id));
-    if (expandedStat === "new") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Untouched"));
+    if (expandedStat === "new") return sortProjects(requests.filter((item) => !item.progressStatuses?.length && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))));
     if (expandedStat === "active") return sortProjects(requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status)) && !isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)));
     if (expandedStat === "post-production") return sortProjects(requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))));
     if (expandedStat === "urgent") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)).sort((a, b) => Number(isOverdue(b.estimatedFinishDate || b.deadline || "")) - Number(isOverdue(a.estimatedFinishDate || a.deadline || ""))));
@@ -333,7 +332,7 @@ export default function AdminPage() {
                 </div>
               </div>
               <div className="info-item editable-info-item">
-                <span>Estimated finish date{isOverdue(estimatedFinishDate, status) && <em className="overdue-label">* overdue!</em>}</span>
+                <span>{status === "Completed" ? "Finished date" : "Estimated finish date"}{status !== "Completed" && isOverdue(estimatedFinishDate, status) && <em className="overdue-label">* overdue!</em>}</span>
                 <input
                   className="inline-input"
                   type="text"
@@ -398,7 +397,7 @@ export default function AdminPage() {
                   checked={progressStatuses}
                   onChange={(next) => {
                     setProgressStatuses(next);
-                    const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+                    const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
                     const lastChecked = workflowStatuses.filter((item) => next.includes(item)).pop() || "Untouched";
                     setStatus(lastChecked);
                   }}
@@ -496,7 +495,7 @@ function Info({ label, value }: { label: string; value: string }) {
 }
 
 function ProgressChecklist({ checked, onChange }: { checked: string[]; onChange: (value: string[]) => void }) {
-  const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+  const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
 
   return (
     <div className="progress-checklist">
@@ -520,7 +519,7 @@ function ProgressChecklist({ checked, onChange }: { checked: string[]; onChange:
 
 function StatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+  const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
 
   return (
     <div className={`status-picker ${open ? "open" : ""}`}>
