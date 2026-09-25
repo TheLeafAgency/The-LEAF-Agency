@@ -26,7 +26,7 @@ function isOverdue(dateString: string) {
   if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return false;
   const today = new Date();
   const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  return date < todayStart;
+  return date.getTime() < todayStart.getTime();
 }
 
 const legacyStatusMap: Record<string, string> = {
@@ -153,7 +153,7 @@ export default function AdminPage() {
     if (expandedStat === "new") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Untouched"));
     if (expandedStat === "active") return sortProjects(requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))));
     if (expandedStat === "post-production") return sortProjects(requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))));
-    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Urgent"));
+    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "")));
     return [];
   }, [expandedStat, requests, searchTerm]);
 
