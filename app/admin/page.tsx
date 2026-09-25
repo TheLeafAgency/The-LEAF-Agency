@@ -299,8 +299,9 @@ export default function AdminPage() {
                     inputMode="numeric"
                     value={estimatedCost}
                     onChange={(event) => {
-                      const digits = event.target.value.replace(/[^0-9]/g, "");
-                      setEstimatedCost(digits ? Number(digits).toLocaleString("en-US") : "");
+                      const digits = event.target.value.replace(/[^0-9]/g, "").slice(0, 9);
+                      const amount = Number(digits || 0);
+                      setEstimatedCost(digits && amount <= 100000000 ? amount.toLocaleString("en-US") : "");
                     }}
                     placeholder="0"
                   />
