@@ -87,7 +87,7 @@ export default function AdminPage() {
   const [expandedStat, setExpandedStat] = useState<string | null>(null);
   const [statusError, setStatusError] = useState("");
 
-  async function loadRequests() {
+  function openRequest(id: string) {\n    setSelectedId(id);\n    window.setTimeout(() => {\n      document.querySelector(".detail-section")?.scrollIntoView({ behavior: "smooth", block: "start" });\n    }, 40);\n  }\n\n  function closeRequest() {\n    setSelectedId(null);\n    window.scrollTo({ top: 0, behavior: "smooth" });\n  }\n\n  async function loadRequests() {
     const response = await fetch("/api/requests", { cache: "no-store" });
     if (!response.ok) {
       setAuthenticated(false);
@@ -264,7 +264,7 @@ export default function AdminPage() {
             {expandedRequests.length === 0 ? <div className="stat-empty">Nothing here yet.</div> : (
               <div className="request-list">
                 {expandedRequests.map((item) => (
-                  <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
+                  <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
                     <span className="request-id">{item.id}</span>
                     <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
                     <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
@@ -277,13 +277,13 @@ export default function AdminPage() {
         )}
 
         {selected && (
-          <section className="detail-section">
+          <section className="detail-section detail-section-enter">
             <div className="detail-header">
               <div>
                 <p className="admin-eyebrow">Request details</p>
                 <h2>{selected.id}</h2>
               </div>
-              <button className="close-detail" onClick={() => setSelectedId(null)}>Close</button>
+              <button className="close-detail" onClick={closeRequest}>Close</button>
             </div>
 
             <div className="detail-grid">
@@ -416,7 +416,7 @@ export default function AdminPage() {
           ) : (
             <div className="request-list">
               {requests.filter((item) => displayStatus(item.status) === "Completed").map((item) => (
-                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
+                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
                   <span className="request-id">{item.id}</span>
                   <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
                   <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
@@ -440,7 +440,7 @@ export default function AdminPage() {
           ) : (
             <div className="request-list">
               {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status))).map((item) => (
-                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => setSelectedId(item.id)}>
+                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
                   <span className="request-id">{item.id}</span>
                   <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
                   <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
@@ -638,7 +638,7 @@ const adminStyles = `
   .checklist-item input { position:absolute; opacity:0; pointer-events:none; }
   .checklist-box { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; border:2px solid #B8C5BC; border-radius:5px; background:#fff; color:#048243; font-size:.8rem; font-weight:900; flex:0 0 22px; }
   .checklist-item.checked .checklist-box { border-color:#048243; background:#fff; }
-  .money-input-wrap { display:flex; align-items:center; color:#193024; font-weight:800; }
+  .detail-section-enter { animation: detailReveal .22s ease-out; }\n  @keyframes detailReveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }\n  @media (prefers-reduced-motion: reduce) { .detail-section-enter { animation:none; } }\n  .money-input-wrap { display:flex; align-items:center; color:#193024; font-weight:800; }
   .money-input-wrap > span { margin-right:6px; }\n  .money-input { width:120px; min-height:42px; padding:8px 12px; border:2px solid #D8E0D9; border-radius:10px; background:#fff; color:#193024; font:inherit; font-weight:800; outline:none; }\n  .money-input:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
   .detail-block { margin-top:28px; }
   .detail-block h3, .status-area h3 { margin-bottom:10px; }
