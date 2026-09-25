@@ -630,7 +630,7 @@ const adminStyles = `
   .inline-input { min-height:32px; font-weight:800; }
   .inline-input[type="text"] { min-height:48px; padding:10px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-size:1rem; }
   .inline-input[type="text"]:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
-  .inline-edit:disabled { opacity:1; background:#048243; color:#fff; border-color:#048243; cursor:not-allowed; }\n  .contact-conversation-item .inline-edit:not(:disabled) { background:#fff; color:#193024; border-color:#D8E0D9; }\n  .overdue-label { color:#B3122D; font-style:normal; font-weight:900; margin-left:7px; text-transform:none; letter-spacing:0; }
+  .inline-edit:disabled { opacity:1; background:#fff; color:#193024; border-color:#D8E0D9; cursor:not-allowed; }\n  .contact-conversation-item .inline-edit:not(:disabled) { background:#fff; color:#193024; border-color:#D8E0D9; }\n  .overdue-label { color:#B3122D; font-style:normal; font-weight:900; margin-left:7px; text-transform:none; letter-spacing:0; }
   .progress-checklist { display:grid; gap:8px; margin-top:4px; }
   .checklist-item { display:flex; align-items:center; gap:11px; padding:11px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-weight:800; cursor:pointer; transition:.15s ease; }
   .checklist-item:hover { border-color:#78A987; background:#F7FBF8; }
