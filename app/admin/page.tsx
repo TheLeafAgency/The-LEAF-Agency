@@ -16,7 +16,7 @@ const statuses = [
   "Declined",
 ] as const;
 
-function isOverdue(dateString: string) {
+function isOverdue(dateString: string, status?: string) {\n  if (["Completed", "Failed", "Declined"].includes(status || "")) return false;
   const match = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   if (!match) return false;
   const month = Number(match[1]);
@@ -371,7 +371,7 @@ export default function AdminPage() {
                 }}
                 placeholder="Add notes for the LEAF team..."
               />
-              {status === "Proposal Sent" && (
+              {progressStatuses.includes("Proposal Sent") && (
                 <div className="proposal-box">
                   <h3>What was the proposal?</h3>
                   <textarea value={proposal} onChange={(event) => { setProposal(event.target.value); if (statusError) setStatusError(""); }} placeholder="Describe what was proposed to the client..." />
