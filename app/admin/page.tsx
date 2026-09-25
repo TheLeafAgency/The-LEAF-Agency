@@ -42,6 +42,7 @@ type LeafRequest = {
   contactSummary?: string;
   estimatedCost?: string;
   estimatedFinishDate?: string;
+  progressStatuses?: string[];
   description: string;
   files: { name: string; url?: string }[];
   internalNotes: string;
@@ -65,6 +66,7 @@ export default function AdminPage() {
   const [proposal, setProposal] = useState("");
   const [failureExplanation, setFailureExplanation] = useState("");
   const [status, setStatus] = useState("Untouched");
+  const [progressStatuses, setProgressStatuses] = useState<string[]>(["Untouched"]);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -97,7 +99,16 @@ export default function AdminPage() {
       setEstimatedFinishDate(selected.estimatedFinishDate || selected.deadline || "");
       setProposal(selected.proposal || "");
       setFailureExplanation(selected.failureExplanation || "");
-      setStatus(displayStatus(selected.status || "Untouched"));
+      const currentStatus = displayStatus(selected.status || "Untouched");
+      const workflowOrder = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+      const savedProgress = Array.isArray(selected.progressStatuses) ? selected.progressStatuses : [];
+      if (savedProgress.length) {
+        setProgressStatuses(savedProgress);
+      } else {
+        const currentIndex = workflowOrder.indexOf(currentStatus);
+        setProgressStatuses(currentIndex >= 0 ? workflowOrder.slice(0, currentIndex + 1) : ["Untouched"]);
+      }
+      setStatus(currentStatus);
       setMessage("");
     }
   }, [selectedId, selected]);
@@ -165,7 +176,7 @@ export default function AdminPage() {
     const response = await fetch("/api/requests", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selected.id, status, internalNotes: notes, contactSummary, estimatedCost: estimatedCost.replace(/[^0-9]/g, ""), estimatedFinishDate, proposal, failureExplanation }),
+      body: JSON.stringify({ id: selected.id, status, progressStatuses, internalNotes: notes, contactSummary, estimatedCost: estimatedCost.replace(/[^0-9]/g, ""), estimatedFinishDate, proposal, failureExplanation }),
     });
     const data = await response.json();
     setLoading(false);
@@ -264,15 +275,17 @@ export default function AdminPage() {
 
             <div className="detail-grid">
               <Info label="Business" value={selected.business} />
-              <div className="info-item editable-info-item">
-                <span>Contact conversation</span>
-                <textarea
-                  className="inline-edit"
-                  value={contactSummary}
-                  onChange={(event) => setContactSummary(event.target.value)}
-                  placeholder="Short summary of the contact conversation..."
-                />
-              </div>
+              {progressStatuses.includes("Contacted") && (
+                <div className="info-item editable-info-item">
+                  <span>Contact conversation</span>
+                  <textarea
+                    className="inline-edit"
+                    value={contactSummary}
+                    onChange={(event) => setContactSummary(event.target.value)}
+                    placeholder="Short summary of the contact conversation..."
+                  />
+                </div>
+              )}
               <Info label="Email" value={selected.email} />
               <Info label="Phone" value={selected.phone} />
               <Info label="Service" value={selected.service || "Not provided"} />
@@ -346,7 +359,15 @@ export default function AdminPage() {
             <div className="status-area">
               <div className="status-workflow">
                 <h3>Project progress</h3>
-                <StatusPicker value={status} onChange={setStatus} />
+                <ProgressChecklist
+                  checked={progressStatuses}
+                  onChange={(next) => {
+                    setProgressStatuses(next);
+                    const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+                    const lastChecked = workflowStatuses.filter((item) => next.includes(item)).pop() || "Untouched";
+                    setStatus(lastChecked);
+                  }}
+                />
               </div>
               <div className="status-final">
                 <h3>Final status</h3>
@@ -437,6 +458,29 @@ function formatMoney(value: string) {
 
 function Info({ label, value }: { label: string; value: string }) {
   return <div className="info-item"><span>{label}</span><strong>{value}</strong></div>;
+}
+
+function ProgressChecklist({ checked, onChange }: { checked: string[]; onChange: (value: string[]) => void }) {
+  const workflowStatuses = ["Untouched", "Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+
+  return (
+    <div className="progress-checklist">
+      {workflowStatuses.map((item) => {
+        const isChecked = checked.includes(item);
+        return (
+          <label key={item} className={`checklist-item ${isChecked ? "checked" : ""}`}>
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => onChange(isChecked ? checked.filter((value) => value !== item) : [...checked, item])}
+            />
+            <span className="checklist-box" aria-hidden="true">{isChecked ? "✓" : ""}</span>
+            <span>{item}</span>
+          </label>
+        );
+      })}
+    </div>
+  );
 }
 
 function StatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
@@ -562,6 +606,16 @@ const adminStyles = `
   .inline-edit, .inline-input { width:100%; border:0; background:transparent; color:#193024; font:inherit; outline:none; padding:0; resize:vertical; }
   .inline-edit { min-height:72px; line-height:1.5; }
   .inline-input { min-height:32px; font-weight:800; }
+  .inline-input[type="date"] { min-height:48px; padding:10px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#F7FBF8; color:#193024; accent-color:#048243; font-size:1rem; cursor:pointer; }
+  .inline-input[type="date"]:focus { border-color:#048243; box-shadow:0 0 0 4px rgba(4,130,67,.08); }
+  .inline-input[type="date"]::-webkit-calendar-picker-indicator { width:24px; height:24px; padding:3px; cursor:pointer; }
+  .progress-checklist { display:grid; gap:8px; margin-top:4px; }
+  .checklist-item { display:flex; align-items:center; gap:11px; padding:11px 12px; border:2px solid #D8E0D9; border-radius:12px; background:#fff; color:#193024; font-weight:800; cursor:pointer; transition:.15s ease; }
+  .checklist-item:hover { border-color:#78A987; background:#F7FBF8; }
+  .checklist-item.checked { border-color:#048243; background:#EAF4ED; color:#048243; }
+  .checklist-item input { position:absolute; opacity:0; pointer-events:none; }
+  .checklist-box { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; border:2px solid #B8C5BC; border-radius:5px; background:#fff; color:#048243; font-size:.8rem; font-weight:900; flex:0 0 22px; }
+  .checklist-item.checked .checklist-box { border-color:#048243; background:#fff; }
   .money-input-wrap { display:flex; align-items:center; color:#193024; font-weight:800; }
   .money-input-wrap > span { margin-right:2px; }
   .detail-block { margin-top:28px; }
