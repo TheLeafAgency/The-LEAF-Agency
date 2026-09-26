@@ -136,19 +136,19 @@ export default function BotanicalGrowth() {
 
         {/* ABOUT - right */}
         <g>
-          <VinePath d="M1465 1080 C1405 1045 1360 1050 1325 1085" start={0.17} end={0.215} width={17} />
-          <VinePath d="M1370 1060 C1350 1020 1325 995 1290 980" start={0.19} end={0.21} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1325 1085 C1340 1120 1360 1145 1390 1155" start={0.205} end={0.225} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1465 1080 C1405 1045 1360 1050 1325 1085 C1295 1115 1260 1125 1225 1115" start={0.17} end={0.235} width={17} />
+          <VinePath d="M1370 1060 C1350 1020 1325 995 1290 980" start={0.19} end={0.22} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1325 1085 C1340 1120 1360 1145 1390 1155" start={0.215} end={0.245} width={5} className="leaf-botanical-thin" />
           <Leaf x={1380} y={1045} rotate={35} scale={0.82} start={0.19} side="right" />
-          <Leaf x={1300} y={1080} rotate={-30} scale={0.68} start={0.21} side="right" />
+          <Leaf x={1260} y={1085} rotate={-30} scale={0.7} start={0.215} side="right" />
+          <Leaf x={1195} y={1160} rotate={28} scale={0.66} start={0.235} side="right" />
         </g>
 
-        {/* ABOUT - left, tiny accent */}
+        {/* ABOUT - left, shortened so it stays clear of the Who We Are text */}
         <g>
-          <VinePath d="M-20 1320 C55 1275 100 1285 145 1325 C175 1350 205 1355 245 1340" start={0.22} end={0.29} width={12} />
-          <VinePath d="M105 1300 C105 1260 120 1235 150 1210" start={0.235} end={0.27} width={4} className="leaf-botanical-thin" />
-          <Leaf x={60} y={1290} rotate={-35} scale={0.65} start={0.24} />
-          <Leaf x={150} y={1330} rotate={25} scale={0.58} start={0.27} />
+          <VinePath d="M-20 1320 C35 1288 75 1295 105 1320" start={0.22} end={0.26} width={12} />
+          <VinePath d="M65 1300 C65 1270 78 1250 98 1232" start={0.235} end={0.25} width={4} className="leaf-botanical-thin" />
+          <Leaf x={45} y={1300} rotate={-35} scale={0.60} start={0.24} />
         </g>
 
         {/* SERVICES - left */}
