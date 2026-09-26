@@ -7,7 +7,7 @@ export default function AboutSection() {
         id="about"
         style={{
           padding: "100px 0 150px",
-          background: "#F3F0E7",
+          background: "rgba(243, 240, 231, 0.90)",
           scrollMarginTop: "80px",
         }}
       >
