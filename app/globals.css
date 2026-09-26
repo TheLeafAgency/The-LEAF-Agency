@@ -136,6 +136,7 @@ section { width: 100%; }
 }
 
 
+
 /* Experimental LEAF botanical scroll layer */
 .leaf-botanical-page { position: relative; isolation: isolate; }
 .leaf-botanical-layer {
@@ -153,40 +154,50 @@ section { width: 100%; }
   height: 100%;
   overflow: visible;
 }
-.leaf-botanical-branch {
+.leaf-botanical-path {
   fill: none;
   stroke: #65452C;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: stroke-dashoffset 0.08s linear;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--reveal, 0));
+  opacity: var(--reveal, 0);
 }
-.leaf-botanical-highlight {
-  stroke: #9A704A;
-  opacity: .72;
+.leaf-botanical-light {
+  stroke: #A2764D;
+  opacity: var(--reveal, 0);
 }
-.leaf-botanical-branchlet {
-  fill: none;
-  stroke: #745237;
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.leaf-botanical-thin {
+  stroke: #765438;
+}
+.leaf-root-thin {
+  stroke: #806044;
 }
 .leaf-botanical-leaf {
+  opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
-  transform-box: view-box;
+}
+.leaf-botanical-leaf > path:first-child {
+  fill: #4F7D31;
+  stroke: #365A24;
+  stroke-width: 1.2;
+}
+.leaf-botanical-leaf .leaf-vein {
+  fill: none;
+  stroke: #315522;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: .75;
 }
 @media (max-width: 900px) {
   .leaf-botanical-layer { opacity: .78; }
-  .leaf-botanical-svg { transform: scale(.82); transform-origin: center top; }
-  .leaf-botanical-branch { stroke-width: 8; }
+  .leaf-botanical-svg { transform: scale(.84); transform-origin: center top; }
 }
 @media (max-width: 600px) {
   .leaf-botanical-layer { opacity: .62; }
   .leaf-botanical-svg { transform: scale(.72); transform-origin: center top; }
-  .leaf-botanical-branch { stroke-width: 7; }
-  .leaf-botanical-branchlet { stroke-width: 3; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .leaf-botanical-branch { transition: none; }
+  .leaf-botanical-path { transition: none; }
 }
