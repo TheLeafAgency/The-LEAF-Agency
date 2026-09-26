@@ -7,7 +7,7 @@ export default function Hero() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#F3F0E7",
+        background: "rgba(243, 240, 231, 0.90)",
         paddingTop: "80px",
         overflow: "hidden",
       }}
@@ -81,7 +81,7 @@ export default function Hero() {
             borderRadius: "999px",
             fontWeight: 700,
             fontSize: "15px",
-            background: "#F3F0E7",
+            background: "rgba(243, 240, 231, 0.90)",
           }}
         >
           View Portfolio
