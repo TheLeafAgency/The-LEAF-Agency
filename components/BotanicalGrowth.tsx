@@ -63,13 +63,11 @@ export default function BotanicalGrowth() {
     if (!layer) return;
 
     const update = () => {
-      const maxScroll = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight
-      );
+      const documentHeight = Math.max(1, document.documentElement.scrollHeight);
+      const viewportAnchor = window.innerHeight * 0.72;
       const progress = Math.min(
         1,
-        Math.max(0, window.scrollY / maxScroll)
+        Math.max(0, (window.scrollY + viewportAnchor) / documentHeight)
       );
 
       for (const element of layer.querySelectorAll<SVGElement>("[style*='--start']")) {
@@ -127,22 +125,7 @@ export default function BotanicalGrowth() {
       >
         {/* Each branch is independent on purpose. The asymmetry is part of the experiment. */}
 
-        {/* HERO - left */}
-        <g>
-          <VinePath d="M-25 470 C80 420 145 435 205 505 C245 552 280 565 330 535" start={0.00} end={0.10} width={16} />
-          <VinePath d="M120 455 C115 405 125 365 160 330" start={0.025} end={0.075} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M215 510 C255 470 295 455 345 465" start={0.055} end={0.105} width={5} className="leaf-botanical-thin" />
-          <Leaf x={82} y={425} rotate={-35} scale={0.8} start={0.035} />
-          <Leaf x={190} y={500} rotate={30} scale={0.68} start={0.065} />
-        </g>
-
-        {/* HERO - right, shorter and different */}
-        <g>
-          <VinePath d="M1465 760 C1390 715 1345 720 1305 765 C1270 805 1240 820 1195 805" start={0.08} end={0.15} width={13} />
-          <VinePath d="M1350 730 C1340 685 1315 655 1275 640" start={0.10} end={0.145} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1390} y={725} rotate={38} scale={0.72} start={0.105} side="right" />
-          <Leaf x={1295} y={770} rotate={-28} scale={0.62} start={0.125} side="right" />
-        </g>
+        {/* The hero is intentionally left clear for the video area. */}
 
         {/* ABOUT - right */}
         <g>
