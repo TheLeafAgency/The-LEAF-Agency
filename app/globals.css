@@ -138,6 +138,61 @@ section { width: 100%; }
 
 
 
+
+/* Falling leaf accents */
+.leaf-falling-cluster {
+  pointer-events: none;
+}
+
+.leaf-fall-trail {
+  fill: none;
+  stroke: rgba(78, 125, 49, 0.42);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 5 9;
+  opacity: 0;
+  animation: leaf-fall-trail-drift 2.8s ease-in-out infinite;
+}
+
+.leaf-fall-trail-soft {
+  stroke: rgba(78, 125, 49, 0.24);
+  animation-delay: -1.1s;
+}
+
+.leaf-falling-leaf {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: leaf-fall 3.2s ease-in-out infinite;
+}
+
+.leaf-falling-leaf-two {
+  animation-delay: -1.2s;
+}
+
+.leaf-falling-leaf-three {
+  animation-delay: -2.1s;
+}
+
+@keyframes leaf-fall {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(22px, 58px, 0) rotate(22deg);
+  }
+}
+
+@keyframes leaf-fall-trail-drift {
+  0%, 100% {
+    opacity: .15;
+    transform: translateY(-4px);
+  }
+  50% {
+    opacity: .7;
+    transform: translateY(10px);
+  }
+}
+
 /* Experimental LEAF botanical scroll layer */
 .leaf-botanical-page {
   position: relative;
