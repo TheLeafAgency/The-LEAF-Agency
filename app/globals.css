@@ -162,7 +162,11 @@ section { width: 100%; }
 .leaf-falling-leaf {
   transform-box: fill-box;
   transform-origin: center;
-  animation: leaf-fall 3.2s ease-in-out infinite;
+  transform: translate3d(
+    calc(var(--fall-progress, 0) * 22px),
+    calc(var(--fall-progress, 0) * 58px),
+    0
+  ) rotate(calc(var(--fall-progress, 0) * 22deg));
 }
 
 .leaf-falling-leaf-two {
@@ -186,16 +190,19 @@ section { width: 100%; }
 }
 
 .leaf-falling-leaf-seven {
-  animation-delay: -3.3s;
+  --fall-extra-x: -8px;
 }
 
-@keyframes leaf-fall {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate3d(22px, 58px, 0) rotate(22deg);
-  }
+.leaf-falling-leaf-eight {
+  --fall-extra-x: 10px;
+}
+
+.leaf-falling-leaf-nine {
+  --fall-extra-x: -14px;
+}
+
+.leaf-falling-leaf-ten {
+  --fall-extra-x: 14px;
 }
 
 @keyframes leaf-fall-trail-drift {
@@ -258,6 +265,8 @@ section { width: 100%; }
   pointer-events: none;
   transform-box: fill-box;
   transform-origin: center;
+  transform: translateY(calc(var(--leaf-lift, 8px) * -1)) scale(var(--leaf-grow, .72));
+  will-change: opacity, transform;
 }
 
 .leaf-botanical-leaf > path:first-child {
