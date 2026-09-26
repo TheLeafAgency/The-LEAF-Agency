@@ -96,10 +96,14 @@ export default function BotanicalGrowth() {
         const start = Number(
           getComputedStyle(element).getPropertyValue("--start")
         );
-        element.style.setProperty(
-          "--leaf-visible",
-          progress >= start ? "1" : "0"
+        const leafRevealEnd = start + 0.022;
+        const leafProgress = Math.min(
+          1,
+          Math.max(0, (progress - start) / (leafRevealEnd - start))
         );
+        element.style.setProperty("--leaf-visible", String(leafProgress));
+        element.style.setProperty("--leaf-grow", String(0.72 + leafProgress * 0.28));
+        element.style.setProperty("--leaf-lift", String((1 - leafProgress) * 8));
       }
     };
 
@@ -171,9 +175,9 @@ export default function BotanicalGrowth() {
           <VinePath d="M1270 2185 C1240 2155 1205 2135 1170 2130" start={0.49} end={0.53} width={5} className="leaf-botanical-thin" />
           <Leaf x={1425} y={2410} rotate={38} scale={0.92} start={0.38} side="right" />
           <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.42} side="right" />
-          <Leaf x={1230} y={2070} rotate={-28} scale={0.78} start={0.45} side="right" />
-          <Leaf x={1085} y={1870} rotate={-12} scale={0.72} start={0.49} side="right" />
-          <Leaf x={950} y={1740} rotate={18} scale={0.68} start={0.52} side="right" />
+          <Leaf x={1285} y={2275} rotate={-28} scale={0.78} start={0.445} side="right" />
+          <Leaf x={1205} y={2185} rotate={-12} scale={0.72} start={0.49} side="right" />
+          <Leaf x={1125} y={2145} rotate={18} scale={0.68} start={0.52} side="right" />
         </g>
 
         {/* SERVICES - right, Copywriting / 9th card branch */}
@@ -227,12 +231,16 @@ export default function BotanicalGrowth() {
           </g>
         </g>
 
-        {/* SERVICE OPTIONS - left accent */}
+        {/* SERVICE OPTIONS - broad branch below the four Get Started buttons */}
         <g>
-          <VinePath d="M-20 3260 C55 3210 115 3225 155 3280 C185 3320 220 3330 265 3310" start={0.61} end={0.68} width={13} />
-          <VinePath d="M100 3240 C100 3200 115 3170 145 3145" start={0.625} end={0.665} width={4} className="leaf-botanical-thin" />
-          <Leaf x={55} y={3225} rotate={-35} scale={0.66} start={0.63} />
-          <Leaf x={175} y={3290} rotate={25} scale={0.58} start={0.66} />
+          <VinePath d="M-40 3470 C130 3405 285 3445 430 3490 C610 3545 805 3550 980 3500 C1160 3450 1305 3420 1480 3475" start={0.60} end={0.70} width={15} />
+          <VinePath d="M260 3450 C275 3415 300 3390 335 3370" start={0.625} end={0.665} width={4} className="leaf-botanical-thin" />
+          <VinePath d="M690 3535 C715 3495 750 3470 790 3455" start={0.65} end={0.69} width={4} className="leaf-botanical-thin" />
+          <VinePath d="M1110 3460 C1135 3420 1170 3395 1210 3380" start={0.655} end={0.70} width={4} className="leaf-botanical-thin" />
+          <Leaf x={220} y={3440} rotate={-28} scale={0.62} start={0.625} />
+          <Leaf x={640} y={3535} rotate={22} scale={0.58} start={0.655} />
+          <Leaf x={1060} y={3470} rotate={-18} scale={0.60} start={0.675} side="right" />
+          <Leaf x={1320} y={3445} rotate={28} scale={0.56} start={0.69} side="right" />
         </g>
 
         {/* LOWER PAGE - left */}
