@@ -165,16 +165,16 @@ export default function BotanicalGrowth() {
 
         {/* SERVICES - right, Media-area branch */}
         <g>
-          <VinePath d="M1480 2470 C1395 2380 1345 2275 1290 2170 C1230 2050 1160 1940 1070 1840 C1010 1775 950 1735 870 1700" start={0.34} end={0.55} width={22} />
-          <VinePath d="M1385 2360 C1395 2295 1375 2235 1330 2180" start={0.38} end={0.45} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1290 2170 C1240 2120 1185 2090 1125 2080" start={0.43} end={0.50} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1160 1940 C1110 1890 1055 1860 990 1850" start={0.48} end={0.54} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1010 1780 C970 1735 920 1710 865 1695" start={0.52} end={0.58} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1480 2470 C1410 2415 1370 2350 1350 2290 C1330 2240 1295 2205 1255 2185" start={0.34} end={0.45} width={22} />
+          <VinePath d="M1400 2395 C1410 2350 1395 2315 1365 2280" start={0.38} end={0.425} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1350 2290 C1315 2255 1285 2230 1245 2220" start={0.42} end={0.455} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1310 2225 C1280 2190 1245 2170 1205 2165" start={0.45} end={0.49} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1270 2185 C1240 2155 1205 2135 1170 2130" start={0.49} end={0.53} width={5} className="leaf-botanical-thin" />
           <Leaf x={1425} y={2410} rotate={38} scale={0.92} start={0.38} side="right" />
-          <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.43} side="right" />
-          <Leaf x={1230} y={2070} rotate={-28} scale={0.78} start={0.48} side="right" />
-          <Leaf x={1085} y={1870} rotate={-12} scale={0.72} start={0.53} side="right" />
-          <Leaf x={950} y={1740} rotate={18} scale={0.68} start={0.57} side="right" />
+          <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.42} side="right" />
+          <Leaf x={1230} y={2070} rotate={-28} scale={0.78} start={0.45} side="right" />
+          <Leaf x={1085} y={1870} rotate={-12} scale={0.72} start={0.49} side="right" />
+          <Leaf x={950} y={1740} rotate={18} scale={0.68} start={0.52} side="right" />
         </g>
 
         {/* SERVICES - right, Copywriting / 9th card branch */}
@@ -205,6 +205,26 @@ export default function BotanicalGrowth() {
           </g>
           <g className="leaf-falling-leaf leaf-falling-leaf-three" style={reveal(0.47, 0.80)}>
             <Leaf x={900} y={3020} rotate={18} scale={0.42} start={0} />
+          </g>
+        </g>
+
+        {/* Additional falling leaves for a fuller, natural drift. */}
+        <g className="leaf-falling-cluster">
+          <path className="leaf-fall-trail leaf-fall-trail-soft" d="M720 2760 C700 2800 725 2840 695 2885" />
+          <path className="leaf-fall-trail" d="M520 2940 C545 2980 515 3020 540 3065" />
+          <path className="leaf-fall-trail leaf-fall-trail-soft" d="M1260 3150 C1235 3190 1265 3230 1235 3280" />
+          <path className="leaf-fall-trail" d="M350 3100 C375 3140 350 3180 380 3225" />
+          <g className="leaf-falling-leaf leaf-falling-leaf-four">
+            <Leaf x={720} y={2760} rotate={-18} scale={0.48} start={0} />
+          </g>
+          <g className="leaf-falling-leaf leaf-falling-leaf-five">
+            <Leaf x={520} y={2940} rotate={34} scale={0.42} start={0} />
+          </g>
+          <g className="leaf-falling-leaf leaf-falling-leaf-six">
+            <Leaf x={1260} y={3150} rotate={-30} scale={0.50} start={0} />
+          </g>
+          <g className="leaf-falling-leaf leaf-falling-leaf-seven">
+            <Leaf x={350} y={3100} rotate={20} scale={0.44} start={0} />
           </g>
         </g>
 
