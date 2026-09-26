@@ -105,6 +105,20 @@ export default function BotanicalGrowth() {
         element.style.setProperty("--leaf-grow", String(0.72 + leafProgress * 0.28));
         element.style.setProperty("--leaf-lift", String((1 - leafProgress) * 8));
       }
+
+      for (const element of layer.querySelectorAll<SVGGElement>(".leaf-falling-leaf")) {
+        const start = Number(
+          getComputedStyle(element).getPropertyValue("--start")
+        );
+        const end = Number(
+          getComputedStyle(element).getPropertyValue("--end")
+        );
+        const fallProgress =
+          end <= start
+            ? progress >= start ? 1 : 0
+            : Math.min(1, Math.max(0, (progress - start) / (end - start)));
+        element.style.setProperty("--fall-progress", String(fallProgress));
+      }
     };
 
     let frame = 0;
@@ -217,17 +231,33 @@ export default function BotanicalGrowth() {
           <path className="leaf-fall-trail" d="M520 2940 C545 2980 515 3020 540 3065" />
           <path className="leaf-fall-trail leaf-fall-trail-soft" d="M1260 3150 C1235 3190 1265 3230 1235 3280" />
           <path className="leaf-fall-trail" d="M350 3100 C375 3140 350 3180 380 3225" />
-          <g className="leaf-falling-leaf leaf-falling-leaf-four">
+          <g className="leaf-falling-leaf leaf-falling-leaf-four" style={reveal(0.50, 0.82)}>
             <Leaf x={720} y={2760} rotate={-18} scale={0.48} start={0} />
           </g>
-          <g className="leaf-falling-leaf leaf-falling-leaf-five">
+          <g className="leaf-falling-leaf leaf-falling-leaf-five" style={reveal(0.55, 0.86)}>
             <Leaf x={520} y={2940} rotate={34} scale={0.42} start={0} />
           </g>
-          <g className="leaf-falling-leaf leaf-falling-leaf-six">
+          <g className="leaf-falling-leaf leaf-falling-leaf-six" style={reveal(0.59, 0.90)}>
             <Leaf x={1260} y={3150} rotate={-30} scale={0.50} start={0} />
           </g>
-          <g className="leaf-falling-leaf leaf-falling-leaf-seven">
+          <g className="leaf-falling-leaf leaf-falling-leaf-seven" style={reveal(0.64, 0.94)}>
             <Leaf x={350} y={3100} rotate={20} scale={0.44} start={0} />
+          </g>
+        </g>
+
+        {/* A few extra falling leaves, kept sparse and staggered. */}
+        <g className="leaf-falling-cluster">
+          <path className="leaf-fall-trail leaf-fall-trail-soft" d="M760 3050 C785 3090 760 3130 790 3175" />
+          <path className="leaf-fall-trail" d="M145 2880 C120 2920 150 2960 125 3005" />
+          <path className="leaf-fall-trail leaf-fall-trail-soft" d="M1335 3020 C1310 3060 1340 3100 1315 3145" />
+          <g className="leaf-falling-leaf leaf-falling-leaf-eight" style={reveal(0.44, 0.78)}>
+            <Leaf x={760} y={3050} rotate={30} scale={0.40} start={0} side="right" />
+          </g>
+          <g className="leaf-falling-leaf leaf-falling-leaf-nine" style={reveal(0.52, 0.84)}>
+            <Leaf x={145} y={2880} rotate={-18} scale={0.38} start={0} />
+          </g>
+          <g className="leaf-falling-leaf leaf-falling-leaf-ten" style={reveal(0.61, 0.92)}>
+            <Leaf x={1335} y={3020} rotate={24} scale={0.42} start={0} side="right" />
           </g>
         </g>
 
