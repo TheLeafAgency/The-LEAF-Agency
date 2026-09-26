@@ -251,6 +251,7 @@ section { width: 100%; }
 #about > .container {
   position: relative;
   z-index: 100 !important;
+  isolation: isolate;
 }
 
 #about > .container h2,
