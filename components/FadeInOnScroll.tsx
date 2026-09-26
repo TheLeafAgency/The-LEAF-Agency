@@ -37,7 +37,7 @@ export default function FadeInOnScroll({
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(30px)",
+        transform: visible ? "none" : "translateY(30px)",
         transition: "opacity 1.2s ease, transform 1.2s ease",
       }}
     >
