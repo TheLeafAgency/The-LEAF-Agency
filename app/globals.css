@@ -141,14 +141,16 @@ section { width: 100%; }
 /* Experimental LEAF botanical scroll layer */
 .leaf-botanical-page {
   position: relative;
-  isolation: isolate;
+}
+.leaf-botanical-page > :not(.leaf-botanical-layer) {
+  position: relative;
 }
 .leaf-botanical-layer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: 5;
   pointer-events: none;
   overflow: hidden;
 }
@@ -178,6 +180,7 @@ section { width: 100%; }
 }
 .leaf-botanical-leaf {
   opacity: var(--leaf-visible, 0);
+  pointer-events: none;
   transform-box: fill-box;
   transform-origin: center;
 }
