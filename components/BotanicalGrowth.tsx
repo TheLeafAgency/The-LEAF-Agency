@@ -50,6 +50,10 @@ export default function BotanicalGrowth() {
     const layer = layerRef.current;
     if (!layer) return;
 
+    const leaves = Array.from(
+      layer.querySelectorAll<SVGGElement>(".leaf-botanical-leaf")
+    );
+
     const update = () => {
       const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
