@@ -243,6 +243,12 @@ section { width: 100%; }
   background: rgba(243, 240, 231, 0.90);
 }
 
+/* Keep the Who We Are content above the botanical artwork. */
+#about > .container {
+  position: relative;
+  z-index: 20;
+}
+
 /* Keep this section the same off-white as the rest of the site. */
 #service-options::before {
   background: rgba(243, 240, 231, 0.90);
