@@ -46,7 +46,7 @@ export default function ServicesSection() {
         id="services"
         style={{
           padding: "100px 0",
-          background: "#F3F0E7",
+          background: "rgba(243, 240, 231, 0.90)",
           scrollMarginTop: "80px",
         }}
       >
