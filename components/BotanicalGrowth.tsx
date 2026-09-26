@@ -29,8 +29,10 @@ function Leaf({
       className="leaf-botanical-leaf"
       style={reveal(start, start)}
     >
-      <path d="M0 0 C7 -30 35 -43 55 -34 C48 -8 25 8 0 0Z" />
-      <path d="M3 -3 C20 -12 35 -23 50 -33" className="leaf-vein" />
+      <g className="leaf-botanical-leaf-motion">
+        <path d="M0 0 C7 -30 35 -43 55 -34 C48 -8 25 8 0 0Z" />
+        <path d="M3 -3 C20 -12 35 -23 50 -33" className="leaf-vein" />
+      </g>
     </g>
   );
 }
