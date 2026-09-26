@@ -136,12 +136,11 @@ export default function BotanicalGrowth() {
 
         {/* ABOUT - right */}
         <g>
-          <VinePath d="M1465 1080 C1405 1045 1360 1050 1325 1085 C1295 1115 1260 1125 1225 1115" start={0.17} end={0.235} width={17} />
-          <VinePath d="M1370 1060 C1350 1020 1325 995 1290 980" start={0.19} end={0.22} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1325 1085 C1340 1120 1360 1145 1390 1155" start={0.215} end={0.245} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1465 1080 C1405 1045 1360 1050 1325 1085" start={0.17} end={0.215} width={17} />
+          <VinePath d="M1370 1060 C1350 1020 1325 995 1290 980" start={0.19} end={0.21} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1325 1085 C1340 1120 1360 1145 1390 1155" start={0.205} end={0.225} width={5} className="leaf-botanical-thin" />
           <Leaf x={1380} y={1045} rotate={35} scale={0.82} start={0.19} side="right" />
-          <Leaf x={1260} y={1085} rotate={-30} scale={0.7} start={0.215} side="right" />
-          <Leaf x={1195} y={1160} rotate={28} scale={0.66} start={0.235} side="right" />
+          <Leaf x={1300} y={1080} rotate={-30} scale={0.68} start={0.21} side="right" />
         </g>
 
         {/* ABOUT - left, tiny accent */}
