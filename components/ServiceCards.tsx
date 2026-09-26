@@ -34,7 +34,7 @@ export default function ServiceCards() {
         id="service-options"
         style={{
           padding: "100px 0",
-          background: "var(--leaf-white-dove)",
+          background: "rgba(248, 248, 246, 0.90)",
           scrollMarginTop: "80px",
         }}
       >
