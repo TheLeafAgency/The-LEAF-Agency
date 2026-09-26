@@ -263,19 +263,22 @@ section { width: 100%; }
 .leaf-botanical-leaf {
   opacity: var(--leaf-visible, 0);
   pointer-events: none;
+}
+
+.leaf-botanical-leaf-motion {
   transform-box: fill-box;
   transform-origin: center;
   transform: translateY(calc(var(--leaf-lift, 8px) * -1)) scale(var(--leaf-grow, .72));
   will-change: opacity, transform;
 }
 
-.leaf-botanical-leaf > path:first-child {
+.leaf-botanical-leaf-motion > path:first-child {
   fill: #4F7D31;
   stroke: #365A24;
   stroke-width: 1.2;
 }
 
-.leaf-botanical-leaf .leaf-vein {
+.leaf-botanical-leaf-motion .leaf-vein {
   fill: none;
   stroke: #315522;
   stroke-width: 1.5;
