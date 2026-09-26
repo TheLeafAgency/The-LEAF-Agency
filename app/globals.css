@@ -173,6 +173,22 @@ section { width: 100%; }
   animation-delay: -2.1s;
 }
 
+.leaf-falling-leaf-four {
+  animation-delay: -0.7s;
+}
+
+.leaf-falling-leaf-five {
+  animation-delay: -1.8s;
+}
+
+.leaf-falling-leaf-six {
+  animation-delay: -2.6s;
+}
+
+.leaf-falling-leaf-seven {
+  animation-delay: -3.3s;
+}
+
 @keyframes leaf-fall {
   0%, 100% {
     transform: translate3d(0, 0, 0) rotate(0deg);
