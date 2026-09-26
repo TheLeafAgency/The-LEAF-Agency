@@ -143,10 +143,6 @@ section { width: 100%; }
   position: relative;
   isolation: isolate;
 }
-.leaf-botanical-page > :not(.leaf-botanical-layer) {
-  position: relative;
-  z-index: 4;
-}
 .leaf-botanical-layer {
   position: absolute;
   inset: 0;
@@ -169,7 +165,7 @@ section { width: 100%; }
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: calc(1 - var(--reveal, 0));
-  opacity: var(--reveal, 0);
+  opacity: 1;
 }
 .leaf-botanical-light {
   stroke: #A2764D;
@@ -181,7 +177,7 @@ section { width: 100%; }
   stroke: #806044;
 }
 .leaf-botanical-leaf {
-  opacity: 0;
+  opacity: var(--leaf-visible, 0);
   transform-box: fill-box;
   transform-origin: center;
 }
