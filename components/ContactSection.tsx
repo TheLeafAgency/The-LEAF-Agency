@@ -7,7 +7,7 @@ export default function ContactSection() {
         id="contact"
         style={{
           padding: "110px 0 90px",
-          background: "var(--leaf-green-deep)",
+          background: "rgba(22, 59, 39, 0.96)",
           color: "var(--leaf-white-dove)",
           scrollMarginTop: "80px",
         }}
