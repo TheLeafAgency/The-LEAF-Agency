@@ -163,13 +163,16 @@ export default function BotanicalGrowth() {
           <Leaf x={300} y={1810} rotate={-25} scale={0.66} start={0.39} />
         </g>
 
-        {/* SERVICES - right */}
+        {/* SERVICES - right, extended upward-left behind the service cards */}
         <g>
-          <VinePath d="M1465 2070 C1380 2025 1325 2040 1275 2095 C1230 2145 1185 2160 1125 2140" start={0.40} end={0.50} width={15} />
-          <VinePath d="M1355 2040 C1345 1990 1315 1960 1270 1945" start={0.415} end={0.46} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1395} y={2035} rotate={35} scale={0.78} start={0.42} side="right" />
-          <Leaf x={1290} y={2085} rotate={-30} scale={0.68} start={0.455} side="right" />
-          <Leaf x={1205} y={2145} rotate={25} scale={0.62} start={0.485} side="right" />
+          <VinePath d="M1465 2180 C1375 2125 1320 2050 1265 1980 C1210 1910 1140 1850 1040 1780" start={0.39} end={0.53} width={15} />
+          <VinePath d="M1360 2105 C1360 2045 1335 1995 1290 1955" start={0.415} end={0.47} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1265 1980 C1230 1940 1190 1915 1140 1900" start={0.46} end={0.52} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1160 1875 C1130 1830 1090 1805 1040 1790" start={0.49} end={0.55} width={5} className="leaf-botanical-thin" />
+          <Leaf x={1400} y={2130} rotate={35} scale={0.78} start={0.42} side="right" />
+          <Leaf x={1285} y={1995} rotate={-30} scale={0.72} start={0.47} side="right" />
+          <Leaf x={1165} y={1890} rotate={-12} scale={0.68} start={0.51} side="right" />
+          <Leaf x={1060} y={1790} rotate={18} scale={0.62} start={0.54} side="right" />
         </g>
 
         {/* SERVICE OPTIONS - right, larger */}
