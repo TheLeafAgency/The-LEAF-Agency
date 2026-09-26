@@ -62,6 +62,12 @@ export default function BotanicalGrowth() {
         const value = end <= start ? 1 : Math.min(1, Math.max(0, (progress - start) / (end - start)));
         element.style.setProperty("--reveal", String(value));
       }
+
+      for (const element of leaves) {
+        const start = Number(getComputedStyle(element).getPropertyValue("--start"));
+        const visible = progress >= start;
+        element.style.setProperty("--leaf-visible", visible ? "1" : "0");
+      }
     };
 
     let frame = 0;
