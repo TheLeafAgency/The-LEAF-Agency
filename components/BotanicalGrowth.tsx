@@ -136,12 +136,12 @@ export default function BotanicalGrowth() {
 
         {/* ABOUT - right */}
         <g>
-          <VinePath d="M1465 1080 C1370 1035 1300 1045 1245 1110 C1205 1155 1170 1175 1110 1160" start={0.17} end={0.27} width={17} />
-          <VinePath d="M1330 1050 C1315 1000 1285 965 1235 945" start={0.19} end={0.235} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1245 1110 C1260 1160 1285 1190 1330 1210" start={0.225} end={0.275} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1465 1080 C1405 1045 1360 1050 1325 1085 C1295 1115 1260 1125 1225 1115" start={0.17} end={0.235} width={17} />
+          <VinePath d="M1370 1060 C1350 1020 1325 995 1290 980" start={0.19} end={0.22} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1325 1085 C1340 1120 1360 1145 1390 1155" start={0.215} end={0.245} width={5} className="leaf-botanical-thin" />
           <Leaf x={1380} y={1045} rotate={35} scale={0.82} start={0.19} side="right" />
-          <Leaf x={1260} y={1085} rotate={-30} scale={0.7} start={0.22} side="right" />
-          <Leaf x={1195} y={1160} rotate={28} scale={0.66} start={0.25} side="right" />
+          <Leaf x={1260} y={1085} rotate={-30} scale={0.7} start={0.215} side="right" />
+          <Leaf x={1195} y={1160} rotate={28} scale={0.66} start={0.235} side="right" />
         </g>
 
         {/* ABOUT - left, tiny accent */}
@@ -165,31 +165,31 @@ export default function BotanicalGrowth() {
 
         {/* SERVICES - right, Media-area branch */}
         <g>
-          <VinePath d="M1480 2470 C1395 2380 1345 2275 1290 2170 C1230 2050 1160 1940 1070 1840 C1010 1775 950 1735 870 1700" start={0.34} end={0.55} width={22} />
-          <VinePath d="M1385 2360 C1395 2295 1375 2235 1330 2180" start={0.38} end={0.45} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1290 2170 C1240 2120 1185 2090 1125 2080" start={0.43} end={0.50} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1160 1940 C1110 1890 1055 1860 990 1850" start={0.48} end={0.54} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1010 1780 C970 1735 920 1710 865 1695" start={0.52} end={0.58} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1425} y={2410} rotate={38} scale={0.92} start={0.38} side="right" />
-          <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.43} side="right" />
-          <Leaf x={1230} y={2070} rotate={-28} scale={0.78} start={0.48} side="right" />
-          <Leaf x={1085} y={1870} rotate={-12} scale={0.72} start={0.53} side="right" />
-          <Leaf x={950} y={1740} rotate={18} scale={0.68} start={0.57} side="right" />
+          <VinePath d="M1480 2470 C1415 2410 1380 2350 1360 2290 C1340 2235 1305 2195 1265 2175" start={0.34} end={0.46} width={22} />
+          <VinePath d="M1400 2395 C1410 2350 1395 2310 1365 2275" start={0.38} end={0.425} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1360 2290 C1325 2255 1295 2225 1255 2215" start={0.42} end={0.455} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1310 2220 C1280 2185 1245 2165 1205 2160" start={0.45} end={0.49} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1270 2175 C1240 2145 1205 2125 1170 2120" start={0.48} end={0.52} width={5} className="leaf-botanical-thin" />
+          <Leaf x={1425} y={2410} rotate={38} scale={0.92} start={0.37} side="right" />
+          <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.42} side="right" />
+          <Leaf x={1230} y={2070} rotate={-28} scale={0.78} start={0.45} side="right" />
+          <Leaf x={1085} y={1870} rotate={-12} scale={0.72} start={0.49} side="right" />
+          <Leaf x={950} y={1740} rotate={18} scale={0.68} start={0.51} side="right" />
         </g>
 
         {/* SERVICES - right, Copywriting / 9th card branch */}
         <g>
-          <VinePath d="M1480 2860 C1360 2815 1235 2750 1110 2670 C960 2575 810 2500 650 2440 C480 2375 300 2335 100 2310" start={0.52} end={0.70} width={19} />
-          <VinePath d="M1380 2820 C1390 2765 1365 2720 1315 2685" start={0.54} end={0.60} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1130 2680 C1070 2635 1010 2610 945 2600" start={0.59} end={0.64} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M850 2520 C790 2475 725 2450 655 2445" start={0.64} end={0.68} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M550 2405 C485 2370 420 2350 350 2345" start={0.68} end={0.72} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1425} y={2830} rotate={38} scale={0.86} start={0.55} side="right" />
-          <Leaf x={1210} y={2730} rotate={24} scale={0.78} start={0.60} side="right" />
-          <Leaf x={980} y={2615} rotate={-25} scale={0.72} start={0.64} side="right" />
-          <Leaf x={740} y={2485} rotate={-12} scale={0.68} start={0.67} side="right" />
-          <Leaf x={500} y={2385} rotate={18} scale={0.64} start={0.70} />
-          <Leaf x={270} y={2325} rotate={-20} scale={0.60} start={0.73} />
+          <VinePath d="M1480 2860 C1360 2815 1235 2750 1110 2670 C960 2575 810 2500 650 2440 C480 2375 300 2335 100 2310" start={0.42} end={0.62} width={19} />
+          <VinePath d="M1380 2820 C1390 2765 1365 2720 1315 2685" start={0.45} end={0.52} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1130 2680 C1070 2635 1010 2610 945 2600" start={0.51} end={0.56} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M850 2520 C790 2475 725 2450 655 2445" start={0.56} end={0.60} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M550 2405 C485 2370 420 2350 350 2345" start={0.60} end={0.64} width={5} className="leaf-botanical-thin" />
+          <Leaf x={1425} y={2830} rotate={38} scale={0.86} start={0.45} side="right" />
+          <Leaf x={1210} y={2730} rotate={24} scale={0.78} start={0.51} side="right" />
+          <Leaf x={980} y={2615} rotate={-25} scale={0.72} start={0.56} side="right" />
+          <Leaf x={740} y={2485} rotate={-12} scale={0.68} start={0.59} side="right" />
+          <Leaf x={500} y={2385} rotate={18} scale={0.64} start={0.62} />
+          <Leaf x={270} y={2325} rotate={-20} scale={0.60} start={0.64} />
         </g>
 
         {/* SERVICE OPTIONS - left accent */}
