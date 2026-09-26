@@ -248,29 +248,46 @@ section { width: 100%; }
   position: relative;
 }
 
-/* Every section uses a three-layer stack: background < botanical art < content. */
-.leaf-botanical-page section > .container {
+/* Keep botanical art between the section background and the actual content.
+   The wrapper itself must sit above the SVG stacking context. */
+.leaf-botanical-page > :not(.leaf-botanical-layer) section {
   position: relative;
-  z-index: 10 !important;
+  z-index: 6;
+}
+
+.leaf-botanical-page > :not(.leaf-botanical-layer) section > * {
+  position: relative;
+  z-index: 7;
+}
+
+.leaf-botanical-page > :not(.leaf-botanical-layer) section > * > .container,
+.leaf-botanical-page > :not(.leaf-botanical-layer) section .container {
+  position: relative;
+  z-index: 8 !important;
   isolation: isolate;
 }
 
-.leaf-botanical-page section > .container > * {
+.leaf-botanical-page > :not(.leaf-botanical-layer) section .container > * {
   position: relative;
-  z-index: 11 !important;
+  z-index: 9 !important;
 }
 
-/* Who We Are is wrapped by FadeInOnScroll, so target the container through the wrapper. */
-#about .container {
+/* Who We Are is wrapped by FadeInOnScroll; explicitly lift that wrapper above the SVG. */
+#about {
   position: relative;
-  z-index: 10 !important;
-  isolation: isolate;
+  z-index: 6 !important;
 }
 
+#about > * {
+  position: relative;
+  z-index: 7 !important;
+}
+
+#about .container,
 #about .container h2,
 #about .container p {
   position: relative;
-  z-index: 11 !important;
+  z-index: 8 !important;
 }
 
 /* Keep this section the same off-white as the rest of the site. */
