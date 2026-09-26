@@ -165,16 +165,18 @@ export default function BotanicalGrowth() {
 
         {/* SERVICES - right, extended upward-left behind the service cards */}
         <g>
-          <VinePath d="M1480 2470 C1395 2380 1345 2275 1290 2170 C1230 2050 1160 1940 1070 1840 C1010 1775 950 1735 870 1700" start={0.34} end={0.55} width={22} />
-          <VinePath d="M1385 2360 C1395 2295 1375 2235 1330 2180" start={0.38} end={0.45} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1290 2170 C1240 2120 1185 2090 1125 2080" start={0.43} end={0.50} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1160 1940 C1110 1890 1055 1860 990 1850" start={0.48} end={0.54} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1010 1780 C970 1735 920 1710 865 1695" start={0.52} end={0.58} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1425} y={2410} rotate={38} scale={0.92} start={0.38} side="right" />
-          <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.43} side="right" />
-          <Leaf x={1230} y={2070} rotate={-28} scale={0.78} start={0.48} side="right" />
-          <Leaf x={1085} y={1870} rotate={-12} scale={0.72} start={0.53} side="right" />
-          <Leaf x={950} y={1740} rotate={18} scale={0.68} start={0.57} side="right" />
+          <VinePath d="M1480 2470 C1360 2430 1240 2380 1120 2320 C970 2245 820 2185 650 2135 C470 2085 300 2050 100 2020" start={0.34} end={0.58} width={22} />
+          <VinePath d="M1385 2410 C1390 2355 1365 2310 1315 2275" start={0.39} end={0.45} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1160 2340 C1100 2295 1040 2275 975 2270" start={0.45} end={0.50} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M900 2210 C840 2165 780 2145 710 2140" start={0.50} end={0.55} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M610 2125 C540 2080 470 2060 390 2055" start={0.55} end={0.60} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M300 2045 C245 2015 190 2005 125 2010" start={0.59} end={0.63} width={5} className="leaf-botanical-thin" />
+          <Leaf x={1425} y={2420} rotate={38} scale={0.92} start={0.38} side="right" />
+          <Leaf x={1240} y={2370} rotate={25} scale={0.82} start={0.44} side="right" />
+          <Leaf x={1030} y={2270} rotate={-28} scale={0.78} start={0.49} side="right" />
+          <Leaf x={800} y={2160} rotate={-12} scale={0.72} start={0.53} side="right" />
+          <Leaf x={560} y={2090} rotate={18} scale={0.68} start={0.57} side="right" />
+          <Leaf x={320} y={2035} rotate={-20} scale={0.64} start={0.61} />
         </g>
 
         {/* SERVICE OPTIONS - right, larger */}
