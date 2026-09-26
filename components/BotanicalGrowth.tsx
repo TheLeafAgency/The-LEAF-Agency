@@ -63,11 +63,18 @@ export default function BotanicalGrowth() {
     if (!layer) return;
 
     const update = () => {
-      const documentHeight = Math.max(1, document.documentElement.scrollHeight);
+      const maxScroll = Math.max(
+        1,
+        document.documentElement.scrollHeight - window.innerHeight
+      );
       const viewportAnchor = window.innerHeight * 0.72;
       const progress = Math.min(
         1,
-        Math.max(0, (window.scrollY + viewportAnchor) / documentHeight)
+        Math.max(
+          0,
+          (window.scrollY + viewportAnchor) /
+            (maxScroll + viewportAnchor)
+        )
       );
 
       for (const element of layer.querySelectorAll<SVGElement>("[style*='--start']")) {
