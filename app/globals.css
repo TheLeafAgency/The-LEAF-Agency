@@ -248,16 +248,29 @@ section { width: 100%; }
   position: relative;
 }
 
-#about > .container {
+/* Every section uses a three-layer stack: background < botanical art < content. */
+.leaf-botanical-page section > .container {
   position: relative;
-  z-index: 100 !important;
+  z-index: 10 !important;
   isolation: isolate;
 }
 
-#about > .container h2,
-#about > .container p {
+.leaf-botanical-page section > .container > * {
   position: relative;
-  z-index: 101 !important;
+  z-index: 11 !important;
+}
+
+/* Who We Are is wrapped by FadeInOnScroll, so target the container through the wrapper. */
+#about .container {
+  position: relative;
+  z-index: 10 !important;
+  isolation: isolate;
+}
+
+#about .container h2,
+#about .container p {
+  position: relative;
+  z-index: 11 !important;
 }
 
 /* Keep this section the same off-white as the rest of the site. */
