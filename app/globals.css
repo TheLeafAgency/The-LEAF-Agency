@@ -162,7 +162,7 @@ section { width: 100%; }
 
 .leaf-botanical-path {
   fill: none;
-  stroke: #65452C;
+  stroke: #3F2A1B;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
@@ -175,11 +175,11 @@ section { width: 100%; }
 }
 
 .leaf-botanical-thin {
-  stroke: #765438;
+  stroke: #4A321F;
 }
 
 .leaf-root-thin {
-  stroke: #806044;
+  stroke: #4A321F;
 }
 
 .leaf-botanical-leaf {
@@ -205,10 +205,8 @@ section { width: 100%; }
 
 /*
   IMPORTANT STACKING ORDER:
-  0 = section/background
-  5 = botanical artwork
-  10 = text, cards and controls
-  1000 = navbar
+  section backgrounds stay below the botanical artwork;
+  section content stays above it.
 */
 .leaf-botanical-page > :not(.leaf-botanical-layer) {
   position: relative;
@@ -252,7 +250,6 @@ section { width: 100%; }
    The wrapper itself must sit above the SVG stacking context. */
 .leaf-botanical-page > :not(.leaf-botanical-layer) section {
   position: relative;
-  z-index: 6;
 }
 
 .leaf-botanical-page > :not(.leaf-botanical-layer) section > * {
@@ -272,10 +269,9 @@ section { width: 100%; }
   z-index: 9 !important;
 }
 
-/* Who We Are is wrapped by FadeInOnScroll; explicitly lift that wrapper above the SVG. */
+/* Who We Are is wrapped by FadeInOnScroll; lift its content above the SVG. */
 #about {
   position: relative;
-  z-index: 6 !important;
 }
 
 #about > * {
@@ -302,7 +298,7 @@ section { width: 100%; }
 
 @media (max-width: 900px) {
   .leaf-botanical-layer {
-    opacity: .86;
+    opacity: 1;
   }
 
   .leaf-botanical-svg {
@@ -313,7 +309,7 @@ section { width: 100%; }
 
 @media (max-width: 600px) {
   .leaf-botanical-layer {
-    opacity: .74;
+    opacity: 1;
   }
 
   .leaf-botanical-svg {
