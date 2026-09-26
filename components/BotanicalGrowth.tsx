@@ -179,17 +179,14 @@ export default function BotanicalGrowth() {
 
         {/* SERVICES - right, Copywriting / 9th card branch */}
         <g>
-          <VinePath d="M1480 2815 C1360 2780 1235 2725 1110 2660 C960 2575 815 2510 665 2460 C500 2405 340 2375 180 2355" start={0.31} end={0.49} width={19} />
-          <VinePath d="M1380 2820 C1390 2765 1365 2720 1315 2685" start={0.34} end={0.40} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1130 2680 C1070 2635 1010 2610 945 2600" start={0.39} end={0.44} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M850 2520 C790 2475 725 2450 655 2445" start={0.44} end={0.47} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M550 2405 C485 2370 420 2350 350 2345" start={0.47} end={0.50} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1480 2815 C1360 2780 1240 2730 1115 2675 C1030 2638 950 2615 865 2605" start={0.31} end={0.43} width={19} />
+          <VinePath d="M1380 2820 C1390 2765 1365 2720 1315 2685" start={0.34} end={0.38} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M1130 2680 C1070 2635 1010 2610 945 2600" start={0.39} end={0.42} width={5} className="leaf-botanical-thin" />
+          <VinePath d="M900 2615 C850 2580 805 2565 755 2560" start={0.42} end={0.44} width={5} className="leaf-botanical-thin" />
           <Leaf x={1425} y={2830} rotate={38} scale={0.86} start={0.34} side="right" />
           <Leaf x={1210} y={2730} rotate={24} scale={0.78} start={0.39} side="right" />
-          <Leaf x={980} y={2615} rotate={-25} scale={0.72} start={0.44} side="right" />
-          <Leaf x={740} y={2485} rotate={-12} scale={0.68} start={0.47} side="right" />
-          <Leaf x={500} y={2385} rotate={18} scale={0.64} start={0.49} />
-          <Leaf x={270} y={2325} rotate={-20} scale={0.60} start={0.50} />
+          <Leaf x={980} y={2615} rotate={-25} scale={0.72} start={0.42} side="right" />
+          <Leaf x={820} y={2570} rotate={-12} scale={0.62} start={0.44} side="right" />
         </g>
 
         {/* Falling leaves: subtle motion with light guide trails. */}
