@@ -165,14 +165,16 @@ export default function BotanicalGrowth() {
 
         {/* SERVICES - right, extended upward-left behind the service cards */}
         <g>
-          <VinePath d="M1465 2180 C1375 2125 1320 2050 1265 1980 C1210 1910 1140 1850 1040 1780" start={0.39} end={0.53} width={15} />
-          <VinePath d="M1360 2105 C1360 2045 1335 1995 1290 1955" start={0.415} end={0.47} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1265 1980 C1230 1940 1190 1915 1140 1900" start={0.46} end={0.52} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1160 1875 C1130 1830 1090 1805 1040 1790" start={0.49} end={0.55} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1400} y={2130} rotate={35} scale={0.78} start={0.42} side="right" />
-          <Leaf x={1285} y={1995} rotate={-30} scale={0.72} start={0.47} side="right" />
-          <Leaf x={1165} y={1890} rotate={-12} scale={0.68} start={0.51} side="right" />
-          <Leaf x={1060} y={1790} rotate={18} scale={0.62} start={0.54} side="right" />
+          <VinePath d="M1480 2470 C1395 2380 1345 2275 1290 2170 C1230 2050 1160 1940 1070 1840 C1010 1775 950 1735 870 1700" start={0.34} end={0.55} width={22} />
+          <VinePath d="M1385 2360 C1395 2295 1375 2235 1330 2180" start={0.38} end={0.45} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1290 2170 C1240 2120 1185 2090 1125 2080" start={0.43} end={0.50} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1160 1940 C1110 1890 1055 1860 990 1850" start={0.48} end={0.54} width={6} className="leaf-botanical-thin" />
+          <VinePath d="M1010 1780 C970 1735 920 1710 865 1695" start={0.52} end={0.58} width={5} className="leaf-botanical-thin" />
+          <Leaf x={1425} y={2410} rotate={38} scale={0.92} start={0.38} side="right" />
+          <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.43} side="right" />
+          <Leaf x={1230} y={2070} rotate={-28} scale={0.78} start={0.48} side="right" />
+          <Leaf x={1085} y={1870} rotate={-12} scale={0.72} start={0.53} side="right" />
+          <Leaf x={950} y={1740} rotate={18} scale={0.68} start={0.57} side="right" />
         </g>
 
         {/* SERVICE OPTIONS - right, larger */}
