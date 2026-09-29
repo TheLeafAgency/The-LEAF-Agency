@@ -81,7 +81,8 @@ export default function ContactSection() {
             }}
           >
             <a
-              className="contact-email-button"\n              href="mailto:theleafagency@outlook.com"
+              className="contact-email-button"
+              href="mailto:theleafagency@outlook.com"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -98,7 +99,8 @@ export default function ContactSection() {
             </a>
 
             <a
-              className="contact-email-button"\n              href="mailto:services@theleafagency.org"
+              className="contact-email-button"
+              href="mailto:services@theleafagency.org"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
