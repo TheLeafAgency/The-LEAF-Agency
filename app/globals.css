@@ -216,6 +216,30 @@ section { width: 100%; }
   }
 }
 
+
+/* Final botanical artwork */
+.leaf-botanical-image {
+  opacity: 1;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(var(--reveal, 0));
+  will-change: transform;
+}
+
+.leaf-botanical-image-right {
+  transform-origin: right center;
+}
+
+.leaf-botanical-image > image {
+  display: block;
+  pointer-events: none;
+}
+
+.leaf-botanical-copywriting {
+  transform-origin: right center;
+}
+
 /* Experimental LEAF botanical scroll layer */
 .leaf-botanical-page {
   position: relative;
