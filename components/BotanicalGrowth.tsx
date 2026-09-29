@@ -57,6 +57,42 @@ function VinePath({
   );
 }
 
+function BotanicalImage({
+  href,
+  x,
+  y,
+  width,
+  height,
+  start,
+  side = "left",
+  className = "",
+}: {
+  href: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  start: number;
+  side?: "left" | "right";
+  className?: string;
+}) {
+  return (
+    <g
+      className={`leaf-botanical-image ${side === "right" ? "leaf-botanical-image-right" : "leaf-botanical-image-left"} ${className}`}
+      style={reveal(start, start)}
+    >
+      <image
+        href={href}
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        preserveAspectRatio="xMidYMid meet"
+      />
+    </g>
+  );
+}
+
 export default function BotanicalGrowth() {
   const layerRef = useRef<HTMLDivElement>(null);
 
@@ -154,62 +190,14 @@ export default function BotanicalGrowth() {
 
         {/* The hero is intentionally left clear for the video area. */}
 
-        {/* ABOUT - right */}
-        <g>
-          <VinePath d="M1465 1080 C1405 1045 1360 1050 1325 1085 C1295 1115 1260 1125 1225 1115" start={0.17} end={0.235} width={17} />
-          <VinePath d="M1370 1060 C1350 1020 1325 995 1290 980" start={0.19} end={0.22} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1325 1085 C1340 1120 1360 1145 1390 1155" start={0.215} end={0.245} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1380} y={1045} rotate={35} scale={0.82} start={0.19} side="right" />
-          <Leaf x={1260} y={1085} rotate={-30} scale={0.7} start={0.215} side="right" />
-          <Leaf x={1195} y={1160} rotate={28} scale={0.66} start={0.235} side="right" />
-        </g>
+        {/* FINAL BOTANICAL ARTWORK - ABOUT */}
+        <BotanicalImage href="/botanical/branch-large-right.png" x={900} y={820} width={620} height={500} start={0.17} side="right" />
+        <BotanicalImage href="/botanical/branch-corner.png" x={-120} y={1160} width={430} height={420} start={0.22} />
 
-        {/* ABOUT - left, shortened so it stays clear of the Who We Are text */}
-        <g>
-          <VinePath d="M-20 1320 C35 1288 75 1295 105 1320" start={0.22} end={0.26} width={12} />
-          <VinePath d="M65 1300 C65 1270 78 1250 98 1232" start={0.235} end={0.25} width={4} className="leaf-botanical-thin" />
-          <Leaf x={45} y={1300} rotate={-35} scale={0.60} start={0.24} />
-        </g>
-
-        {/* SERVICES - left */}
-        <g>
-          <VinePath d="M-25 1750 C80 1680 160 1695 220 1770 C265 1825 310 1840 375 1805" start={0.30} end={0.42} width={18} />
-          <VinePath d="M115 1710 C110 1655 125 1610 165 1575" start={0.315} end={0.365} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M225 1775 C275 1730 325 1715 380 1725" start={0.35} end={0.405} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M285 1830 C305 1880 340 1910 390 1920" start={0.39} end={0.435} width={5} className="leaf-botanical-thin" />
-          <Leaf x={70} y={1700} rotate={-35} scale={0.85} start={0.32} />
-          <Leaf x={190} y={1770} rotate={28} scale={0.72} start={0.35} />
-          <Leaf x={300} y={1810} rotate={-25} scale={0.66} start={0.39} />
-        </g>
-
-        {/* SERVICES - right, Media-area branch */}
-        <g>
-          <VinePath d="M1480 2470 C1410 2415 1370 2350 1350 2290 C1330 2240 1295 2205 1255 2185" start={0.34} end={0.45} width={22} />
-          <VinePath d="M1400 2395 C1410 2350 1395 2315 1365 2280" start={0.38} end={0.425} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1350 2290 C1315 2255 1285 2230 1245 2220" start={0.42} end={0.455} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1310 2225 C1280 2190 1245 2170 1205 2165" start={0.45} end={0.49} width={6} className="leaf-botanical-thin" />
-          <VinePath d="M1270 2185 C1240 2155 1205 2135 1170 2130" start={0.49} end={0.53} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1425} y={2410} rotate={38} scale={0.92} start={0.38} side="right" />
-          <Leaf x={1340} y={2220} rotate={25} scale={0.82} start={0.42} side="right" />
-          <Leaf x={1285} y={2275} rotate={-28} scale={0.78} start={0.445} side="right" />
-          <Leaf x={1205} y={2185} rotate={-12} scale={0.72} start={0.49} side="right" />
-          <Leaf x={1125} y={2145} rotate={18} scale={0.68} start={0.52} side="right" />
-        </g>
-
-        {/* SERVICES - right, Copywriting / 9th card branch */}
-        <g>
-          <VinePath d="M1480 2815 C1360 2780 1235 2725 1110 2660 C960 2575 815 2510 665 2460 C500 2405 340 2375 180 2355" start={0.31} end={0.49} width={19} />
-          <VinePath d="M1380 2820 C1390 2765 1365 2720 1315 2685" start={0.34} end={0.40} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1130 2680 C1070 2635 1010 2610 945 2600" start={0.39} end={0.44} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M850 2520 C790 2475 725 2450 655 2445" start={0.44} end={0.47} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M550 2405 C485 2370 420 2350 350 2345" start={0.47} end={0.50} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1425} y={2830} rotate={38} scale={0.86} start={0.34} side="right" />
-          <Leaf x={1210} y={2730} rotate={24} scale={0.78} start={0.39} side="right" />
-          <Leaf x={980} y={2615} rotate={-25} scale={0.72} start={0.44} side="right" />
-          <Leaf x={740} y={2485} rotate={-12} scale={0.68} start={0.47} side="right" />
-          <Leaf x={500} y={2385} rotate={18} scale={0.64} start={0.49} />
-          <Leaf x={270} y={2325} rotate={-20} scale={0.60} start={0.50} />
-        </g>
+        {/* FINAL BOTANICAL ARTWORK - SERVICES */}
+        <BotanicalImage href="/botanical/branch-large-left.png" x={-140} y={1500} width={720} height={650} start={0.30} />
+        <BotanicalImage href="/botanical/branch-large-right.png" x={850} y={2050} width={700} height={620} start={0.34} side="right" />
+        <BotanicalImage href="/botanical/branch-large-left.png" x={40} y={2250} width={1450} height={700} start={0.31} side="right" className="leaf-botanical-copywriting" />
 
         {/* Falling leaves: subtle motion with light guide trails. */}
         <g className="leaf-falling-cluster">
@@ -308,44 +296,16 @@ export default function BotanicalGrowth() {
           <g className="leaf-falling-leaf" style={reveal(0.76,1)}><Leaf x={1370} y={3990} rotate={20} scale={0.40} start={0} side="right" /></g>
         </g>
 
-        {/* SERVICE OPTIONS - broad branch below the four Get Started buttons */}
-        <g>
-          <VinePath d="M-40 3565 C180 3535 360 3545 540 3560 C760 3580 960 3580 1120 3560 C1270 3545 1380 3535 1480 3565" start={0.60} end={0.70} width={15} />
-          <VinePath d="M260 3545 C275 3510 300 3485 335 3465" start={0.625} end={0.665} width={4} className="leaf-botanical-thin" />
-          <VinePath d="M720 3580 C740 3545 770 3525 805 3510" start={0.65} end={0.69} width={4} className="leaf-botanical-thin" />
-          <VinePath d="M1110 3565 C1135 3530 1170 3510 1210 3495" start={0.655} end={0.70} width={4} className="leaf-botanical-thin" />
-          <Leaf x={220} y={3540} rotate={-28} scale={0.62} start={0.625} />
-          <Leaf x={660} y={3570} rotate={22} scale={0.58} start={0.655} />
-          <Leaf x={1060} y={3550} rotate={-18} scale={0.60} start={0.675} side="right" />
-          <Leaf x={1320} y={3545} rotate={28} scale={0.56} start={0.69} side="right" />
-        </g>
+        {/* FINAL BOTANICAL ARTWORK - SERVICE OPTIONS */}
+        <BotanicalImage href="/botanical/branch-wave.png" x={-80} y={3380} width={1600} height={420} start={0.60} />
 
-        {/* LOWER PAGE - left */}
-        <g>
-          <VinePath d="M-25 3770 C75 3700 155 3715 215 3790 C255 3840 300 3850 355 3820" start={0.70} end={0.80} width={17} />
-          <VinePath d="M115 3730 C110 3680 125 3645 165 3610" start={0.715} end={0.765} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M220 3790 C260 3750 305 3735 350 3745" start={0.75} end={0.80} width={5} className="leaf-botanical-thin" />
-          <Leaf x={75} y={3715} rotate={-34} scale={0.8} start={0.72} />
-          <Leaf x={205} y={3800} rotate={27} scale={0.68} start={0.76} />
-        </g>
+        {/* FINAL BOTANICAL ARTWORK - LOWER PAGE */}
+        <BotanicalImage href="/botanical/branch-corner.png" x={-130} y={3650} width={520} height={500} start={0.70} />
+        <BotanicalImage href="/botanical/branch-large-right.png" x={900} y={4020} width={620} height={520} start={0.82} side="right" />
 
-        {/* LOWER PAGE - right */}
-        <g>
-          <VinePath d="M1465 4200 C1380 4150 1310 4165 1260 4220 C1215 4270 1170 4285 1110 4260" start={0.82} end={0.92} width={16} />
-          <VinePath d="M1350 4170 C1335 4125 1305 4095 1260 4080" start={0.835} end={0.885} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1260 4220 C1280 4270 1315 4300 1360 4310" start={0.87} end={0.93} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1390} y={4160} rotate={36} scale={0.78} start={0.84} side="right" />
-          <Leaf x={1280} y={4210} rotate={-28} scale={0.68} start={0.88} side="right" />
-          <Leaf x={1200} y={4270} rotate={25} scale={0.62} start={0.915} side="right" />
-        </g>
-
-        {/* Bottom roots: one small connected cluster, not giant mirrored roots */}
-        <g>
-          <VinePath d="M1110 4260 C1085 4330 1075 4390 1090 4450" start={0.89} end={1} width={11} />
-          <VinePath d="M1090 4450 C1055 4510 1015 4560 970 4600" start={0.93} end={1} width={4} className="leaf-root-thin" />
-          <VinePath d="M1090 4450 C1110 4520 1130 4580 1120 4640" start={0.94} end={1} width={4} className="leaf-root-thin" />
-          <VinePath d="M1080 4490 C1040 4510 1000 4520 950 4520" start={0.96} end={1} width={3} className="leaf-root-thin" />
-        </g>
+        {/* Final roots connect directly to the lower-right branch. */}
+        <BotanicalImage href="/botanical/root-vertical.png" x={1010} y={4250} width={260} height={720} start={0.89} side="right" />
+        <BotanicalImage href="/botanical/root-large-horizontal.png" x={760} y={4480} width={520} height={360} start={0.93} side="right" />
       </svg>
     </div>
   );
