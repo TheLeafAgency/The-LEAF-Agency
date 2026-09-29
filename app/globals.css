@@ -401,3 +401,144 @@ section { width: 100%; }
     transform-origin: center top;
   }
 }
+
+
+/* Responsive site navigation */
+.desktop-nav {
+  display: flex;
+  gap: 42px;
+  align-items: center;
+}
+
+.mobile-nav {
+  display: none;
+  position: relative;
+}
+
+.mobile-nav summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px 16px;
+  border: 2px solid var(--leaf-eden-green);
+  border-radius: 999px;
+  color: var(--leaf-eden-green);
+  font-weight: 700;
+}
+
+.mobile-nav summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-nav-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 190px;
+  padding: 12px;
+  display: grid;
+  gap: 4px;
+  background: var(--leaf-white-dove);
+  border: 2px solid var(--leaf-green-light);
+  border-radius: 18px;
+  box-shadow: 0 16px 34px rgba(22,59,39,.14);
+}
+
+.mobile-nav-menu a {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: var(--leaf-text);
+}
+
+.mobile-nav-menu a:hover {
+  background: rgba(4,130,67,.08);
+  color: var(--leaf-eden-green);
+}
+
+.mobile-nav-menu .mobile-nav-cta {
+  margin-top: 6px;
+  text-align: center;
+  background: var(--leaf-eden-green);
+  color: white;
+}
+
+.service-detail-card,
+.service-option-card {
+  min-width: 0;
+}
+
+.contact-email-button {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .service-detail-card {
+    min-height: 190px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    width: min(92%, 560px);
+  }
+
+  .leaf-botanical-svg {
+    transform: scale(.72);
+  }
+
+  .service-detail-card {
+    padding: 32px 24px;
+  }
+
+  .service-option-card {
+    padding: 32px 24px;
+  }
+
+  .service-option-card .service-description {
+    max-width: 100%;
+  }
+
+  .hero-portfolio-button {
+    max-width: calc(100% - 40px);
+  }
+
+  #contact .contact-email-button {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  #contact {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .mobile-nav-menu {
+    right: -4px;
+  }
+
+  .service-detail-card {
+    min-height: 0 !important;
+  }
+
+  .service-detail-card h3 {
+    font-size: 1.35rem !important;
+  }
+
+  .hero-portfolio-button {
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+  }
+}
