@@ -37,7 +37,7 @@ export default function Hero() {
         <h1
           style={{
             fontFamily: '"BPMF Huninn", sans-serif',
-            fontSize: "clamp(4rem, 10vw, 7rem)",
+            fontSize: "clamp(3.2rem, 10vw, 7rem)",
             lineHeight: 1,
             color: "#048243",
             marginBottom: "30px",
@@ -74,7 +74,7 @@ export default function Hero() {
       >
         <a
           href="/portfolio"
-          className="secondary-btn portfolio-btn"
+          className="secondary-btn portfolio-btn hero-portfolio-button"
           style={{
             display: "inline-block",
             padding: "12px 28px",
