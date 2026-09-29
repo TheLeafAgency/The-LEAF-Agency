@@ -77,12 +77,12 @@ export default function ServicesBotanical() {
           <ellipse cx="1125" cy="4750" rx="29" ry="15" transform="rotate(-22 1125 4750)" />
         </g>
 
-        <g className="services-falling-leaves">
+        <g className="services-falling-leaves" data-start="0.08" data-end="0.95">
           <path className="trail" d="M1120 2350 C1090 2410 1130 2460 1095 2520" />
           <path className="trail" d="M360 2550 C390 2610 350 2670 385 2730" />
           <path className="trail" d="M1220 3900 C1190 3960 1230 4020 1195 4080" />
           <path className="trail" d="M250 4300 C280 4360 240 4420 275 4480" />
-          <ellipse className="falling-leaf" cx="1120" cy="2350" rx="24" ry="12" transform="rotate(28 1120 2350)" />
+          <ellipse className="falling-leaf" data-start="0.70" data-end="0.95" data-start="0.50" data-end="0.78" data-start="0.28" data-end="0.55" data-start="0.08" data-end="0.35" cx="1120" cy="2350" rx="24" ry="12" transform="rotate(28 1120 2350)" />
           <ellipse className="falling-leaf" cx="360" cy="2550" rx="21" ry="11" transform="rotate(-20 360 2550)" />
           <ellipse className="falling-leaf" cx="1220" cy="3900" rx="23" ry="12" transform="rotate(-32 1220 3900)" />
           <ellipse className="falling-leaf" cx="250" cy="4300" rx="20" ry="10" transform="rotate(22 250 4300)" />
