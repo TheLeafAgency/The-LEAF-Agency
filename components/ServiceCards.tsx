@@ -47,7 +47,7 @@ export default function ServiceCards() {
           >
             <h2
               style={{
-                fontSize: "3rem",
+                fontSize: "clamp(2.4rem, 7vw, 3rem)",
                 fontWeight: 800,
                 marginBottom: "15px",
               }}
@@ -76,7 +76,7 @@ export default function ServiceCards() {
               <a
                 key={service.title}
                 href="/get-started"
-                className="service-card"
+                className="service-card service-option-card"
                 style={{
                   display: "block",
                   textAlign: "left",
