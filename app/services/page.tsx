@@ -100,8 +100,6 @@ const services = [
   },
 ];
 
-export { services };
-
 export default function ServicesPage() {
   return (
     <>
