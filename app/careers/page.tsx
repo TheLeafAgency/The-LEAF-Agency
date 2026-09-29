@@ -341,7 +341,7 @@ export default function CareersPage() {
             </h2>
 
             <a
-              href="mailto:media@theleafagency.org"
+              href="mailto:careers@theleafagency.org"
               className="primary-btn"
               style={{
                 display: "inline-block",
@@ -380,7 +380,7 @@ export default function CareersPage() {
                 fontWeight: 600,
               }}
             >
-              media@theleafagency.org
+              careers@theleafagency.org
             </p>
           </div>
         </div>
