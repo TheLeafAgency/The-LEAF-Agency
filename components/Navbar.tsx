@@ -6,10 +6,7 @@ const serviceLinks = [
   ["Editing", "/services/editing"],
   ["Social Media", "/services/social-media"],
   ["Public Events", "/services/public-events"],
-  ["Billboards", "/services/billboards"],
-  ["Media", "/services/media"],
   ["Authentic Ads", "/services/authentic-ads"],
-  ["Business", "/services/business"],
   ["Brand", "/services/brand"],
 ];
 
