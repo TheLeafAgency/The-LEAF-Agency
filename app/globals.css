@@ -1328,3 +1328,38 @@ section { width: 100%; }
     opacity: 1;
   }
 }
+
+
+/* Services layout refinement: more breathing room and longer, gentler botanical runs. */
+.service-detail-section {
+  min-height: 760px;
+  padding: 150px 0;
+}
+.services-detail-list .service-detail-section:nth-child(2),
+.services-detail-list .service-detail-section:nth-child(5),
+.services-detail-list .service-detail-section:nth-child(8) {
+  min-height: 820px;
+}
+.services-detail-list .service-detail-section:nth-child(3),
+.services-detail-list .service-detail-section:nth-child(6),
+.services-detail-list .service-detail-section:nth-child(9) {
+  min-height: 780px;
+}
+@media (max-width: 900px) {
+  .service-detail-section {
+    min-height: 720px;
+    padding: 130px 0;
+  }
+}
+@media (max-width: 700px) {
+  .service-detail-section,
+  .services-detail-list .service-detail-section:nth-child(2),
+  .services-detail-list .service-detail-section:nth-child(3),
+  .services-detail-list .service-detail-section:nth-child(5),
+  .services-detail-list .service-detail-section:nth-child(6),
+  .services-detail-list .service-detail-section:nth-child(8),
+  .services-detail-list .service-detail-section:nth-child(9) {
+    min-height: 650px;
+    padding: 110px 0;
+  }
+}
