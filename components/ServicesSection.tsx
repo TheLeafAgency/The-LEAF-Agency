@@ -106,7 +106,7 @@ export default function ServicesSection() {
             {services.map((service) => (
               <article
                 key={service.title}
-                className="service-card"
+                className="service-card service-detail-card"
                 style={{
                   minHeight: "210px",
                   display: "flex",
