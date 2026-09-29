@@ -542,3 +542,83 @@ section { width: 100%; }
     padding-right: 22px !important;
   }
 }
+
+
+/* Mobile botanical + services tuning */
+@media (max-width: 700px) {
+  /* Keep the botanical strokes from shrinking with the mobile SVG scale. */
+  .leaf-botanical-svg {
+    transform: none;
+  }
+
+  .leaf-botanical-path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Give the services area more breathing room and a cleaner single-column rhythm. */
+  #services {
+    padding: 76px 0 92px;
+  }
+
+  #services .container {
+    width: min(90%, 560px);
+  }
+
+  #services .service-detail-card {
+    min-height: 0 !important;
+    padding: 30px 24px;
+    border-radius: 20px;
+  }
+
+  #services .service-detail-card h3 {
+    font-size: 1.4rem !important;
+    line-height: 1.2;
+  }
+
+  #services .service-detail-card p {
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  #services > .container > div:last-child {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    margin-top: 44px !important;
+  }
+
+  #services .service-detail-card {
+    width: 100%;
+  }
+
+  /* The long experimental service branches are clipped sooner on narrow screens. */
+  #services .leaf-botanical-path {
+    stroke-width: 20;
+  }
+}
+
+@media (max-width: 480px) {
+  #services {
+    padding-top: 64px;
+  }
+
+  #services .container {
+    width: 88%;
+  }
+
+  #services .service-detail-card {
+    padding: 26px 20px;
+  }
+
+  #services .service-detail-card h3 {
+    font-size: 1.3rem !important;
+  }
+
+  #services .service-detail-card p {
+    font-size: 0.95rem;
+  }
+
+  /* Reduce the amount of falling-leaf decoration on smaller phones. */
+  .leaf-falling-cluster:nth-of-type(n + 3) {
+    display: none;
+  }
+}
