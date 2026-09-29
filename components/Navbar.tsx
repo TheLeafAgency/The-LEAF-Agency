@@ -17,7 +17,7 @@ export default function Navbar() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          height: "80px",
+          minHeight: "80px",
         }}
       >
         <a
@@ -38,33 +38,12 @@ export default function Navbar() {
           LEAF
         </a>
 
-        <nav
-          style={{
-            display: "flex",
-            gap: "42px",
-            alignItems: "center",
-          }}
-        >
-          <a href="#about" className="nav-link">
-            About
-          </a>
-
-          <a href="#services" className="nav-link">
-            Services
-          </a>
-
-          <a href="/portfolio" className="nav-link">
-            Portfolio
-          </a>
-
-          <a href="/careers" className="nav-link">
-            Careers
-          </a>
-
-          <a href="#contact" className="nav-link">
-            Contact
-          </a>
-
+        <nav className="desktop-nav">
+          <a href="#about" className="nav-link">About</a>
+          <a href="#services" className="nav-link">Services</a>
+          <a href="/portfolio" className="nav-link">Portfolio</a>
+          <a href="/careers" className="nav-link">Careers</a>
+          <a href="#contact" className="nav-link">Contact</a>
           <a
             href="/get-started"
             className="hero-button primary-btn"
@@ -79,6 +58,18 @@ export default function Navbar() {
             Get Started
           </a>
         </nav>
+
+        <details className="mobile-nav">
+          <summary aria-label="Open navigation menu">Menu</summary>
+          <nav className="mobile-nav-menu">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="/portfolio">Portfolio</a>
+            <a href="/careers">Careers</a>
+            <a href="#contact">Contact</a>
+            <a href="/get-started" className="mobile-nav-cta">Get Started</a>
+          </nav>
+        </details>
       </div>
     </header>
   );
