@@ -1120,3 +1120,211 @@ section { width: 100%; }
     animation: none;
   }
 }
+
+
+/* Services page corrections: homepage-style botanical motion, scattered copy, and a truly sticky jump bar. */
+.services-page {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.services-jump-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  isolation: isolate;
+}
+
+.services-detail-inner {
+  width: min(1400px, 92%);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: center;
+}
+
+.animated-service-content {
+  width: auto;
+  max-width: 760px;
+}
+
+.animated-service-left {
+  grid-column: 1 / span 7;
+  margin-right: auto;
+}
+
+.animated-service-center {
+  grid-column: 4 / span 6;
+  margin-inline: auto;
+}
+
+.animated-service-right {
+  grid-column: 7 / span 6;
+  margin-left: auto;
+}
+
+.animated-service-ripple {
+  grid-column: 3 / span 8;
+  margin-inline: auto;
+}
+
+/* Give the copy different visual positions instead of stacking every service in one column. */
+.service-detail-section:nth-child(2) .animated-service-content {
+  transform: translateY(58px) translateX(-10px);
+}
+
+.service-detail-section:nth-child(3) .animated-service-content {
+  transform: translateY(58px) translateX(10px);
+}
+
+.service-detail-section:nth-child(5) .animated-service-content {
+  transform: translateY(58px) translateX(-18px);
+}
+
+.service-detail-section:nth-child(6) .animated-service-content {
+  transform: translateY(58px) translateX(16px);
+}
+
+.service-detail-section:nth-child(8) .animated-service-content {
+  transform: translateY(58px) translateX(-12px);
+}
+
+.service-detail-section:nth-child(9) .animated-service-content {
+  transform: translateY(58px) translateX(14px);
+}
+
+.service-detail-section:nth-child(2) .animated-service-content.is-visible,
+.service-detail-section:nth-child(3) .animated-service-content.is-visible,
+.service-detail-section:nth-child(5) .animated-service-content.is-visible,
+.service-detail-section:nth-child(6) .animated-service-content.is-visible,
+.service-detail-section:nth-child(8) .animated-service-content.is-visible,
+.service-detail-section:nth-child(9) .animated-service-content.is-visible {
+  transform: translateY(0) translateX(0);
+}
+
+/* The service-page branches use the same path-draw and leaf-growth language as the homepage. */
+.services-botanical {
+  z-index: 1;
+  overflow: visible;
+}
+
+.services-botanical-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.services-botanical-path {
+  fill: none;
+  stroke: #3F2A1B;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--reveal, 0));
+  opacity: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.services-botanical-thin {
+  stroke: #4A321F;
+}
+
+.services-botanical-leaf {
+  opacity: var(--leaf-visible, 0);
+  pointer-events: none;
+}
+
+.services-botanical-leaf-motion {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translateY(calc(var(--leaf-lift, 8px) * -1)) scale(var(--leaf-grow, .72));
+  will-change: opacity, transform;
+}
+
+.services-botanical-leaf-motion > path:first-child {
+  fill: #4F7D31;
+  stroke: #365A24;
+  stroke-width: 1.2;
+}
+
+.services-botanical-leaf-motion .leaf-vein {
+  fill: none;
+  stroke: #315522;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: .75;
+}
+
+.services-botanical-fall-trail {
+  fill: none;
+  stroke: rgba(78, 125, 49, .42);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 5 9;
+  opacity: calc(.15 + var(--reveal, 0) * .55);
+}
+
+.services-botanical-falling-leaf {
+  opacity: var(--reveal, 0);
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate3d(
+    calc(var(--fall-progress, 0) * 22px),
+    calc(var(--fall-progress, 0) * 58px),
+    0
+  ) rotate(calc(var(--fall-progress, 0) * 22deg));
+  will-change: opacity, transform;
+}
+
+.services-botanical-falling-leaf > path {
+  fill: #4F7D31;
+  stroke: #365A24;
+  stroke-width: 1.2;
+}
+
+@media (max-width: 900px) {
+  .services-detail-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .animated-service-left,
+  .animated-service-center,
+  .animated-service-right,
+  .animated-service-ripple {
+    grid-column: 1;
+    width: 100%;
+    margin-inline: 0;
+    transform: translateY(58px);
+  }
+
+  .animated-service-left.is-visible,
+  .animated-service-center.is-visible,
+  .animated-service-right.is-visible,
+  .animated-service-ripple.is-visible {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .services-jump-inner {
+    width: 92%;
+  }
+
+  .services-detail-inner {
+    width: 90%;
+  }
+
+  .services-botanical-path {
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-botanical-path {
+    stroke-dashoffset: 0;
+  }
+
+  .services-botanical-leaf,
+  .services-botanical-falling-leaf {
+    opacity: 1;
+  }
+}
