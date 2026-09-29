@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import ServicesBotanical from "@/components/ServicesBotanical";
 
 const services = [
@@ -59,36 +58,12 @@ const services = [
     includes: ["Event concepts", "Pop-up promotion", "Brand activations"],
   },
   {
-    slug: "billboards",
-    title: "Billboards",
-    eyebrow: "Be Seen",
-    description: "Billboards have only a few seconds to communicate, which makes clarity and visual impact especially important.",
-    detail: "LEAF can develop billboard concepts around the message, location, audience, and available space. From the initial idea through the final design, the goal is to create something that can be understood quickly while still feeling like the business behind it.",
-    includes: ["Billboard concepts", "Outdoor ad design", "Campaign messaging"],
-  },
-  {
-    slug: "media",
-    title: "Media",
-    eyebrow: "Put It Where People Are",
-    description: "Media is about deciding where an advertisement should appear and how people will encounter it.",
-    detail: "LEAF can help businesses think through different advertising placements and distribution opportunities, from digital platforms and social channels to larger public-facing placements. The right approach depends on the audience, campaign, budget, and goals.",
-    includes: ["Media planning", "Placement ideas", "Distribution strategy"],
-  },
-  {
     slug: "authentic-ads",
     title: "Authentic Ads",
     eyebrow: "Real Stories",
     description: "Authentic advertising focuses on making an advertisement feel connected to the real business, people, and story behind it.",
     detail: "Instead of forcing every business into the same advertising formula, LEAF can build creative around what makes that business genuinely different. That might mean real people, real locations, real products, or a story that customers can recognize themselves in.",
     includes: ["Story-driven ads", "Real business features", "Human-centered creative"],
-  },
-  {
-    slug: "business",
-    title: "Business",
-    eyebrow: "Built Around You",
-    description: "Every business has different needs, so advertising should be able to adapt to the business rather than the other way around.",
-    detail: "LEAF works with businesses that may need one specific piece of creative as well as businesses looking for help across several parts of their advertising. We can help connect strategy, production, creative, and distribution into one larger plan.",
-    includes: ["Business-focused campaigns", "Creative direction", "Advertising support"],
   },
   {
     slug: "brand",
@@ -102,9 +77,7 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <>
-      <Navbar />
-      <main className="services-page">
+    <main className="services-page">
         <ServicesBotanical />
         <section className="services-hero" id="services-top">
           <div className="container services-hero-inner">
@@ -119,11 +92,10 @@ export default function ServicesPage() {
 
         <nav className="services-jump-nav" aria-label="Services sections">
           <div className="services-jump-inner">
-            <a href="#services-top" className="services-jump-home">All Services</a>
+            <a href="/" className="services-jump-home">LEAF</a>
             <div className="services-jump-links">
               {services.map((service) => (
                 <a key={service.slug} href={`#${service.slug}`}>
-                  <span className="services-jump-leaf" aria-hidden="true">🍃</span>
                   {service.title}
                 </a>
               ))}
@@ -139,7 +111,6 @@ export default function ServicesPage() {
               className={`service-detail-section ${index % 2 ? "service-detail-section-alt" : ""}`}
             >
               <div className="container service-detail-inner">
-                <div className="service-detail-number">{String(index + 1).padStart(2, "0")}</div>
                 <div className="service-detail-copy">
                   <p className="services-eyebrow">{service.eyebrow}</p>
                   <h2>{service.title}</h2>
@@ -172,6 +143,5 @@ export default function ServicesPage() {
           </div>
         </section>
       </main>
-    </>
   );
 }
