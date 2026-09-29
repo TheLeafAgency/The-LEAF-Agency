@@ -1,4 +1,5 @@
 import ServicesBotanical from "@/components/ServicesBotanical";
+import AnimatedServiceContent from "@/components/AnimatedServiceContent";
 
 const services = [
   {
@@ -111,7 +112,8 @@ export default function ServicesPage() {
               className={`service-detail-section ${index % 2 ? "service-detail-section-alt" : ""}`}
             >
               <div className="container service-detail-inner">
-                <div className="service-detail-copy">
+                <AnimatedServiceContent variant={index % 4 === 3 ? "ripple" : index % 3 === 1 ? "center" : index % 3 === 2 ? "right" : "left"}>
+                  <div className="service-detail-copy">
                   <p className="services-eyebrow">{service.eyebrow}</p>
                   <h2>{service.title}</h2>
                   <p className="service-detail-lead">{service.description}</p>
@@ -124,7 +126,8 @@ export default function ServicesPage() {
                   <a href="/get-started" className="primary-btn service-detail-cta">
                     Talk to LEAF
                   </a>
-                </div>
+                  </div>
+                </AnimatedServiceContent>
               </div>
             </section>
           ))}
