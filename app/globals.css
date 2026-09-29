@@ -673,7 +673,7 @@ section { width: 100%; }
 
 .services-jump-nav {
   position: sticky;
-  top: 80px;
+  top: 0;
   z-index: 20;
   background: rgba(243,240,231,.94);
   backdrop-filter: blur(12px);
@@ -700,6 +700,8 @@ section { width: 100%; }
 
 .services-jump-home {
   color: #048243;
+  letter-spacing: 1px;
+  font-weight: 800;
 }
 
 .services-jump-links {
@@ -719,19 +721,6 @@ section { width: 100%; }
   color: #048243;
 }
 
-.services-jump-leaf {
-  display: inline-block;
-  opacity: 0;
-  transform: translate(-8px, 5px) rotate(-35deg) scale(.6);
-  transition: opacity .2s ease, transform .28s ease;
-  margin-right: 2px;
-}
-
-.services-jump-links a:hover .services-jump-leaf {
-  opacity: 1;
-  transform: translate(0, 0) rotate(-15deg) scale(.9);
-}
-
 .service-detail-section {
   position: relative;
   z-index: 2;
@@ -748,16 +737,9 @@ section { width: 100%; }
 
 .service-detail-inner {
   display: grid;
-  grid-template-columns: 130px minmax(0, 760px);
-  gap: 70px;
+  grid-template-columns: minmax(0, 760px);
+  gap: 0;
   align-items: start;
-}
-
-.service-detail-number {
-  font-family: "BPMF Huninn", sans-serif;
-  color: rgba(4,130,67,.25);
-  font-size: clamp(4rem, 8vw, 7rem);
-  line-height: .8;
 }
 
 .service-detail-copy {
@@ -844,10 +826,14 @@ section { width: 100%; }
   overflow: visible;
 }
 
+.services-branch {
+  opacity: .98;
+}
+
 .services-branch path {
   fill: none;
-  stroke: #6d4d32;
-  stroke-width: 18;
+  stroke: #4b321f;
+  stroke-width: 30;
   stroke-linecap: round;
   stroke-linejoin: round;
   pathLength: 1;
@@ -856,11 +842,11 @@ section { width: 100%; }
 }
 
 .services-branch .thin {
-  stroke-width: 5;
+  stroke-width: 8;
 }
 
 .services-branch ellipse {
-  fill: #4f8f35;
+  fill: #048243;
   stroke: none;
   transform-box: fill-box;
   transform-origin: center;
@@ -868,14 +854,14 @@ section { width: 100%; }
 
 .services-falling-leaves .trail {
   fill: none;
-  stroke: rgba(78,125,49,.35);
+  stroke: rgba(4,130,67,.45);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 5 9;
 }
 
 .services-falling-leaves .falling-leaf {
-  fill: #4f8f35;
+  fill: #048243;
   transform: translateY(calc(var(--reveal, 0) * 75px)) rotate(calc(var(--reveal, 0) * 30deg));
 }
 
@@ -889,7 +875,7 @@ section { width: 100%; }
 
 .nav-services-menu {
   position: absolute;
-  top: calc(100% + 15px);
+  top: calc(100% + 8px);
   left: 50%;
   transform: translate(-50%, -8px);
   width: 250px;
@@ -914,6 +900,16 @@ section { width: 100%; }
   visibility: visible;
   pointer-events: auto;
   transform: translate(-50%, 0);
+}
+
+.nav-services-menu::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  pointer-events: auto;
 }
 
 .nav-services-menu a {
@@ -977,7 +973,7 @@ section { width: 100%; }
   }
 
   .services-jump-nav {
-    top: 80px;
+    top: 0;
   }
 
   .services-jump-inner {
@@ -1005,11 +1001,7 @@ section { width: 100%; }
     gap: 18px;
   }
 
-  .service-detail-number {
-    font-size: 3.5rem;
-  }
-
-  .service-detail-copy h2 {
+    .service-detail-copy h2 {
     font-size: clamp(2.8rem, 12vw, 4.5rem);
   }
 
@@ -1019,7 +1011,7 @@ section { width: 100%; }
   }
 
   .services-botanical {
-    opacity: .72;
+    opacity: .95;
   }
 
   .services-ending {
@@ -1037,7 +1029,7 @@ section { width: 100%; }
   }
 
   .service-detail-inner {
-    grid-template-columns: 90px minmax(0, 1fr);
-    gap: 35px;
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 }
