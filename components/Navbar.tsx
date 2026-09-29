@@ -1,3 +1,31 @@
+const serviceLinks = [
+  ["Marketing", "/services/marketing"],
+  ["Filming", "/services/filming"],
+  ["Product", "/services/product"],
+  ["Copywriting", "/services/copywriting"],
+  ["Editing", "/services/editing"],
+  ["Social Media", "/services/social-media"],
+  ["Public Events", "/services/public-events"],
+  ["Billboards", "/services/billboards"],
+  ["Media", "/services/media"],
+  ["Authentic Ads", "/services/authentic-ads"],
+  ["Business", "/services/business"],
+  ["Brand", "/services/brand"],
+];
+
+function ServiceMenuLinks() {
+  return (
+    <>
+      {serviceLinks.map(([label, href]) => (
+        <a key={href} href={href}>
+          <span className="service-menu-leaf" aria-hidden="true">🍃</span>
+          {label}
+        </a>
+      ))}
+    </>
+  );
+}
+
 export default function Navbar() {
   return (
     <header
@@ -21,7 +49,7 @@ export default function Navbar() {
         }}
       >
         <a
-          href="#top"
+          href="/"
           className="leaf-logo"
           aria-label="Go to home page"
           style={{
@@ -39,11 +67,17 @@ export default function Navbar() {
         </a>
 
         <nav className="desktop-nav">
-          <a href="#about" className="nav-link">About</a>
-          <a href="#services" className="nav-link">Services</a>
+          <a href="/#about" className="nav-link">About</a>
+          <div className="nav-services-dropdown">
+            <a href="/services" className="nav-link nav-services-trigger">Services</a>
+            <div className="nav-services-menu">
+              <a href="/services" className="services-menu-all">All Services</a>
+              <ServiceMenuLinks />
+            </div>
+          </div>
           <a href="/portfolio" className="nav-link">Portfolio</a>
           <a href="/careers" className="nav-link">Careers</a>
-          <a href="#contact" className="nav-link">Contact</a>
+          <a href="/#contact" className="nav-link">Contact</a>
           <a
             href="/get-started"
             className="hero-button primary-btn"
@@ -62,11 +96,16 @@ export default function Navbar() {
         <details className="mobile-nav">
           <summary aria-label="Open navigation menu">Menu</summary>
           <nav className="mobile-nav-menu">
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
+            <a href="/#about">About</a>
+            <div className="mobile-service-group">
+              <a href="/services">Services</a>
+              <div className="mobile-service-links">
+                <ServiceMenuLinks />
+              </div>
+            </div>
             <a href="/portfolio">Portfolio</a>
             <a href="/careers">Careers</a>
-            <a href="#contact">Contact</a>
+            <a href="/#contact">Contact</a>
             <a href="/get-started" className="mobile-nav-cta">Get Started</a>
           </nav>
         </details>
