@@ -15,21 +15,30 @@ export default function AnimatedServiceContent({
     const node = ref.current;
     if (!node) return;
 
+    let lastScrollY = window.scrollY;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            node.classList.add("is-visible");
-            node.parentElement?.querySelector(".service-media-slot")?.classList.add("is-visible");
-            observer.unobserve(node);
-          }
+          if (!entry.isIntersecting || window.scrollY < lastScrollY) return;
+          node.classList.add("is-visible");
+          node.parentElement?.querySelector(".service-media-slot")?.classList.add("is-visible");
+          observer.unobserve(node);
         });
       },
       { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }
     );
 
+    const onScroll = () => {
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     observer.observe(node);
-    return () => observer.disconnect();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
