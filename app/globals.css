@@ -2148,3 +2148,49 @@ section { width: 100%; }
 .services-jump-nav {
   z-index: 20 !important;
 }
+
+
+/* Correct the services tree clipping and bottom burst geometry. */
+.services-tree-layer {
+  overflow: visible !important;
+}
+.services-tree {
+  overflow: visible !important;
+}
+.services-tree-svg {
+  overflow: visible !important;
+}
+
+/* The burst is a true bottom semicircle: flat along the bottom and rounded upward. */
+.services-brown-explosion {
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 52vh !important;
+  background: #3F2A1B !important;
+  border-radius: 50% 50% 0 0 !important;
+  clip-path: none !important;
+  transform: translateX(-50%) scale(0) !important;
+  transform-origin: 50% 100% !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: 95 !important;
+  animation: none !important;
+  transition: opacity .12s ease, transform 1.2s cubic-bezier(.2,.85,.18,1) !important;
+}
+.services-tree-layer.services-explosion-visible .services-brown-explosion,
+.services-page-at-bottom .services-brown-explosion {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) scale(1) !important;
+}
+
+@media (max-width: 700px) {
+  .services-brown-explosion {
+    height: 58vh !important;
+  }
+}
