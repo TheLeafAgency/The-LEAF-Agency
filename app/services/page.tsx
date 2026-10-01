@@ -126,9 +126,6 @@ export default function ServicesPage() {
                       <span key={item}>{item}</span>
                     ))}
                   </div>
-                  <a href="/get-started" className="primary-btn service-detail-cta">
-                    Talk to LEAF
-                  </a>
                   </div>
                 </AnimatedServiceContent>
               </div>
