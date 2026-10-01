@@ -73,12 +73,36 @@ export default function ServicesBotanical() {
 
     const onScroll = () => updateBottomState();
 
-    updateTreePosition();
-    updateBottomState();
+    // Wait for the first browser layout (and web fonts) to settle before measuring
+    // the jump nav. This prevents the tree position from being calculated from
+    // temporary first-load dimensions.
+    let initialFrameOne: number | null = null;
+    let initialFrameTwo: number | null = null;
+    let initialFrameThree: number | null = null;
+
+    const measureAfterLayout = () => {
+      initialFrameOne = window.requestAnimationFrame(() => {
+        initialFrameTwo = window.requestAnimationFrame(() => {
+          const fontsReady = document.fonts?.ready ?? Promise.resolve();
+          fontsReady.then(() => {
+            initialFrameThree = window.requestAnimationFrame(() => {
+              updateTreePosition();
+              updateBottomState();
+              initialFrameThree = null;
+            });
+          });
+        });
+      });
+    };
+
+    measureAfterLayout();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", updateTreePosition);
 
     return () => {
+      if (initialFrameOne !== null) window.cancelAnimationFrame(initialFrameOne);
+      if (initialFrameTwo !== null) window.cancelAnimationFrame(initialFrameTwo);
+      if (initialFrameThree !== null) window.cancelAnimationFrame(initialFrameThree);
       if (endingRevealTimer !== null) window.clearTimeout(endingRevealTimer);
       if (explosionHideTimer !== null) window.clearTimeout(explosionHideTimer);
       window.removeEventListener("scroll", onScroll);
