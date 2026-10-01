@@ -41,19 +41,24 @@ export default function ServicesBotanical() {
     <div ref={ref} className="services-tree-layer" aria-hidden="true">
       <div className="services-brown-explosion" />
       <div className="services-leaf-burst" aria-hidden="true">
-        <span style={{"--x":"-280px","--y":"-210px","--r":"-70deg","--delay":"0s"} as React.CSSProperties} />
-        <span style={{"--x":"-220px","--y":"-320px","--r":"-35deg","--delay":".08s"} as React.CSSProperties} />
-        <span style={{"--x":"-150px","--y":"-150px","--r":"-110deg","--delay":".16s"} as React.CSSProperties} />
-        <span style={{"--x":"-95px","--y":"-390px","--r":"-55deg","--delay":".24s"} as React.CSSProperties} />
-        <span style={{"--x":"-35px","--y":"-250px","--r":"-15deg","--delay":".1s"} as React.CSSProperties} />
-        <span style={{"--x":"35px","--y":"-340px","--r":"25deg","--delay":".18s"} as React.CSSProperties} />
-        <span style={{"--x":"105px","--y":"-175px","--r":"65deg","--delay":".05s"} as React.CSSProperties} />
-        <span style={{"--x":"165px","--y":"-300px","--r":"110deg","--delay":".22s"} as React.CSSProperties} />
-        <span style={{"--x":"235px","--y":"-220px","--r":"145deg","--delay":".12s"} as React.CSSProperties} />
-        <span style={{"--x":"310px","--y":"-370px","--r":"75deg","--delay":".3s"} as React.CSSProperties} />
-        <span style={{"--x":"0px","--y":"-430px","--r":"5deg","--delay":".2s"} as React.CSSProperties} />
-        <span style={{"--x":"-330px","--y":"-115px","--r":"-140deg","--delay":".28s"} as React.CSSProperties} />
-        <span style={{"--x":"330px","--y":"-135px","--r":"160deg","--delay":".34s"} as React.CSSProperties} />
+        <span style={{"--x":"-430px","--y":"-190px","--r":"-75deg","--delay":"0s"} as React.CSSProperties} />
+        <span style={{"--x":"-350px","--y":"-360px","--r":"-40deg","--delay":".08s"} as React.CSSProperties} />
+        <span style={{"--x":"-285px","--y":"-120px","--r":"-110deg","--delay":".14s"} as React.CSSProperties} />
+        <span style={{"--x":"-230px","--y":"-450px","--r":"-55deg","--delay":".22s"} as React.CSSProperties} />
+        <span style={{"--x":"-165px","--y":"-250px","--r":"-18deg","--delay":".06s"} as React.CSSProperties} />
+        <span style={{"--x":"-105px","--y":"-390px","--r":"-90deg","--delay":".18s"} as React.CSSProperties} />
+        <span style={{"--x":"-45px","--y":"-175px","--r":"-12deg","--delay":".11s"} as React.CSSProperties} />
+        <span style={{"--x":"20px","--y":"-500px","--r":"18deg","--delay":".2s"} as React.CSSProperties} />
+        <span style={{"--x":"85px","--y":"-270px","--r":"55deg","--delay":".03s"} as React.CSSProperties} />
+        <span style={{"--x":"145px","--y":"-430px","--r":"82deg","--delay":".16s"} as React.CSSProperties} />
+        <span style={{"--x":"210px","--y":"-150px","--r":"120deg","--delay":".1s"} as React.CSSProperties} />
+        <span style={{"--x":"275px","--y":"-350px","--r":"145deg","--delay":".25s"} as React.CSSProperties} />
+        <span style={{"--x":"345px","--y":"-215px","--r":"165deg","--delay":".13s"} as React.CSSProperties} />
+        <span style={{"--x":"420px","--y":"-390px","--r":"105deg","--delay":".31s"} as React.CSSProperties} />
+        <span style={{"--x":"-390px","--y":"-40px","--r":"-135deg","--delay":".27s"} as React.CSSProperties} />
+        <span style={{"--x":"390px","--y":"-70px","--r":"135deg","--delay":".35s"} as React.CSSProperties} />
+        <span style={{"--x":"-70px","--y":"-330px","--r":"-30deg","--delay":".17s"} as React.CSSProperties} />
+        <span style={{"--x":"115px","--y":"-335px","--r":"70deg","--delay":".21s"} as React.CSSProperties} />
       </div>
       <div className="services-tree">
         <svg className="services-tree-svg" viewBox="0 0 1000 7200" preserveAspectRatio="none">
