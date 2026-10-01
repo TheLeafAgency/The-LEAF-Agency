@@ -19,6 +19,7 @@ export default function ServicesBotanical() {
     };
 
     let endingRevealTimer: number | null = null;
+    let explosionHideTimer: number | null = null;
 
     const updateBottomState = () => {
       const documentHeight = Math.max(
@@ -29,8 +30,17 @@ export default function ServicesBotanical() {
       const atBottom = viewportBottom >= documentHeight - 24;
 
       if (atBottom) {
+        if (explosionHideTimer !== null) {
+          window.clearTimeout(explosionHideTimer);
+          explosionHideTimer = null;
+        }
+
         const wasAtBottom = layer.classList.contains("services-page-at-bottom");
-        layer.classList.add("services-bottom-seen", "services-page-at-bottom");
+        layer.classList.add(
+          "services-leaves-seen",
+          "services-explosion-visible",
+          "services-page-at-bottom"
+        );
 
         if (!wasAtBottom && !layer.classList.contains("services-ending-revealed")) {
           if (endingRevealTimer !== null) window.clearTimeout(endingRevealTimer);
@@ -40,9 +50,15 @@ export default function ServicesBotanical() {
           }, 1250);
         }
       } else {
-        // On the way back up, reverse ONLY the explosion.
-        // The leaf burst and ending section keep their completed state.
+        // Only the explosion reverses on the way back up.
         layer.classList.remove("services-page-at-bottom");
+
+        if (layer.classList.contains("services-explosion-visible") && explosionHideTimer === null) {
+          explosionHideTimer = window.setTimeout(() => {
+            layer.classList.remove("services-explosion-visible");
+            explosionHideTimer = null;
+          }, 1250);
+        }
       }
     };
 
@@ -55,6 +71,7 @@ export default function ServicesBotanical() {
 
     return () => {
       if (endingRevealTimer !== null) window.clearTimeout(endingRevealTimer);
+      if (explosionHideTimer !== null) window.clearTimeout(explosionHideTimer);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", updateTreePosition);
     };
