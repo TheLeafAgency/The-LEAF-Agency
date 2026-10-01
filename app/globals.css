@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Neuton:wght@200;300;400;700;800&display=swap");
 
 :root {
@@ -1366,8 +1367,6 @@ section { width: 100%; }
 
 
 /* Services redesign: one tall, slightly crooked tree with centered service content. */
-@import url("https://fonts.googleapis.com/css2?family=Martel:wght@300;400;600;700&display=swap");
-
 .services-page {
   background: #F3F0E7;
   overflow-x: clip;
@@ -1652,8 +1651,6 @@ section { width: 100%; }
 
 
 /* Final services motion refinement */
-@import url("https://fonts.googleapis.com/css2?family=Martel:wght@300;400;600;700&display=swap");
-
 .services-tree-layer {
   position: absolute;
   inset: 0;
@@ -1705,7 +1702,7 @@ section { width: 100%; }
 
 .services-brown-explosion {
   position: fixed;
-  top: 92px;
+  top: var(--jump-height, 92px);
   bottom: 0;
   width: 50%;
   background: #3F2A1B;
@@ -1807,7 +1804,7 @@ section { width: 100%; }
   }
 
   .services-brown-explosion {
-    top: 116px;
+    top: var(--jump-height, 116px);
   }
 }
 
