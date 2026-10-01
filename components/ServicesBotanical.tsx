@@ -20,30 +20,28 @@ export default function ServicesBotanical() {
     };
 
     let endingRevealTimer: number | null = null;
-    let explosionHideTimer: number | null = null;
 
     const updateBottomState = () => {
-      const documentHeight = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight
-      );
+      const ending = document.querySelector(".services-ending") as HTMLElement | null;
+      if (!ending) return;
+
+      // Start the takeover when the final section reaches the viewport instead of
+      // waiting until the page is almost completely scrolled to the bottom.
+      // The same threshold is used in both directions, so the 2s explosion reverses
+      // cleanly at the exact same point when the user scrolls back up.
+      const endingTop = ending.getBoundingClientRect().top + window.scrollY;
       const viewportBottom = window.scrollY + window.innerHeight;
-      const atBottom = viewportBottom >= documentHeight - 100;
+      const inEndingSection = viewportBottom >= endingTop;
 
-      if (atBottom) {
-        if (explosionHideTimer !== null) {
-          window.clearTimeout(explosionHideTimer);
-          explosionHideTimer = null;
-        }
-
-        const wasAtBottom = layer.classList.contains("services-page-at-bottom");
+      if (inEndingSection) {
+        const wasInEndingSection = layer.classList.contains("services-page-at-bottom");
         layer.classList.add(
           "services-leaves-seen",
           "services-explosion-visible",
           "services-page-at-bottom"
         );
 
-        if (!wasAtBottom && !layer.classList.contains("services-ending-revealed")) {
+        if (!wasInEndingSection && !layer.classList.contains("services-ending-revealed")) {
           if (endingRevealTimer !== null) window.clearTimeout(endingRevealTimer);
           endingRevealTimer = window.setTimeout(() => {
             layer.classList.add("services-ending-revealed");
@@ -51,22 +49,16 @@ export default function ServicesBotanical() {
           }, 1250);
         }
       } else {
-        // The explosion and final copy both reverse on the way back up.
-        layer.classList.remove("services-page-at-bottom", "services-ending-revealed");
+        // Reverse at the exact same section boundary used to trigger the explosion.
+        layer.classList.remove(
+          "services-page-at-bottom",
+          "services-ending-revealed",
+          "services-explosion-visible"
+        );
 
         if (endingRevealTimer !== null) {
           window.clearTimeout(endingRevealTimer);
           endingRevealTimer = null;
-        }
-
-        if (
-          layer.classList.contains("services-explosion-visible") &&
-          explosionHideTimer === null
-        ) {
-          explosionHideTimer = window.setTimeout(() => {
-            layer.classList.remove("services-explosion-visible");
-            explosionHideTimer = null;
-          }, 1250);
         }
       }
     };
