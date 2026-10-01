@@ -2281,3 +2281,25 @@ section { width: 100%; }
 .services-brown-explosion {
   z-index: 95 !important;
 }
+
+
+/* Final bottom-state fix: keep the semicircle completely hidden until the page bottom. */
+.services-brown-explosion {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity .2s ease, width 1.15s cubic-bezier(.2,.85,.18,1), height 1.15s cubic-bezier(.2,.85,.18,1), border-radius .75s ease, transform .2s ease !important;
+}
+.services-page-at-bottom .services-brown-explosion {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Keep the final call-to-action above the botanical bottom effect and visible at the bottom. */
+.services-ending {
+  position: relative !important;
+  z-index: 300 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
