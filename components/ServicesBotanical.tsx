@@ -19,8 +19,12 @@ export default function ServicesBotanical() {
     };
 
     const updateBottomState = () => {
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      const atBottom = window.scrollY >= maxScroll - 80;
+      const documentHeight = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      );
+      const viewportBottom = window.scrollY + window.innerHeight;
+      const atBottom = viewportBottom >= documentHeight - 24;
       layer.classList.toggle("services-page-at-bottom", atBottom);
     };
 
