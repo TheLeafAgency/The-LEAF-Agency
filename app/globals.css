@@ -2257,3 +2257,22 @@ section { width: 100%; }
   opacity: 1 !important;
   visibility: visible !important;
 }
+
+
+/* Services tree visibility: the tree sits above section backgrounds, while section content stays above the tree. */
+.services-tree-layer {
+  z-index: 5 !important;
+}
+.services-hero,
+.service-detail-section {
+  position: relative !important;
+  z-index: 4 !important;
+}
+.services-hero-inner,
+.service-detail-inner {
+  position: relative !important;
+  z-index: 6 !important;
+}
+.services-tree {
+  z-index: 5 !important;
+}
