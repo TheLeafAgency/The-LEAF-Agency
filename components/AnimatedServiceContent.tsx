@@ -40,7 +40,7 @@ export default function AnimatedServiceContent({
               }
             });
           },
-          { threshold: 0.72, rootMargin: "0px 0px -2% 0px" }
+          { threshold: 0.3, rootMargin: "0px 0px -8% 0px" }
         )
       : null;
 
