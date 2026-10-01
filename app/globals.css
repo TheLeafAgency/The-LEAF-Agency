@@ -2087,6 +2087,52 @@ section { width: 100%; }
 }
 
 
+/* Final bottom animation: a true semicircle, hidden completely until the user reaches the bottom. */
+.services-brown-explosion {
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: #3F2A1B !important;
+  border-radius: 0 !important;
+  clip-path: ellipse(50% 100% at 50% 100%) !important;
+  transform: translateX(-50%) scale(0) !important;
+  transform-origin: 50% 100% !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: 95 !important;
+  transition:
+    opacity .15s ease,
+    transform 1.2s cubic-bezier(.2,.85,.18,1) !important;
+}
+.services-tree-layer.services-explosion-visible .services-brown-explosion,
+.services-page-at-bottom .services-brown-explosion {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) scale(1) !important;
+}
+
+/* Final copy reverses with the bottom animation when scrolling upward. */
+.services-ending {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(34px) !important;
+  transition:
+    opacity .9s ease,
+    transform 1s cubic-bezier(.22,1,.36,1),
+    visibility 0s linear 0s !important;
+  z-index: 300 !important;
+}
+.services-tree-layer.services-ending-revealed ~ .services-ending {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
 /* Final services tree visibility: place the tree above section backgrounds but below content. */
 .services-tree-layer {
   z-index: 3 !important;
