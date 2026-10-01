@@ -2302,3 +2302,17 @@ section { width: 100%; }
   position: relative !important;
   z-index: 3 !important;
 }
+
+
+/* Keep the botanical tree hidden behind the Our Services hero and navbar. */
+.services-hero {
+  background: #F3F0E7 !important;
+  z-index: 4 !important;
+}
+.services-hero-inner {
+  z-index: 5 !important;
+}
+.services-jump-nav {
+  position: sticky !important;
+  z-index: 20 !important;
+}
