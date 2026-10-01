@@ -51,8 +51,13 @@ export default function ServicesBotanical() {
           }, 1250);
         }
       } else {
-        // Only the explosion reverses on the way back up.
-        layer.classList.remove("services-page-at-bottom");
+        // The explosion and final copy both reverse on the way back up.
+        layer.classList.remove("services-page-at-bottom", "services-ending-revealed");
+
+        if (endingRevealTimer !== null) {
+          window.clearTimeout(endingRevealTimer);
+          endingRevealTimer = null;
+        }
 
         if (
           layer.classList.contains("services-explosion-visible") &&
