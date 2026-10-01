@@ -1398,7 +1398,7 @@ section { width: 100%; }
 .services-tree-trunk {
   fill: none;
   stroke: #3F2A1B;
-  stroke-width: 250;
+  stroke-width: 580;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
@@ -1573,7 +1573,7 @@ section { width: 100%; }
   }
 
   .services-tree-trunk {
-    stroke-width: 220;
+    stroke-width: 500;
   }
 
   .animated-service-content {
@@ -1593,7 +1593,7 @@ section { width: 100%; }
   }
 
   .services-tree-trunk {
-    stroke-width: 185;
+    stroke-width: 380;
   }
 
   .services-tree-trunk-highlight {
