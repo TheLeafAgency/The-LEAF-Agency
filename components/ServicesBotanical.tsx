@@ -28,7 +28,7 @@ export default function ServicesBotanical() {
         document.body.scrollHeight
       );
       const viewportBottom = window.scrollY + window.innerHeight;
-      const atBottom = viewportBottom >= documentHeight - 24;
+      const atBottom = viewportBottom >= documentHeight - 100;
 
       if (atBottom) {
         if (explosionHideTimer !== null) {
