@@ -16,28 +16,45 @@ export default function AnimatedServiceContent({
     if (!node) return;
 
     let lastScrollY = window.scrollY;
-    const observer = new IntersectionObserver(
+    const textObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting || window.scrollY < lastScrollY) return;
-          node.classList.add("is-visible");
-          node.parentElement?.querySelector(".service-media-slot")?.classList.add("is-visible");
-          observer.unobserve(node);
+          if (entry.isIntersecting && window.scrollY >= lastScrollY) {
+            node.classList.add("is-visible");
+            textObserver.unobserve(node);
+          }
         });
       },
-      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.28, rootMargin: "0px 0px -12% 0px" }
     );
+
+    const media = node.parentElement?.querySelector(".service-media-slot");
+    const mediaObserver = media
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && window.scrollY >= lastScrollY) {
+                media.classList.add("is-visible");
+                mediaObserver?.unobserve(media);
+              }
+            });
+          },
+          { threshold: 0.72, rootMargin: "0px 0px -2% 0px" }
+        )
+      : null;
 
     const onScroll = () => {
       lastScrollY = window.scrollY;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    observer.observe(node);
+    textObserver.observe(node);
+    if (media && mediaObserver) mediaObserver.observe(media);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      observer.disconnect();
+      textObserver.disconnect();
+      mediaObserver?.disconnect();
     };
   }, []);
 
