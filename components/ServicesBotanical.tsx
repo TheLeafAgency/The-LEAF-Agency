@@ -12,9 +12,10 @@ export default function ServicesBotanical() {
     const updateTreePosition = () => {
       const nav = document.querySelector(".services-jump-nav") as HTMLElement | null;
       if (!nav) return;
-      const rect = nav.getBoundingClientRect();
-      const treeTop = rect.top + window.scrollY + nav.offsetHeight;
-      layer.style.setProperty("--tree-top", String(treeTop) + "px");
+      const navRect = nav.getBoundingClientRect();
+      const layerRect = layer.getBoundingClientRect();
+      const treeTop = navRect.bottom - layerRect.top;
+      layer.style.setProperty("--tree-top", String(Math.max(0, treeTop)) + "px");
       layer.style.setProperty("--jump-height", String(nav.offsetHeight) + "px");
     };
 
