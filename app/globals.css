@@ -2345,29 +2345,32 @@ section { width: 100%; }
 }
 
 
-/* Bottom explosion: a true circle expands outward from the bottom-center point. */
+/* Bottom explosion: a true circle grows outward from the bottom-center edge. */
 .services-brown-explosion {
   position: fixed !important;
   left: 50% !important;
-  top: calc(100% - 100vmax) !important;
   right: auto !important;
-  bottom: auto !important;
-  width: 200vmax !important;
-  height: 200vmax !important;
+  top: auto !important;
+  bottom: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
   aspect-ratio: 1 / 1 !important;
   background: #3F2A1B !important;
   border-radius: 50% !important;
   clip-path: none !important;
-  transform: translateX(-50%) scale(0) !important;
-  transform-origin: 50% 50% !important;
+  transform: translateX(-50%) !important;
+  transform-origin: 50% 100% !important;
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: none !important;
   z-index: 95 !important;
   animation: none !important;
-  transition: transform 1.2s cubic-bezier(.15,.85,.2,1) !important;
+  transition:
+    width 1.2s cubic-bezier(.15,.85,.2,1),
+    height 1.2s cubic-bezier(.15,.85,.2,1) !important;
 }
 .services-tree-layer.services-explosion-visible .services-brown-explosion,
 .services-page-at-bottom .services-brown-explosion {
-  transform: translateX(-50%) scale(1) !important;
+  width: 200vmax !important;
+  height: 200vmax !important;
 }
