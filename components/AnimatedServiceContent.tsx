@@ -16,10 +16,11 @@ export default function AnimatedServiceContent({
     if (!node) return;
 
     let lastScrollY = window.scrollY;
+    let previousScrollY = window.scrollY;
     const textObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && window.scrollY >= lastScrollY) {
+          if (entry.isIntersecting && window.scrollY >= previousScrollY) {
             node.classList.add("is-visible");
             textObserver.unobserve(node);
           }
@@ -33,7 +34,7 @@ export default function AnimatedServiceContent({
       ? new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              if (entry.isIntersecting && window.scrollY >= lastScrollY) {
+              if (entry.isIntersecting && window.scrollY >= previousScrollY) {
                 media.classList.add("is-visible");
                 mediaObserver?.unobserve(media);
               }
@@ -44,6 +45,7 @@ export default function AnimatedServiceContent({
       : null;
 
     const onScroll = () => {
+      previousScrollY = lastScrollY;
       lastScrollY = window.scrollY;
     };
 
