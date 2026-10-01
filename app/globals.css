@@ -2195,11 +2195,22 @@ section { width: 100%; }
 
 /* Final timing/shape adjustments. */
 .services-brown-explosion {
+  width: 100vw !important;
+  left: 50% !important;
+  bottom: 0 !important;
+  height: 62px !important;
   border-radius: 50% 50% 0 0 !important;
-  clip-path: ellipse(50% 100% at 50% 100%);
+  clip-path: ellipse(50% 100% at 50% 100%) !important;
 }
 .services-page-at-bottom .services-brown-explosion {
-  clip-path: none;
+  width: 100vw !important;
+  height: 100vh !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 0 !important;
+  border-radius: 0 !important;
+  clip-path: none !important;
+  transform: translateX(-50%) !important;
 }
 .services-ending {
   transition-delay: 1.2s;
@@ -2241,4 +2252,26 @@ section { width: 100%; }
   stroke-dasharray: none !important;
   stroke-dashoffset: 0 !important;
   animation: none !important;
+}
+
+
+/* Small final services polish: clip the tree to the navbar boundary and strengthen the hero outline slightly. */
+.services-tree-layer {
+  clip-path: inset(var(--tree-top, 0px) 0 0 0) !important;
+  overflow: hidden !important;
+}
+.services-tree {
+  top: var(--tree-top, 0px) !important;
+  height: calc(100% - var(--tree-top, 0px)) !important;
+  overflow: hidden !important;
+}
+.services-tree-svg {
+  overflow: hidden !important;
+}
+.services-hero {
+  border-width: 4px !important;
+}
+.services-hero::after {
+  height: 4px !important;
+  bottom: -4px !important;
 }
