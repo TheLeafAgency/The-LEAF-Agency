@@ -2305,7 +2305,7 @@ section { width: 100%; }
 }
 
 
-/* Bottom animation behavior — explosion reverses, leaves and ending reveal do not. */
+/* Bottom animation behavior — explosion reverses; leaves keep their completed state. */
 .services-brown-explosion {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -2317,15 +2317,16 @@ section { width: 100%; }
     border-radius .9s ease,
     transform .2s ease !important;
 }
-.services-tree-layer.services-bottom-seen .services-brown-explosion {
+.services-tree-layer.services-explosion-visible .services-brown-explosion {
   opacity: 1 !important;
   visibility: visible !important;
+  pointer-events: none !important;
 }
 .services-page-at-bottom .services-brown-explosion {
   opacity: 1 !important;
   visibility: visible !important;
 }
-.services-tree-layer.services-bottom-seen .services-leaf-burst span {
+.services-tree-layer.services-leaves-seen .services-leaf-burst span {
   animation: servicesLeafBurstPersistent 3.5s cubic-bezier(.18,.78,.25,1) var(--delay) 1 both !important;
 }
 .services-leaf-burst span::after {
@@ -2341,7 +2342,7 @@ section { width: 100%; }
   opacity: 0;
   pointer-events: none;
 }
-.services-tree-layer.services-bottom-seen .services-leaf-burst span::after {
+.services-tree-layer.services-leaves-seen .services-leaf-burst span::after {
   animation: servicesLeafTrail 3.5s cubic-bezier(.18,.78,.25,1) var(--delay) 1 both;
 }
 @keyframes servicesLeafTrail {
