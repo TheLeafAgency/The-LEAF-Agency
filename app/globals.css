@@ -2085,3 +2085,20 @@ section { width: 100%; }
   visibility: visible !important;
   transform: translateY(0) !important;
 }
+
+
+/* Final services tree visibility: place the tree above section backgrounds but below content. */
+.services-tree-layer {
+  z-index: 3 !important;
+}
+.services-tree {
+  z-index: 3 !important;
+}
+.services-hero,
+.service-detail-section {
+  position: relative !important;
+  z-index: 4 !important;
+}
+.services-jump-nav {
+  z-index: 20 !important;
+}
