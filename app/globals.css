@@ -2257,8 +2257,7 @@ section { width: 100%; }
 
 /* Small final services polish: clip the tree to the navbar boundary and strengthen the hero outline slightly. */
 .services-tree-layer {
-  clip-path: inset(var(--tree-top, 0px) 0 0 0) !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 .services-tree {
   top: var(--tree-top, 0px) !important;
@@ -2274,4 +2273,11 @@ section { width: 100%; }
 .services-hero::after {
   height: 4px !important;
   bottom: -4px !important;
+}
+
+.services-ending {
+  z-index: 200 !important;
+}
+.services-brown-explosion {
+  z-index: 95 !important;
 }
