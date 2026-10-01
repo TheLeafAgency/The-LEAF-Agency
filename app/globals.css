@@ -2204,3 +2204,41 @@ section { width: 100%; }
 .services-ending {
   transition-delay: 1.2s;
 }
+
+
+/* Services structural fix: keep the botanical tree spanning the service content. */
+.services-tree-layer {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  inset: 0 !important;
+  overflow: visible !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+.services-tree {
+  position: absolute !important;
+  top: var(--tree-top, 0px) !important;
+  right: 4% !important;
+  bottom: 0 !important;
+  left: 4% !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  z-index: 1 !important;
+}
+.services-tree-svg {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+}
+.services-tree-trunk,
+.services-tree-trunk-highlight,
+.services-tree-root {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
