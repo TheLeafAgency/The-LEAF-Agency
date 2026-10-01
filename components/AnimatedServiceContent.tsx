@@ -36,11 +36,11 @@ export default function AnimatedServiceContent({
             entries.forEach((entry) => {
               if (entry.isIntersecting && window.scrollY >= previousScrollY) {
                 media.classList.add("is-visible");
-                mediaObserver?.unobserve(media);
+                mediaObserver?.unobserve(node);
               }
             });
           },
-          { threshold: 0.3, rootMargin: "0px 0px -8% 0px" }
+          { threshold: 0.28, rootMargin: "0px 0px -12% 0px" }
         )
       : null;
 
@@ -51,7 +51,7 @@ export default function AnimatedServiceContent({
 
     window.addEventListener("scroll", onScroll, { passive: true });
     textObserver.observe(node);
-    if (media && mediaObserver) mediaObserver.observe(media);
+    if (media && mediaObserver) mediaObserver.observe(node);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
