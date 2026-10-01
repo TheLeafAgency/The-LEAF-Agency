@@ -109,10 +109,13 @@ export default function ServicesPage() {
             <section
               key={service.slug}
               id={service.slug}
-              className={`service-detail-section ${index % 2 ? "service-detail-section-alt" : ""}`}
+              className="service-detail-section"
             >
               <div className="container service-detail-inner">
-                <AnimatedServiceContent variant={index % 4 === 3 ? "ripple" : index % 3 === 1 ? "center" : index % 3 === 2 ? "right" : "left"}>
+                <div className={`service-media-slot service-media-${index % 2 === 0 ? "left" : "right"}`} aria-hidden="true">
+                  <div className="service-media-placeholder">Photo / Video</div>
+                </div>
+                <AnimatedServiceContent variant="center">
                   <div className="service-detail-copy">
                   <p className="services-eyebrow">{service.eyebrow}</p>
                   <h2>{service.title}</h2>
