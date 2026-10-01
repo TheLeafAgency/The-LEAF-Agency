@@ -2316,3 +2316,30 @@ section { width: 100%; }
   position: sticky !important;
   z-index: 20 !important;
 }
+
+
+/* Bottom explosion: start as a full-screen circle completely below the viewport, then rise into view. */
+.services-brown-explosion {
+  position: fixed !important;
+  left: 50% !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: 0 !important;
+  width: 200vmax !important;
+  height: 200vmax !important;
+  background: #3F2A1B !important;
+  border-radius: 50% !important;
+  clip-path: none !important;
+  transform: translateX(-50%) translateY(100%) !important;
+  transform-origin: 50% 100% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+  z-index: 95 !important;
+  animation: none !important;
+  transition: transform 1.2s cubic-bezier(.2,.85,.18,1) !important;
+}
+.services-tree-layer.services-explosion-visible .services-brown-explosion,
+.services-page-at-bottom .services-brown-explosion {
+  transform: translateX(-50%) translateY(0) !important;
+}
