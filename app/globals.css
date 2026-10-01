@@ -2276,3 +2276,29 @@ section { width: 100%; }
 .services-tree {
   z-index: 5 !important;
 }
+
+
+/* Services tree: transparent section backgrounds let the tree remain visibly behind the content. */
+.services-page {
+  position: relative !important;
+  background: #F3F0E7 !important;
+}
+.services-tree-layer {
+  z-index: 1 !important;
+}
+.services-tree {
+  z-index: 1 !important;
+}
+.services-hero,
+.service-detail-section,
+.services-ending {
+  background: transparent !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+.services-hero-inner,
+.service-detail-inner,
+.services-ending .container {
+  position: relative !important;
+  z-index: 3 !important;
+}
