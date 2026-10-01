@@ -2191,3 +2191,16 @@ section { width: 100%; }
     transform: translate(calc(-50% + var(--x) * 1.08), calc(var(--y) + 70px)) scale(.9) rotate(var(--r));
   }
 }
+
+
+/* Final timing/shape adjustments. */
+.services-brown-explosion {
+  border-radius: 50% 50% 0 0 !important;
+  clip-path: ellipse(50% 100% at 50% 100%);
+}
+.services-page-at-bottom .services-brown-explosion {
+  clip-path: none;
+}
+.services-ending {
+  transition-delay: 1.2s;
+}
