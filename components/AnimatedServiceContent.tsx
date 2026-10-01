@@ -20,6 +20,7 @@ export default function AnimatedServiceContent({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             node.classList.add("is-visible");
+            node.parentElement?.querySelector(".service-media-slot")?.classList.add("is-visible");
             observer.unobserve(node);
           }
         });
