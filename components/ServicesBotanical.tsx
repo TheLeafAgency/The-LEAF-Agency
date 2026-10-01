@@ -14,7 +14,8 @@ export default function ServicesBotanical() {
       frame = 0;
       const nav = document.querySelector(".services-jump-nav") as HTMLElement | null;
       if (nav) {
-        const treeTop = nav.offsetTop + nav.offsetHeight;
+        const rect = nav.getBoundingClientRect();
+        const treeTop = rect.top + window.scrollY + nav.offsetHeight;
         layer.style.setProperty("--tree-top", `${treeTop}px`);
         layer.style.setProperty("--jump-height", `${nav.offsetHeight}px`);
       }
