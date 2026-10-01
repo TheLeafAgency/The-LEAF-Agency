@@ -12,6 +12,12 @@ export default function ServicesBotanical() {
     let frame = 0;
     const update = () => {
       frame = 0;
+      const nav = document.querySelector(".services-jump-nav") as HTMLElement | null;
+      if (nav) {
+        const treeTop = nav.offsetTop + nav.offsetHeight;
+        layer.style.setProperty("--tree-top", `${treeTop}px`);
+        layer.style.setProperty("--jump-height", `${nav.offsetHeight}px`);
+      }
       const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const atBottom = window.scrollY >= maxScroll - 80;
       layer.classList.toggle("services-page-at-bottom", atBottom);
