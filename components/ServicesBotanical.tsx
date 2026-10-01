@@ -20,6 +20,7 @@ export default function ServicesBotanical() {
     };
 
     let endingRevealTimer: number | null = null;
+    let explosionHideTimer: number | null = null;
 
     const updateBottomState = () => {
       const ending = document.querySelector(".services-ending") as HTMLElement | null;
