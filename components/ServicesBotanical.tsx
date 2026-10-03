@@ -25,11 +25,23 @@ export default function ServicesBotanical() {
     let lastScrollY = window.scrollY;
 
     const hideExplosion = () => {
+      // Only run the leaf fade if the burst was actually visible. On initial
+      // page load there is nothing to fade; forcing the fade state there makes
+      // the leaves jump into their final positions immediately.
+      const burstWasVisible =
+        layer.classList.contains("services-page-at-bottom") ||
+        layer.classList.contains("services-explosion-visible");
+
       layer.classList.remove(
         "services-page-at-bottom",
         "services-ending-revealed",
         "services-explosion-visible"
       );
+
+      if (!burstWasVisible) {
+        layer.classList.remove("services-leaves-fading", "services-ending-reversing");
+        return;
+      }
 
       // Freeze the leaves where the burst left them, then let CSS fade them out.
       // The previous version kept the burst keyframe animation in control of
