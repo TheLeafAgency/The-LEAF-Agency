@@ -54,7 +54,9 @@ export default function ServicesBotanical() {
       const reverseBeforeBrandPoint = brandTop - 250;
 
       if (scrollingUp) {
-        hideExplosion();
+        if (window.scrollY < reverseBeforeBrandPoint) {
+          hideExplosion();
+        }
         return;
       }
 
