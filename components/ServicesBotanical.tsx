@@ -42,14 +42,20 @@ export default function ServicesBotanical() {
 
       // Scrolling UP: reverse the explosion immediately.
       // Do not wait for the Brand section or a distance threshold.
-      const endingTop = ending.getBoundingClientRect().top + window.scrollY;
-      const viewportBottom = window.scrollY + window.innerHeight;
       const scrollingUp = window.scrollY < lastScrollY;
 
-      // Trigger as soon as the ending section reaches the bottom of the viewport.
-      // The previous +200px offset could prevent the animation from firing at the
-      // actual bottom of the page on shorter viewports.
-      const inEndingSection = viewportBottom >= endingTop;
+      // The explosion belongs to the actual bottom of the Services page.
+      // Trigger it 40px before the browser reaches the absolute scroll limit,
+      // rather than basing it on the ending section's position.
+      const documentHeight = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      );
+      const bottomTriggerPoint = Math.max(
+        0,
+        documentHeight - window.innerHeight - 40
+      );
+      const inEndingSection = window.scrollY >= bottomTriggerPoint;
 
       if (scrollingUp) {
         hideExplosion();
