@@ -21,35 +21,42 @@ export default function ServicesBotanical() {
 
     let endingRevealTimer: number | null = null;
     let explosionHideTimer: number | null = null;
+    let lastScrollY = window.scrollY;
+
+    const hideExplosion = () => {
+      layer.classList.remove(
+        "services-page-at-bottom",
+        "services-ending-revealed",
+        "services-explosion-visible"
+      );
+
+      if (endingRevealTimer !== null) {
+        window.clearTimeout(endingRevealTimer);
+        endingRevealTimer = null;
+      }
+    };
 
     const updateBottomState = () => {
       const ending = document.querySelector(".services-ending") as HTMLElement | null;
       if (!ending) return;
 
       // Trigger the explosion as the final section enters the viewport.
-      // On the way back up, reverse it earlier while the user is still inside
-      // the Brand section so the brown takeover is gone before Brand is reached.
+      // When scrolling back up, keep it visible past the ending boundary and
+      // start its normal 2s reduction before the Brand section comes into view.
       const endingTop = ending.getBoundingClientRect().top + window.scrollY;
       const brand = document.querySelector("#brand") as HTMLElement | null;
       const brandTop = brand
         ? brand.getBoundingClientRect().top + window.scrollY
         : endingTop;
       const viewportBottom = window.scrollY + window.innerHeight;
-      const scrollingUpExitPoint = brandTop + 220;
+      const scrollingUp = window.scrollY < lastScrollY;
+      const reverseBeforeBrandPoint = brandTop - 240;
+      const shouldHideBeforeBrand =
+        scrollingUp && viewportBottom <= reverseBeforeBrandPoint;
       const inEndingSection = viewportBottom >= endingTop;
-      const shouldHideBeforeBrand = viewportBottom < scrollingUpExitPoint;
 
       if (shouldHideBeforeBrand) {
-        layer.classList.remove(
-          "services-page-at-bottom",
-          "services-ending-revealed",
-          "services-explosion-visible"
-        );
-
-        if (endingRevealTimer !== null) {
-          window.clearTimeout(endingRevealTimer);
-          endingRevealTimer = null;
-        }
+        hideExplosion();
         return;
       }
 
@@ -68,22 +75,16 @@ export default function ServicesBotanical() {
             endingRevealTimer = null;
           }, 1250);
         }
-      } else {
-        // Reverse at the exact same section boundary used to trigger the explosion.
-        layer.classList.remove(
-          "services-page-at-bottom",
-          "services-ending-revealed",
-          "services-explosion-visible"
-        );
-
-        if (endingRevealTimer !== null) {
-          window.clearTimeout(endingRevealTimer);
-          endingRevealTimer = null;
-        }
+      } else if (!scrollingUp) {
+        // On the way down, remain hidden until the final section is reached.
+        hideExplosion();
       }
     };
 
-    const onScroll = () => updateBottomState();
+    const onScroll = () => {
+      updateBottomState();
+      lastScrollY = window.scrollY;
+    };
 
     // Wait for the first browser layout (and web fonts) to settle before measuring
     // the jump nav. This prevents the tree position from being calculated from
