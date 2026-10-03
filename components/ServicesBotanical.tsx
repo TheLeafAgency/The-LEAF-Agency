@@ -46,7 +46,10 @@ export default function ServicesBotanical() {
       const viewportBottom = window.scrollY + window.innerHeight;
       const scrollingUp = window.scrollY < lastScrollY;
 
-      const inEndingSection = viewportBottom >= endingTop + 200;
+      // Trigger as soon as the ending section reaches the bottom of the viewport.
+      // The previous +200px offset could prevent the animation from firing at the
+      // actual bottom of the page on shorter viewports.
+      const inEndingSection = viewportBottom >= endingTop;
 
       if (scrollingUp) {
         hideExplosion();
