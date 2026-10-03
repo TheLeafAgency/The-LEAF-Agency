@@ -296,15 +296,15 @@ section { width: 100%; }
 }
 
 .leaf-botanical-leaf-motion > path:first-child {
-  /* Leaves use the same color as the site's main text for a unified look. */
-  fill: var(--leaf-text);
-  stroke: var(--leaf-text);
+  /* Match every leaf to the site's text color. */
+  fill: var(--leaf-text) !important;
+  stroke: var(--leaf-text) !important;
   stroke-width: 1.2;
 }
 
 .leaf-botanical-leaf-motion .leaf-vein {
   fill: none;
-  stroke: var(--leaf-text);
+  stroke: var(--leaf-text) !important;
   stroke-width: 1.5;
   stroke-linecap: round;
   opacity: .75;
