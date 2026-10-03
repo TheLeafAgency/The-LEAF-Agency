@@ -30,8 +30,16 @@ function Leaf({
       style={reveal(start, start)}
     >
       <g className="leaf-botanical-leaf-motion">
-        <path d="M0 0 C7 -30 35 -43 55 -34 C48 -8 25 8 0 0Z" />
-        <path d="M3 -3 C20 -12 35 -23 50 -33" className="leaf-vein" />
+        <path
+          d="M0 0 C7 -30 35 -43 55 -34 C48 -8 25 8 0 0Z"
+          fill="var(--leaf-text)"
+          stroke="var(--leaf-text)"
+        />
+        <path
+          d="M3 -3 C20 -12 35 -23 50 -33"
+          className="leaf-vein"
+          stroke="var(--leaf-text)"
+        />
       </g>
     </g>
   );
@@ -150,6 +158,16 @@ export default function BotanicalGrowth() {
         viewBox="0 0 1440 5000"
         preserveAspectRatio="none"
       >
+        <defs>
+          {/* Keep the botanical artwork on the outside edges of the page.
+              The middle of the page is reserved for headings, cards, and body text. */}
+          <clipPath id="leaf-edge-clip">
+            <rect x="0" y="0" width="300" height="5000" />
+            <rect x="1140" y="0" width="300" height="5000" />
+          </clipPath>
+        </defs>
+
+        <g clipPath="url(#leaf-edge-clip)">
         {/* Each branch is independent on purpose. The asymmetry is part of the experiment. */}
 
         {/* The hero is intentionally left clear for the video area. */}
@@ -345,6 +363,7 @@ export default function BotanicalGrowth() {
           <VinePath d="M1090 4450 C1055 4510 1015 4560 970 4600" start={0.93} end={1} width={4} className="leaf-root-thin" />
           <VinePath d="M1090 4450 C1110 4520 1130 4580 1120 4640" start={0.94} end={1} width={4} className="leaf-root-thin" />
           <VinePath d="M1080 4490 C1040 4510 1000 4520 950 4520" start={0.96} end={1} width={3} className="leaf-root-thin" />
+        </g>
         </g>
       </svg>
     </div>
