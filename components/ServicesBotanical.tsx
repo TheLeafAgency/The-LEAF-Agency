@@ -26,13 +26,32 @@ export default function ServicesBotanical() {
       const ending = document.querySelector(".services-ending") as HTMLElement | null;
       if (!ending) return;
 
-      // Start the takeover when the final section reaches the viewport instead of
-      // waiting until the page is almost completely scrolled to the bottom.
-      // The same threshold is used in both directions, so the 2s explosion reverses
-      // cleanly at the exact same point when the user scrolls back up.
+      // Trigger the explosion as the final section enters the viewport.
+      // On the way back up, reverse it earlier while the user is still inside
+      // the Brand section so the brown takeover is gone before Brand is reached.
       const endingTop = ending.getBoundingClientRect().top + window.scrollY;
+      const brand = document.querySelector("#brand") as HTMLElement | null;
+      const brandTop = brand
+        ? brand.getBoundingClientRect().top + window.scrollY
+        : endingTop;
       const viewportBottom = window.scrollY + window.innerHeight;
+      const scrollingUpExitPoint = brandTop + 220;
       const inEndingSection = viewportBottom >= endingTop;
+      const shouldHideBeforeBrand = viewportBottom < scrollingUpExitPoint;
+
+      if (shouldHideBeforeBrand) {
+        layer.classList.remove(
+          "services-page-at-bottom",
+          "services-ending-revealed",
+          "services-explosion-visible"
+        );
+
+        if (endingRevealTimer !== null) {
+          window.clearTimeout(endingRevealTimer);
+          endingRevealTimer = null;
+        }
+        return;
+      }
 
       if (inEndingSection) {
         const wasInEndingSection = layer.classList.contains("services-page-at-bottom");
