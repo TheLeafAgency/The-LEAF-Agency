@@ -2489,3 +2489,18 @@ section { width: 100%; }
     right: -18px;
   }
 }
+
+/* Final Services animation fix: freeze burst leaves before fading them out. */
+.services-leaf-burst span {
+  transition: opacity .45s ease !important;
+}
+
+.services-tree-layer.services-leaves-fading .services-leaf-burst span {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: translate(calc(-50% + var(--x) * 1.08), calc(var(--y) + 34px)) scale(.82) rotate(calc(var(--r) + 35deg)) !important;
+}
+
+.services-tree-layer:not(.services-leaves-fading) .services-leaf-burst span {
+  transition: opacity .45s ease !important;
+}
