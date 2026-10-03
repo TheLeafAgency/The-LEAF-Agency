@@ -21,6 +21,7 @@ export default function ServicesBotanical() {
 
     let endingRevealTimer: number | null = null;
     let explosionHideTimer: number | null = null;
+    let leafFadeTimer: number | null = null;
     let lastScrollY = window.scrollY;
 
     const hideExplosion = () => {
@@ -29,6 +30,15 @@ export default function ServicesBotanical() {
         "services-ending-revealed",
         "services-explosion-visible"
       );
+      layer.classList.add("services-leaves-fading", "services-ending-reversing");
+
+      if (leafFadeTimer !== null) {
+        window.clearTimeout(leafFadeTimer);
+      }
+      leafFadeTimer = window.setTimeout(() => {
+        layer.classList.remove("services-leaves-fading", "services-ending-reversing");
+        leafFadeTimer = null;
+      }, 420);
 
       if (endingRevealTimer !== null) {
         window.clearTimeout(endingRevealTimer);
@@ -58,6 +68,11 @@ export default function ServicesBotanical() {
 
       if (inEndingSection) {
         const wasInEndingSection = layer.classList.contains("services-page-at-bottom");
+        if (leafFadeTimer !== null) {
+          window.clearTimeout(leafFadeTimer);
+          leafFadeTimer = null;
+        }
+        layer.classList.remove("services-leaves-fading", "services-ending-reversing");
         layer.classList.add(
           "services-leaves-seen",
           "services-explosion-visible",
@@ -113,6 +128,7 @@ export default function ServicesBotanical() {
       if (initialFrameThree !== null) window.cancelAnimationFrame(initialFrameThree);
       if (endingRevealTimer !== null) window.clearTimeout(endingRevealTimer);
       if (explosionHideTimer !== null) window.clearTimeout(explosionHideTimer);
+      if (leafFadeTimer !== null) window.clearTimeout(leafFadeTimer);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", updateTreePosition);
     };
