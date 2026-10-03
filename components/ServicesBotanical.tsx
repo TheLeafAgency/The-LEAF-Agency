@@ -30,6 +30,10 @@ export default function ServicesBotanical() {
         "services-ending-revealed",
         "services-explosion-visible"
       );
+
+      // Freeze the leaves where the burst left them, then let CSS fade them out.
+      // The previous version kept the burst keyframe animation in control of
+      // opacity, which prevented a real fade-out on upward scroll.
       layer.classList.add("services-leaves-fading", "services-ending-reversing");
 
       if (leafFadeTimer !== null) {
@@ -38,7 +42,7 @@ export default function ServicesBotanical() {
       leafFadeTimer = window.setTimeout(() => {
         layer.classList.remove("services-leaves-fading", "services-ending-reversing");
         leafFadeTimer = null;
-      }, 420);
+      }, 450);
 
       if (endingRevealTimer !== null) {
         window.clearTimeout(endingRevealTimer);
@@ -74,7 +78,6 @@ export default function ServicesBotanical() {
         }
         layer.classList.remove("services-leaves-fading", "services-ending-reversing");
         layer.classList.add(
-          "services-leaves-seen",
           "services-explosion-visible",
           "services-page-at-bottom"
         );
