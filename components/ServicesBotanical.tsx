@@ -41,20 +41,16 @@ export default function ServicesBotanical() {
       if (!ending) return;
 
       // Scrolling DOWN: trigger the bottom animation slightly later.
-      // Scrolling UP: reverse the explosion slightly earlier, before the Brand section.
+      // Scrolling UP: start reversing shortly before the viewport leaves the ending section.
       const endingTop = ending.getBoundingClientRect().top + window.scrollY;
-      const brand = document.querySelector("#brand") as HTMLElement | null;
-      const brandTop = brand
-        ? brand.getBoundingClientRect().top + window.scrollY
-        : endingTop;
       const viewportBottom = window.scrollY + window.innerHeight;
       const scrollingUp = window.scrollY < lastScrollY;
 
       const inEndingSection = viewportBottom >= endingTop + 200;
-      const reverseBeforeBrandPoint = brandTop - 500;
+      const reverseTriggerPoint = endingTop + 450;
 
       if (scrollingUp) {
-        if (window.scrollY < reverseBeforeBrandPoint) {
+        if (viewportBottom < reverseTriggerPoint) {
           hideExplosion();
         }
         return;
