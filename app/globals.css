@@ -2301,6 +2301,7 @@ section { width: 100%; }
 .services-ending .container {
   position: relative !important;
   z-index: 3 !important;
+  transform: translateY(-45px);
 }
 
 
