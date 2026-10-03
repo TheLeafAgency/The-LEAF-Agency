@@ -2428,18 +2428,18 @@ section { width: 100%; }
 /* Services botanical hero framing and upward exit motion. */
 .services-hero-botanical {
   position: absolute;
-  top: 8%;
-  width: clamp(150px, 18vw, 260px);
-  height: 78%;
+  top: 4%;
+  width: clamp(180px, 21vw, 300px);
+  height: 88%;
   overflow: visible;
   pointer-events: none;
   z-index: 1;
 }
 .services-hero-botanical-left {
-  left: 1.5%;
+  left: -8%;
 }
 .services-hero-botanical-right {
-  right: 1.5%;
+  right: -8%;
   transform: scaleX(-1);
 }
 .services-hero-botanical path:not(.hero-leaf) {
