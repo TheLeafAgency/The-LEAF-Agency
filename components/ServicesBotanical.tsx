@@ -77,6 +77,16 @@ export default function ServicesBotanical() {
           leafFadeTimer = null;
         }
         layer.classList.remove("services-leaves-fading", "services-ending-reversing");
+
+        // Start a fresh leaf-burst animation each time we re-enter the ending
+        // section from above. Removing the trigger class first forces the
+        // browser to reset the keyframes instead of leaving completed leaves
+        // sitting at their final positions.
+        if (!wasInEndingSection) {
+          layer.classList.remove("services-page-at-bottom");
+          void layer.offsetWidth;
+        }
+
         layer.classList.add(
           "services-explosion-visible",
           "services-page-at-bottom"
