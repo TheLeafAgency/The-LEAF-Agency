@@ -51,10 +51,10 @@ export default function ServicesBotanical() {
       const scrollingUp = window.scrollY < lastScrollY;
 
       const inEndingSection = viewportBottom >= endingTop + 200;
-      const reverseBeforeBrandPoint = brandTop + 120;
+      const reverseBeforeBrandPoint = brandTop - 120;
 
       if (scrollingUp) {
-        if (viewportBottom < reverseBeforeBrandPoint) {
+        if (window.scrollY < reverseBeforeBrandPoint) {
           hideExplosion();
         }
         return;
