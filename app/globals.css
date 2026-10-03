@@ -2366,8 +2366,8 @@ section { width: 100%; }
   z-index: 95 !important;
   animation: none !important;
   transition:
-    width .35s cubic-bezier(.22,1,.36,1),
-    height .35s cubic-bezier(.22,1,.36,1) !important;
+    width 1.5s cubic-bezier(.22,1,.36,1),
+    height 1.5s cubic-bezier(.22,1,.36,1) !important;
 }
 .services-tree-layer.services-explosion-visible .services-brown-explosion,
 .services-page-at-bottom .services-brown-explosion {
