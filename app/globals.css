@@ -1989,7 +1989,7 @@ section { width: 100%; }
   0% { opacity: 0; transform: translate(-50%, 0) scale(.2) rotate(0deg); }
   12% { opacity: 1; transform: translate(calc(-50% + var(--x) * .16), calc(var(--y) * .16)) scale(1) rotate(calc(var(--r) * .2)); }
   72% { opacity: 1; transform: translate(calc(-50% + var(--x)), var(--y)) scale(1) rotate(var(--r)); }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--x) * 1.08), calc(var(--y) + 34px)) scale(.82) rotate(calc(var(--r) + 35deg)); }
+  100% { opacity: 1; transform: translate(calc(-50% + var(--x) * 1.08), calc(var(--y) + 34px)) scale(.82) rotate(calc(var(--r) + 35deg)); }
 }
 .service-media-slot {
   width: 220px !important;
