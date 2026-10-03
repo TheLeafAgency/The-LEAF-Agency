@@ -2380,3 +2380,69 @@ section { width: 100%; }
 }
 
 /* Trigger Preview branch deployment only. */
+
+
+/* Services botanical hero framing and upward exit motion. */
+.services-hero-botanical {
+  position: absolute;
+  top: 8%;
+  width: clamp(150px, 18vw, 260px);
+  height: 78%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+.services-hero-botanical-left {
+  left: 1.5%;
+}
+.services-hero-botanical-right {
+  right: 1.5%;
+  transform: scaleX(-1);
+}
+.services-hero-botanical path:not(.hero-leaf) {
+  fill: none;
+  stroke: #5A3A25;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .9;
+}
+.services-hero-botanical .hero-leaf {
+  fill: #4F7D31;
+  stroke: #365A24;
+  stroke-width: 2;
+  opacity: .95;
+}
+.services-hero-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.services-tree-layer.services-leaves-fading .services-leaf-burst {
+  opacity: 1;
+  transition: opacity .42s ease;
+}
+.services-tree-layer.services-leaves-fading .services-leaf-burst span {
+  opacity: 1 !important;
+}
+
+.services-tree-layer.services-ending-reversing ~ .services-ending {
+  opacity: 0 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  transition: opacity .28s ease, transform .28s ease !important;
+}
+
+@media (max-width: 700px) {
+  .services-hero-botanical {
+    width: 120px;
+    height: 62%;
+    top: 18%;
+  }
+  .services-hero-botanical-left {
+    left: -18px;
+  }
+  .services-hero-botanical-right {
+    right: -18px;
+  }
+}
