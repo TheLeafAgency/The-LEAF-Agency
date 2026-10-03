@@ -40,8 +40,8 @@ export default function ServicesBotanical() {
       const ending = document.querySelector(".services-ending") as HTMLElement | null;
       if (!ending) return;
 
-      // Scrolling DOWN: keep the original trigger at the final ending section.
-      // Scrolling UP: reverse the explosion earlier, before the Brand section.
+      // Scrolling DOWN: trigger the bottom animation slightly later.
+      // Scrolling UP: reverse the explosion slightly earlier, before the Brand section.
       const endingTop = ending.getBoundingClientRect().top + window.scrollY;
       const brand = document.querySelector("#brand") as HTMLElement | null;
       const brandTop = brand
@@ -50,8 +50,8 @@ export default function ServicesBotanical() {
       const viewportBottom = window.scrollY + window.innerHeight;
       const scrollingUp = window.scrollY < lastScrollY;
 
-      const inEndingSection = viewportBottom >= endingTop;
-      const reverseBeforeBrandPoint = brandTop + 240;
+      const inEndingSection = viewportBottom >= endingTop + 100;
+      const reverseBeforeBrandPoint = brandTop + 340;
 
       if (scrollingUp) {
         if (viewportBottom < reverseBeforeBrandPoint) {
