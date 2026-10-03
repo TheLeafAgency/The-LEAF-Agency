@@ -50,17 +50,19 @@ export default function ServicesBotanical() {
         : endingTop;
       const viewportBottom = window.scrollY + window.innerHeight;
       const scrollingUp = window.scrollY < lastScrollY;
-      const reverseBeforeBrandPoint = brandTop - 240;
-      const shouldHideBeforeBrand =
-        scrollingUp && viewportBottom <= reverseBeforeBrandPoint;
-      const inEndingSection = viewportBottom >= endingTop;
 
-      if (shouldHideBeforeBrand) {
+      // The explosion belongs to the Brand approach, not the section after it.
+      // Start it before Brand reaches the viewport, then reverse it at that
+      // exact same boundary when the user scrolls back up.
+      const brandExplosionPoint = brandTop - 240;
+      const pastBrandExplosionPoint = viewportBottom >= brandExplosionPoint;
+
+      if (scrollingUp && !pastBrandExplosionPoint) {
         hideExplosion();
         return;
       }
 
-      if (inEndingSection) {
+      if (pastBrandExplosionPoint) {
         const wasInEndingSection = layer.classList.contains("services-page-at-bottom");
         layer.classList.add(
           "services-leaves-seen",
