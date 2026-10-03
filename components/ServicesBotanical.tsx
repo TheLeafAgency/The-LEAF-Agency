@@ -40,9 +40,8 @@ export default function ServicesBotanical() {
       const ending = document.querySelector(".services-ending") as HTMLElement | null;
       if (!ending) return;
 
-      // Trigger the explosion as the final section enters the viewport.
-      // When scrolling back up, keep it visible past the ending boundary and
-      // start its normal 2s reduction before the Brand section comes into view.
+      // Scrolling DOWN: keep the original trigger at the final ending section.
+      // Scrolling UP: reverse the explosion earlier, before the Brand section.
       const endingTop = ending.getBoundingClientRect().top + window.scrollY;
       const brand = document.querySelector("#brand") as HTMLElement | null;
       const brandTop = brand
@@ -51,18 +50,17 @@ export default function ServicesBotanical() {
       const viewportBottom = window.scrollY + window.innerHeight;
       const scrollingUp = window.scrollY < lastScrollY;
 
-      // The explosion belongs to the Brand approach, not the section after it.
-      // Start it before Brand reaches the viewport, then reverse it at that
-      // exact same boundary when the user scrolls back up.
-      const brandExplosionPoint = brandTop - 240;
-      const pastBrandExplosionPoint = viewportBottom >= brandExplosionPoint;
+      const inEndingSection = viewportBottom >= endingTop;
+      const reverseBeforeBrandPoint = brandTop + 240;
 
-      if (scrollingUp && !pastBrandExplosionPoint) {
-        hideExplosion();
+      if (scrollingUp) {
+        if (viewportBottom < reverseBeforeBrandPoint) {
+          hideExplosion();
+        }
         return;
       }
 
-      if (pastBrandExplosionPoint) {
+      if (inEndingSection) {
         const wasInEndingSection = layer.classList.contains("services-page-at-bottom");
         layer.classList.add(
           "services-leaves-seen",
@@ -77,8 +75,7 @@ export default function ServicesBotanical() {
             endingRevealTimer = null;
           }, 1250);
         }
-      } else if (!scrollingUp) {
-        // On the way down, remain hidden until the final section is reached.
+      } else {
         hideExplosion();
       }
     };
