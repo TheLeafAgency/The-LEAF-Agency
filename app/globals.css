@@ -231,6 +231,27 @@ section { width: 100%; }
   z-index: 5;
   pointer-events: none;
   overflow: hidden;
+
+  /* Keep the botanical artwork on the outer edges so it never sits behind
+     the main text/content in the middle of the page. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 23%,
+    transparent 32%,
+    transparent 68%,
+    #000 77%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 23%,
+    transparent 32%,
+    transparent 68%,
+    #000 77%,
+    #000 100%
+  );
 }
 
 .leaf-botanical-svg {
@@ -275,14 +296,15 @@ section { width: 100%; }
 }
 
 .leaf-botanical-leaf-motion > path:first-child {
-  fill: #4F7D31;
-  stroke: #365A24;
+  /* Leaves use the same color as the site's main text for a unified look. */
+  fill: var(--leaf-text);
+  stroke: var(--leaf-text);
   stroke-width: 1.2;
 }
 
 .leaf-botanical-leaf-motion .leaf-vein {
   fill: none;
-  stroke: #315522;
+  stroke: var(--leaf-text);
   stroke-width: 1.5;
   stroke-linecap: round;
   opacity: .75;
@@ -2190,6 +2212,27 @@ section { width: 100%; }
 }
 
 @media (max-width: 700px) {
+  .leaf-botanical-layer {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 30%,
+      transparent 42%,
+      transparent 58%,
+      #000 70%,
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 30%,
+      transparent 42%,
+      transparent 58%,
+      #000 70%,
+      #000 100%
+    );
+  }
+
   .services-brown-explosion {
     height: 58vh !important;
   }
