@@ -51,7 +51,7 @@ export default function ServicesBotanical() {
       const scrollingUp = window.scrollY < lastScrollY;
 
       const inEndingSection = viewportBottom >= endingTop + 200;
-      const reverseBeforeBrandPoint = brandTop - 250;
+      const reverseBeforeBrandPoint = brandTop - 500;
 
       if (scrollingUp) {
         if (window.scrollY < reverseBeforeBrandPoint) {
