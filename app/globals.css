@@ -1985,7 +1985,7 @@ section { width: 100%; }
 .services-leaf-burst {
   position: fixed;
   left: 50%;
-  bottom: 28px;
+  bottom: 72px;
   width: 0;
   height: 0;
   z-index: 96;
@@ -2479,20 +2479,20 @@ section { width: 100%; }
   opacity: 0 !important;
   visibility: visible !important;
   transform: translateY(0) !important;
-  transition: opacity .28s ease, transform .28s ease !important;
+  transition: opacity .45s ease, transform .45s ease !important;
 }
 
 @media (max-width: 700px) {
   .services-hero-botanical {
-    width: 120px;
-    height: 62%;
-    top: 18%;
+    width: 260px;
+    height: 180px;
+    top: 50%;
   }
   .services-hero-botanical-left {
-    left: -18px;
+    left: -95px;
   }
   .services-hero-botanical-right {
-    right: -18px;
+    right: -95px;
   }
 }
 
