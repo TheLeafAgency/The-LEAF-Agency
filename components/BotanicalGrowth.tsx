@@ -331,6 +331,7 @@ export default function BotanicalGrowth() {
           <VinePath d="M1080 4490 C1040 4510 1000 4520 950 4520" start={0.96} end={1} width={3} className="leaf-root-thin" />
         </g>
           </g>
-        </svg></div>
+        </svg>
+    </div>
   );
 }
