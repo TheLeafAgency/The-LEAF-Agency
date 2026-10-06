@@ -151,8 +151,8 @@ section { width: 100%; }
   stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 5 9;
-  opacity: 0;
-  animation: leaf-fall-trail-drift 2.8s ease-in-out infinite;
+  opacity: .28;
+  animation: none;
 }
 
 .leaf-fall-trail-soft {
