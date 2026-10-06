@@ -72,14 +72,31 @@ export default function BotanicalGrowth() {
     const layer = layerRef.current;
     if (!layer) return;
 
-    // Only update botanical SVGs close to the viewport. Updating one
-    // inherited variable on the whole 5,000px botanical layer forces every
-    // branch and leaf to recalculate during scroll, even when it is off-screen.
-    const sections = Array.from(
-      layer.querySelectorAll<SVGElement>(
-        ".leaf-botanical-svg-section, .leaf-botanical-svg-overlay"
-      )
+    // Let the browser track which botanical sections are near the viewport.
+    // This avoids calling getBoundingClientRect() on every SVG during every
+    // scroll frame, which can force layout work and get progressively slower.
+    const activeSections = new Set<SVGElement>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const section = entry.target as SVGElement;
+          if (entry.isIntersecting) {
+            activeSections.add(section);
+          } else {
+            activeSections.delete(section);
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: "75% 0px 75% 0px",
+        threshold: 0,
+      }
     );
+
+    for (const section of sections) {
+      observer.observe(section);
+    }
 
     const update = () => {
       const maxScroll = Math.max(
@@ -96,25 +113,8 @@ export default function BotanicalGrowth() {
         )
       );
 
-      const preloadDistance = window.innerHeight * 0.75;
-      const viewportBottom = window.innerHeight + preloadDistance;
-      const viewportTop = -preloadDistance;
-      const updates: Array<[SVGElement, boolean]> = [];
-
-      // Read all positions before writing styles so the browser does not
-      // bounce between layout reads and style writes during a scroll frame.
-      for (const section of sections) {
-        const rect = section.getBoundingClientRect();
-        updates.push([
-          section,
-          rect.bottom >= viewportTop && rect.top <= viewportBottom,
-        ]);
-      }
-
-      for (const [section, visible] of updates) {
-        if (visible) {
-          section.style.setProperty("--botanical-progress", String(progress));
-        }
+      for (const section of activeSections) {
+        section.style.setProperty("--botanical-progress", String(progress));
       }
     };
 
@@ -135,6 +135,7 @@ export default function BotanicalGrowth() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (frame) cancelAnimationFrame(frame);
+      observer.disconnect();
     };
   }, []);
 
