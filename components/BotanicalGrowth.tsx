@@ -275,7 +275,7 @@ export default function BotanicalGrowth() {
           <g className="leaf-falling-leaf" style={reveal(0.63,0.95)}><Leaf x={1120} y={3710} rotate={25} scale={0.43} start={0} side="right" /></g>
           <g className="leaf-falling-leaf" style={reveal(0.70,0.98)}><Leaf x={260} y={3970} rotate={-26} scale={0.39} start={0} /></g>
           <g className="leaf-falling-leaf" style={reveal(0.76,1)}><Leaf x={1370} y={3990} rotate={20} scale={0.40} start={0} side="right" /></g>
-        </g
+        </g>
           </g>
         </svg>
         <svg className="leaf-botanical-svg leaf-botanical-svg-section" viewBox="0 3300 1440 1050" preserveAspectRatio="none" style={{ top: "66%", height: "21%" }}>
