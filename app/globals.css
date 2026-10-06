@@ -296,15 +296,15 @@ section { width: 100%; }
 }
 
 .leaf-botanical-leaf-motion > path:first-child {
-  /* Match every leaf to the site's text color. */
-  fill: var(--leaf-text) !important;
-  stroke: var(--leaf-text) !important;
+  /* Restore the homepage leaves to the original Eden green. */
+  fill: var(--leaf-eden-green) !important;
+  stroke: var(--leaf-eden-green) !important;
   stroke-width: 1.2;
 }
 
 .leaf-botanical-leaf-motion .leaf-vein {
   fill: none;
-  stroke: var(--leaf-text) !important;
+  stroke: var(--leaf-eden-green) !important;
   stroke-width: 1.5;
   stroke-linecap: round;
   opacity: .75;
