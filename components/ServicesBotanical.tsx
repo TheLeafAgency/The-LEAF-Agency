@@ -70,6 +70,8 @@ export default function ServicesBotanical() {
       // Scrolling DOWN: trigger the bottom animation slightly later.
       // Scrolling UP: start reversing shortly before the viewport leaves the ending section.
       const endingTop = ending.getBoundingClientRect().top + window.scrollY;
+      const endingLeafTop = endingTop + ending.offsetHeight * 0.42;
+      layer.style.setProperty("--ending-leaf-top", String(endingLeafTop) + "px");
       const viewportBottom = window.scrollY + window.innerHeight;
       const scrollingUp = window.scrollY < lastScrollY;
 
