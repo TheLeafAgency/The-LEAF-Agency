@@ -178,19 +178,19 @@ export default function ServicesBotanical() {
         <span style={{"--x":"27vw","--y":"-56vh","--r":"82deg","--delay":".48s"} as React.CSSProperties} />
         <span style={{"--x":"36vw","--y":"-20vh","--r":"120deg","--delay":".31s"} as React.CSSProperties} />
         <span style={{"--x":"43vw","--y":"-45vh","--r":"145deg","--delay":".72s"} as React.CSSProperties} />
-        <span style={{"--x":"-47vw","--y":"-8vh","--r":"-135deg","--delay":".57s"} as React.CSSProperties} />
-        <span style={{"--x":"47vw","--y":"-10vh","--r":"135deg","--delay":".66s"} as React.CSSProperties} />
+        <span style={{"--x":"-47vw","--y":"0vh","--r":"-135deg","--delay":".57s"} as React.CSSProperties} />
+        <span style={{"--x":"47vw","--y":"-2vh","--r":"135deg","--delay":".66s"} as React.CSSProperties} />
         <span style={{"--x":"-22vw","--y":"-40vh","--r":"-30deg","--delay":".38s"} as React.CSSProperties} />
         <span style={{"--x":"22vw","--y":"-42vh","--r":"70deg","--delay":".25s"} as React.CSSProperties} />
         <span style={{"--x":"-38vw","--y":"-32vh","--r":"-115deg","--delay":".83s"} as React.CSSProperties} />
         <span style={{"--x":"38vw","--y":"-30vh","--r":"110deg","--delay":".94s"} as React.CSSProperties} />
-        <span style={{"--x":"-44vw","--y":"-4vh","--r":"-150deg","--delay":".16s"} as React.CSSProperties} />
-        <span style={{"--x":"-31vw","--y":"-12vh","--r":"-95deg","--delay":".42s"} as React.CSSProperties} />
-        <span style={{"--x":"-18vw","--y":"-6vh","--r":"-55deg","--delay":".28s"} as React.CSSProperties} />
+        <span style={{"--x":"-44vw","--y":"4vh","--r":"-150deg","--delay":".16s"} as React.CSSProperties} />
+        <span style={{"--x":"-31vw","--y":"-4vh","--r":"-95deg","--delay":".42s"} as React.CSSProperties} />
+        <span style={{"--x":"-18vw","--y":"2vh","--r":"-55deg","--delay":".28s"} as React.CSSProperties} />
         <span style={{"--x":"-9vw","--y":"-10vh","--r":"-25deg","--delay":".58s"} as React.CSSProperties} />
         <span style={{"--x":"9vw","--y":"-8vh","--r":"25deg","--delay":".36s"} as React.CSSProperties} />
-        <span style={{"--x":"18vw","--y":"-5vh","--r":"55deg","--delay":".63s"} as React.CSSProperties} />
-        <span style={{"--x":"31vw","--y":"-11vh","--r":"95deg","--delay":".22s"} as React.CSSProperties} />
+        <span style={{"--x":"18vw","--y":"3vh","--r":"55deg","--delay":".63s"} as React.CSSProperties} />
+        <span style={{"--x":"31vw","--y":"5vh","--r":"95deg","--delay":".22s"} as React.CSSProperties} />
         <span style={{"--x":"44vw","--y":"-3vh","--r":"150deg","--delay":".51s"} as React.CSSProperties} />
       </div>
       <div className="services-tree">
