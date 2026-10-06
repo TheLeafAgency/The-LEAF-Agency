@@ -244,6 +244,11 @@ section { width: 100%; }
   overflow: visible;
 }
 
+.leaf-botanical-svg-section {
+  position: absolute;
+  left: 0;
+}
+
 .leaf-botanical-path {
   fill: none;
   stroke: #3F2A1B;
