@@ -182,21 +182,6 @@ export default function ServicesBotanical() {
         <span style={{"--x":"-38vw","--y":"-32vh","--r":"-115deg","--delay":".83s"} as React.CSSProperties} />
         <span style={{"--x":"38vw","--y":"-30vh","--r":"110deg","--delay":".94s"} as React.CSSProperties} />
       </div>
-      <div className="services-tree">
-        <svg className="services-tree-svg" viewBox="0 0 1000 7200" preserveAspectRatio="none">
-          <path
-            className="services-tree-trunk"
-            d="M500 0 C486 500 510 900 492 1350 C475 1800 515 2150 495 2580 C470 3050 520 3420 505 3850 C488 4280 525 4680 500 5100 C475 5530 515 5920 492 6350 C480 6620 492 6900 470 7200"
-          />
-          <path
-            className="services-tree-trunk-highlight"
-            d="M525 0 C515 560 535 980 520 1400 C505 1820 545 2200 525 2620 C505 3060 550 3450 535 3880 C515 4300 555 4700 530 5120 C510 5540 550 5920 525 6350 C515 6640 525 6900 505 7200"
-          />
-          <path className="services-tree-root services-tree-root-left" d="M472 6750 C430 6870 355 6990 260 7130" />
-          <path className="services-tree-root services-tree-root-right" d="M485 6800 C535 6910 625 7030 735 7140" />
-          <path className="services-tree-root services-tree-root-center" d="M478 6820 C475 6960 455 7070 430 7200" />
-        </svg>
-      </div>
     </div>
   );
 }
