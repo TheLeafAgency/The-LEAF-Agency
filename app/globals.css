@@ -232,26 +232,9 @@ section { width: 100%; }
   pointer-events: none;
   overflow: hidden;
 
-  /* Keep the botanical artwork on the outer edges so it never sits behind
-     the main text/content in the middle of the page. */
-  -webkit-mask-image: linear-gradient(
-    to right,
-    #000 0%,
-    #000 23%,
-    transparent 32%,
-    transparent 68%,
-    #000 77%,
-    #000 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    #000 0%,
-    #000 23%,
-    transparent 32%,
-    transparent 68%,
-    #000 77%,
-    #000 100%
-  );
+  /* Edge placement is handled by the SVG's edge clipPath.
+     Avoid a full-page CSS mask here because the botanical layer is
+     continuously updated during scrolling. */
 }
 
 .leaf-botanical-svg {
