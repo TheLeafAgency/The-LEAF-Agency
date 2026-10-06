@@ -247,6 +247,12 @@ section { width: 100%; }
 .leaf-botanical-svg-section {
   position: absolute;
   left: 0;
+
+  /* Keep each botanical section as its own rendering island. During scroll,
+     only the section near the viewport needs to be painted. */
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 100vw 1000px;
 }
 
 .leaf-botanical-path {
