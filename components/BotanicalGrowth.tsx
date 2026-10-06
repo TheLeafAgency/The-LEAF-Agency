@@ -72,9 +72,15 @@ export default function BotanicalGrowth() {
     const layer = layerRef.current;
     if (!layer) return;
 
-    // The botanical layer has many SVG elements. Keep the scroll work to a
-    // single CSS custom property on the parent instead of mutating every
-    // branch and leaf on every animation frame.
+    // Only update botanical SVGs close to the viewport. Updating one
+    // inherited variable on the whole 5,000px botanical layer forces every
+    // branch and leaf to recalculate during scroll, even when it is off-screen.
+    const sections = Array.from(
+      layer.querySelectorAll<SVGElement>(
+        ".leaf-botanical-svg-section, .leaf-botanical-svg-overlay"
+      )
+    );
+
     const update = () => {
       const maxScroll = Math.max(
         1,
@@ -90,7 +96,26 @@ export default function BotanicalGrowth() {
         )
       );
 
-      layer.style.setProperty("--botanical-progress", String(progress));
+      const preloadDistance = window.innerHeight * 0.75;
+      const viewportBottom = window.innerHeight + preloadDistance;
+      const viewportTop = -preloadDistance;
+      const updates: Array<[SVGElement, boolean]> = [];
+
+      // Read all positions before writing styles so the browser does not
+      // bounce between layout reads and style writes during a scroll frame.
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        updates.push([
+          section,
+          rect.bottom >= viewportTop && rect.top <= viewportBottom,
+        ]);
+      }
+
+      for (const [section, visible] of updates) {
+        if (visible) {
+          section.style.setProperty("--botanical-progress", String(progress));
+        }
+      }
     };
 
     let frame = 0;
