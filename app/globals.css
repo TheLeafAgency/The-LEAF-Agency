@@ -248,11 +248,9 @@ section { width: 100%; }
   position: absolute;
   left: 0;
 
-  /* Keep each botanical section as its own rendering island. During scroll,
-     only the section near the viewport needs to be painted. */
-  contain: layout paint;
-  content-visibility: auto;
-  contain-intrinsic-size: 100vw 1000px;
+  /* Keep layout containment, but do not paint-contain the branches.
+     Several branches intentionally extend beyond their section box. */
+  contain: layout;
 }
 
 .leaf-botanical-path {
