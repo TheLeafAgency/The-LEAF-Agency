@@ -184,6 +184,14 @@ export default function ServicesBotanical() {
         <span style={{"--x":"22vw","--y":"-42vh","--r":"70deg","--delay":".25s"} as React.CSSProperties} />
         <span style={{"--x":"-38vw","--y":"-32vh","--r":"-115deg","--delay":".83s"} as React.CSSProperties} />
         <span style={{"--x":"38vw","--y":"-30vh","--r":"110deg","--delay":".94s"} as React.CSSProperties} />
+        <span style={{"--x":"-44vw","--y":"-4vh","--r":"-150deg","--delay":".16s"} as React.CSSProperties} />
+        <span style={{"--x":"-31vw","--y":"-12vh","--r":"-95deg","--delay":".42s"} as React.CSSProperties} />
+        <span style={{"--x":"-18vw","--y":"-6vh","--r":"-55deg","--delay":".28s"} as React.CSSProperties} />
+        <span style={{"--x":"-9vw","--y":"-10vh","--r":"-25deg","--delay":".58s"} as React.CSSProperties} />
+        <span style={{"--x":"9vw","--y":"-8vh","--r":"25deg","--delay":".36s"} as React.CSSProperties} />
+        <span style={{"--x":"18vw","--y":"-5vh","--r":"55deg","--delay":".63s"} as React.CSSProperties} />
+        <span style={{"--x":"31vw","--y":"-11vh","--r":"95deg","--delay":".22s"} as React.CSSProperties} />
+        <span style={{"--x":"44vw","--y":"-3vh","--r":"150deg","--delay":".51s"} as React.CSSProperties} />
       </div>
       <div className="services-tree">
         <svg className="services-tree-svg" viewBox="0 0 1000 7200" preserveAspectRatio="none">
