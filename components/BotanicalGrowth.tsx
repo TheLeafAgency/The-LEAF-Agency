@@ -95,7 +95,7 @@ export default function BotanicalGrowth() {
       },
       {
         root: null,
-        rootMargin: "75% 0px 75% 0px",
+        rootMargin: "25% 0px 25% 0px",
         threshold: 0,
       }
     );
