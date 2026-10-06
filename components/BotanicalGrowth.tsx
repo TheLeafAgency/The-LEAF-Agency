@@ -313,7 +313,6 @@ export default function BotanicalGrowth() {
           <Leaf x={1280} y={4210} rotate={-28} scale={0.68} start={0.88} side="right" />
           <Leaf x={1200} y={4270} rotate={25} scale={0.62} start={0.915} side="right" />
         </g>
-           </g>
          </svg>
         <svg className="leaf-botanical-svg leaf-botanical-svg-section" viewBox="0 4200 1440 800" preserveAspectRatio="none" style={{ top: "84%", height: "16%" }}>
           <defs>
