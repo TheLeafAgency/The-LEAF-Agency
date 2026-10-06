@@ -72,41 +72,9 @@ export default function BotanicalGrowth() {
     const layer = layerRef.current;
     if (!layer) return;
 
-    // Cache the animation ranges once. Reading getComputedStyle() for every
-    // SVG element on every scroll frame forces repeated style/layout work and
-    // is what makes the large botanical SVG feel like it is running at low FPS.
-    const revealElements = Array.from(
-      layer.querySelectorAll<SVGElement>("[style*='--start']")
-    ).map((element) => {
-      const styles = getComputedStyle(element);
-      return {
-        element,
-        start: Number(styles.getPropertyValue("--start")),
-        end: Number(styles.getPropertyValue("--end")),
-      };
-    });
-
-    const leafElements = Array.from(
-      layer.querySelectorAll<SVGGElement>(".leaf-botanical-leaf")
-    ).map((element) => {
-      const styles = getComputedStyle(element);
-      return {
-        element,
-        start: Number(styles.getPropertyValue("--start")),
-      };
-    });
-
-    const fallingLeafElements = Array.from(
-      layer.querySelectorAll<SVGGElement>(".leaf-falling-leaf")
-    ).map((element) => {
-      const styles = getComputedStyle(element);
-      return {
-        element,
-        start: Number(styles.getPropertyValue("--start")),
-        end: Number(styles.getPropertyValue("--end")),
-      };
-    });
-
+    // The botanical layer has many SVG elements. Keep the scroll work to a
+    // single CSS custom property on the parent instead of mutating every
+    // branch and leaf on every animation frame.
     const update = () => {
       const maxScroll = Math.max(
         1,
@@ -122,33 +90,7 @@ export default function BotanicalGrowth() {
         )
       );
 
-      for (const { element, start, end } of revealElements) {
-        const value =
-          end <= start
-            ? progress >= start ? 1 : 0
-            : Math.min(1, Math.max(0, (progress - start) / (end - start)));
-
-        element.style.setProperty("--reveal", String(value));
-      }
-
-      for (const { element, start } of leafElements) {
-        const leafRevealEnd = start + 0.022;
-        const leafProgress = Math.min(
-          1,
-          Math.max(0, (progress - start) / (leafRevealEnd - start))
-        );
-        element.style.setProperty("--leaf-visible", String(leafProgress));
-        element.style.setProperty("--leaf-grow", String(0.72 + leafProgress * 0.28));
-        element.style.setProperty("--leaf-lift", String((1 - leafProgress) * 8));
-      }
-
-      for (const { element, start, end } of fallingLeafElements) {
-        const fallProgress =
-          end <= start
-            ? progress >= start ? 1 : 0
-            : Math.min(1, Math.max(0, (progress - start) / (end - start)));
-        element.style.setProperty("--fall-progress", String(fallProgress));
-      }
+      layer.style.setProperty("--botanical-progress", String(progress));
     };
 
     let frame = 0;
