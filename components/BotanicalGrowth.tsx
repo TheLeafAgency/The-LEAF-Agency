@@ -75,6 +75,12 @@ export default function BotanicalGrowth() {
     // Let the browser track which botanical sections are near the viewport.
     // This avoids calling getBoundingClientRect() on every SVG during every
     // scroll frame, which can force layout work and get progressively slower.
+    const sections = Array.from(
+      layer.querySelectorAll<SVGElement>(
+        ".leaf-botanical-svg-section, .leaf-botanical-svg-overlay"
+      )
+    );
+
     const activeSections = new Set<SVGElement>();
     const observer = new IntersectionObserver(
       (entries) => {
