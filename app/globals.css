@@ -164,8 +164,8 @@ section { width: 100%; }
   transform-box: fill-box;
   transform-origin: center;
   transform: translate3d(
-    calc(var(--fall-progress, 0) * 22px),
-    calc(var(--fall-progress, 0) * 58px),
+    calc(clamp(0, (var(--botanical-progress, 0) - var(--start)) / (var(--end) - var(--start)), 1) * 22px),
+    calc(clamp(0, (var(--botanical-progress, 0) - var(--start)) / (var(--end) - var(--start)), 1) * 58px),
     0
   ) rotate(calc(var(--fall-progress, 0) * 22deg));
 }
@@ -250,7 +250,7 @@ section { width: 100%; }
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--reveal, 0));
+  stroke-dashoffset: calc(1 - clamp(0, (var(--botanical-progress, 0) - var(--start)) / (var(--end) - var(--start)), 1));
   opacity: 1;
 }
 
@@ -267,15 +267,14 @@ section { width: 100%; }
 }
 
 .leaf-botanical-leaf {
-  opacity: var(--leaf-visible, 0);
+  opacity: clamp(0, (var(--botanical-progress, 0) - var(--start)) / 0.022, 1);
   pointer-events: none;
 }
 
 .leaf-botanical-leaf-motion {
   transform-box: fill-box;
   transform-origin: center;
-  transform: translateY(calc(var(--leaf-lift, 8px) * -1)) scale(var(--leaf-grow, .72));
-  will-change: opacity, transform;
+  transform: translateY(calc((1 - clamp(0, (var(--botanical-progress, 0) - var(--start)) / 0.022, 1)) * -8px)) scale(calc(.72 + clamp(0, (var(--botanical-progress, 0) - var(--start)) / 0.022, 1) * .28));
 }
 
 .leaf-botanical-leaf-motion > path:first-child {
