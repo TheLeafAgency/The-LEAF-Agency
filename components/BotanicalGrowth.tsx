@@ -192,8 +192,8 @@ export default function BotanicalGrowth() {
         <svg className="leaf-botanical-svg leaf-botanical-svg-section" viewBox="0 2000 1440 1300" preserveAspectRatio="none" style={{ top: "40%", height: "26%" }}>
           <defs>
             <clipPath id="leaf-edge-clip-3">
-              <rect x="0" y="2000" width="300" height="1300" />
-              <rect x="1140" y="2000" width="300" height="1300" />
+              <rect x="0" y="2000" width="400" height="1300" />
+              <rect x="1040" y="2000" width="400" height="1300" />
             </clipPath>
           </defs>
           <g clipPath="url(#leaf-edge-clip-3)">
@@ -317,7 +317,7 @@ export default function BotanicalGrowth() {
         </g>
           </g>
 <g>
-          <VinePath d="M1465 4200 C1380 4150 1310 4165 1260 4220 C1215 4270 1170 4285 1110 4260" start={0.82} end={0.92} width={16} />
+          <VinePath d="M1440 4200 C1380 4150 1310 4165 1260 4220 C1215 4270 1170 4285 1110 4260" start={0.82} end={0.92} width={16} />
           <VinePath d="M1350 4170 C1335 4125 1305 4095 1260 4080" start={0.835} end={0.885} width={5} className="leaf-botanical-thin" />
           <VinePath d="M1260 4220 C1280 4270 1315 4300 1360 4310" start={0.87} end={0.93} width={5} className="leaf-botanical-thin" />
           <Leaf x={1390} y={4160} rotate={36} scale={0.78} start={0.84} side="right" />
