@@ -177,19 +177,7 @@ export default function BotanicalGrowth() {
           <Leaf x={1205} y={2185} rotate={-12} scale={0.72} start={0.49} side="right" />
           <Leaf x={1125} y={2145} rotate={18} scale={0.68} start={0.52} side="right" />
         </g>
-<g>
-          <VinePath d="M1480 2815 C1360 2780 1235 2725 1110 2660 C960 2575 815 2510 665 2460 C500 2405 340 2375 180 2355" start={0.31} end={0.49} width={19} />
-          <VinePath d="M1380 2820 C1390 2765 1365 2720 1315 2685" start={0.34} end={0.40} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M1130 2680 C1070 2635 1010 2610 945 2600" start={0.39} end={0.44} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M850 2520 C790 2475 725 2450 655 2445" start={0.44} end={0.47} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M550 2405 C485 2370 420 2350 350 2345" start={0.47} end={0.50} width={5} className="leaf-botanical-thin" />
-          <Leaf x={1425} y={2830} rotate={38} scale={0.86} start={0.34} side="right" />
-          <Leaf x={1210} y={2730} rotate={24} scale={0.78} start={0.39} side="right" />
-          <Leaf x={980} y={2615} rotate={-25} scale={0.72} start={0.44} side="right" />
-          <Leaf x={740} y={2485} rotate={-12} scale={0.68} start={0.47} side="right" />
-          <Leaf x={500} y={2385} rotate={18} scale={0.64} start={0.49} />
-          <Leaf x={270} y={2325} rotate={-20} scale={0.60} start={0.50} />
-        </g>
+
 <g className="leaf-falling-cluster">
           <path className="leaf-fall-trail" d="M1180 2960 C1160 3000 1185 3040 1155 3090" />
           <path className="leaf-fall-trail leaf-fall-trail-soft" d="M1060 2870 C1080 2910 1050 2950 1075 2995" />
@@ -287,16 +275,7 @@ export default function BotanicalGrowth() {
           </defs>
           <g clipPath="url(#leaf-edge-clip-4)">
 
-<g>
-          <VinePath d="M-40 3565 C180 3535 360 3545 540 3560 C760 3580 960 3580 1120 3560 C1270 3545 1380 3535 1480 3565" start={0.60} end={0.70} width={15} />
-          <VinePath d="M260 3545 C275 3510 300 3485 335 3465" start={0.625} end={0.665} width={4} className="leaf-botanical-thin" />
-          <VinePath d="M720 3580 C740 3545 770 3525 805 3510" start={0.65} end={0.69} width={4} className="leaf-botanical-thin" />
-          <VinePath d="M1110 3565 C1135 3530 1170 3510 1210 3495" start={0.655} end={0.70} width={4} className="leaf-botanical-thin" />
-          <Leaf x={220} y={3540} rotate={-28} scale={0.62} start={0.625} />
-          <Leaf x={660} y={3570} rotate={22} scale={0.58} start={0.655} />
-          <Leaf x={1060} y={3550} rotate={-18} scale={0.60} start={0.675} side="right" />
-          <Leaf x={1320} y={3545} rotate={28} scale={0.56} start={0.69} side="right" />
-        </g>
+
 <g>
           <VinePath d="M-25 3770 C75 3700 155 3715 215 3790 C255 3840 300 3850 355 3820" start={0.70} end={0.80} width={17} />
           <VinePath d="M115 3730 C110 3680 125 3645 165 3610" start={0.715} end={0.765} width={5} className="leaf-botanical-thin" />
@@ -328,6 +307,33 @@ export default function BotanicalGrowth() {
           <VinePath d="M1090 4450 C1110 4520 1130 4580 1120 4640" start={0.94} end={1} width={4} className="leaf-root-thin" />
           <VinePath d="M1080 4490 C1040 4510 1000 4520 950 4520" start={0.96} end={1} width={3} className="leaf-root-thin" />
         </g>
+          </g>
+        </svg>
+        <svg className="leaf-botanical-svg leaf-botanical-svg-overlay" viewBox="0 2000 1440 1300" preserveAspectRatio="none" aria-hidden="true">
+          <g>
+            <VinePath d="M1480 2815 C1360 2780 1235 2725 1110 2660 C960 2575 815 2510 665 2460 C500 2405 340 2375 180 2355" start={0.31} end={0.49} width={19} />
+            <VinePath d="M1380 2820 C1390 2765 1365 2720 1315 2685" start={0.34} end={0.40} width={5} className="leaf-botanical-thin" />
+            <VinePath d="M1130 2680 C1070 2635 1010 2610 945 2600" start={0.39} end={0.44} width={5} className="leaf-botanical-thin" />
+            <VinePath d="M850 2520 C790 2475 725 2450 655 2445" start={0.44} end={0.47} width={5} className="leaf-botanical-thin" />
+            <VinePath d="M550 2405 C485 2370 420 2350 350 2345" start={0.47} end={0.50} width={5} className="leaf-botanical-thin" />
+            <Leaf x={1425} y={2830} rotate={38} scale={0.86} start={0.34} side="right" />
+            <Leaf x={1210} y={2730} rotate={24} scale={0.78} start={0.39} side="right" />
+            <Leaf x={980} y={2615} rotate={-25} scale={0.72} start={0.44} side="right" />
+            <Leaf x={740} y={2485} rotate={-12} scale={0.68} start={0.47} side="right" />
+            <Leaf x={500} y={2385} rotate={18} scale={0.64} start={0.49} />
+            <Leaf x={270} y={2325} rotate={-20} scale={0.60} start={0.50} />
+          </g>
+        </svg>
+        <svg className="leaf-botanical-svg leaf-botanical-svg-overlay leaf-botanical-svg-help" viewBox="0 3300 1440 1050" preserveAspectRatio="none" aria-hidden="true">
+          <g transform="translate(0 180)">
+            <VinePath d="M-40 3565 C180 3535 360 3545 540 3560 C760 3580 960 3580 1120 3560 C1270 3545 1380 3535 1480 3565" start={0.60} end={0.70} width={15} />
+            <VinePath d="M260 3545 C275 3510 300 3485 335 3465" start={0.625} end={0.665} width={4} className="leaf-botanical-thin" />
+            <VinePath d="M720 3580 C740 3545 770 3525 805 3510" start={0.65} end={0.69} width={4} className="leaf-botanical-thin" />
+            <VinePath d="M1110 3565 C1135 3530 1170 3510 1210 3495" start={0.655} end={0.70} width={4} className="leaf-botanical-thin" />
+            <Leaf x={220} y={3540} rotate={-28} scale={0.62} start={0.625} />
+            <Leaf x={660} y={3570} rotate={22} scale={0.58} start={0.655} />
+            <Leaf x={1060} y={3550} rotate={-18} scale={0.60} start={0.675} side="right" />
+            <Leaf x={1320} y={3545} rotate={28} scale={0.56} start={0.69} side="right" />
           </g>
         </svg>
     </div>
