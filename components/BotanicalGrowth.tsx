@@ -168,8 +168,8 @@ export default function BotanicalGrowth() {
         <svg className="leaf-botanical-svg leaf-botanical-svg-section" viewBox="0 1250 1440 750" preserveAspectRatio="none" style={{ top: "25%", height: "15%" }}>
           <defs>
             <clipPath id="leaf-edge-clip-2">
-              <rect x="0" y="1250" width="300" height="750" />
-              <rect x="1140" y="1250" width="300" height="750" />
+              <rect x="0" y="1250" width="400" height="750" />
+              <rect x="1040" y="1250" width="400" height="750" />
             </clipPath>
           </defs>
           <g clipPath="url(#leaf-edge-clip-2)">
@@ -301,8 +301,8 @@ export default function BotanicalGrowth() {
         <svg className="leaf-botanical-svg leaf-botanical-svg-section" viewBox="0 3300 1440 1050" preserveAspectRatio="none" style={{ top: "66%", height: "21%" }}>
           <defs>
             <clipPath id="leaf-edge-clip-4">
-              <rect x="0" y="3300" width="300" height="1050" />
-              <rect x="1140" y="3300" width="300" height="1050" />
+              <rect x="0" y="3300" width="400" height="1050" />
+              <rect x="1040" y="3300" width="400" height="1050" />
             </clipPath>
           </defs>
           <g clipPath="url(#leaf-edge-clip-4)">
