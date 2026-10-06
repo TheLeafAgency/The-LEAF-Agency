@@ -224,7 +224,6 @@ section { width: 100%; }
 }
 
 .leaf-botanical-layer {
-  display: none; /* TEMP DIAGNOSTIC: isolate homepage SVG rendering performance */
   position: absolute;
   inset: 0;
   width: 100%;
