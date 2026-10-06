@@ -2503,3 +2503,18 @@ section { width: 100%; }
 .services-tree-layer:not(.services-leaves-fading) .services-leaf-burst span {
   transition: opacity .45s ease !important;
 }
+
+.leaf-botanical-svg-overlay {
+  position: absolute;
+  left: 0;
+  top: 40%;
+  width: 100%;
+  height: 26%;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.leaf-botanical-svg-help {
+  top: 66%;
+  height: 21%;
+}
