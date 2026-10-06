@@ -286,9 +286,7 @@ export default function BotanicalGrowth() {
             </clipPath>
           </defs>
           <g clipPath="url(#leaf-edge-clip-4)">
-<g className="leaf-falling-cluster">
->
-</g>
+
 <g>
           <VinePath d="M-40 3565 C180 3535 360 3545 540 3560 C760 3580 960 3580 1120 3560 C1270 3545 1380 3535 1480 3565" start={0.60} end={0.70} width={15} />
           <VinePath d="M260 3545 C275 3510 300 3485 335 3465" start={0.625} end={0.665} width={4} className="leaf-botanical-thin" />
