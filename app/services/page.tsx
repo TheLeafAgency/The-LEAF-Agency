@@ -81,25 +81,23 @@ export default function ServicesPage() {
     <main className="services-page">
         <ServicesBotanical />
         <section className="services-hero" id="services-top">
-          <svg className="services-hero-botanical services-hero-botanical-left" viewBox="0 0 260 520" aria-hidden="true">
-            <path d="M18 500 C45 390 62 290 92 205 C118 132 145 72 215 20" />
-            <path d="M72 315 C48 275 34 244 28 198" />
-            <path d="M103 222 C138 190 170 157 186 116" />
-            <path d="M54 370 C92 350 118 323 135 286" />
-            <path className="hero-leaf" d="M28 198 C2 180 0 150 12 126 C40 133 53 157 28 198Z" />
-            <path className="hero-leaf" d="M186 116 C196 82 222 68 246 76 C240 105 219 120 186 116Z" />
-            <path className="hero-leaf" d="M135 286 C154 259 181 251 202 263 C188 288 164 297 135 286Z" />
-            <path className="hero-leaf" d="M92 205 C68 183 65 155 78 136 C101 148 111 174 92 205Z" />
+          <svg className="services-hero-botanical services-hero-botanical-left" viewBox="0 0 420 300" aria-hidden="true">
+            <path d="M-35 210 C45 175 95 168 145 188 C205 212 245 205 310 165" />
+            <path d="M92 178 C82 145 88 118 112 92" />
+            <path d="M175 202 C190 168 214 148 246 132" />
+            <path d="M238 198 C262 225 292 236 328 232" />
+            <path className="hero-leaf" d="M108 98 C78 88 61 66 65 42 C94 43 113 63 108 98Z" />
+            <path className="hero-leaf" d="M244 133 C247 102 267 82 294 82 C297 109 278 130 244 133Z" />
+            <path className="hero-leaf" d="M327 232 C350 209 378 208 398 225 C383 250 355 254 327 232Z" />
           </svg>
-          <svg className="services-hero-botanical services-hero-botanical-right" viewBox="0 0 260 520" aria-hidden="true">
-            <path d="M242 500 C215 390 198 290 168 205 C142 132 115 72 45 20" />
-            <path d="M188 315 C212 275 226 244 232 198" />
-            <path d="M157 222 C122 190 90 157 74 116" />
-            <path d="M206 370 C168 350 142 323 125 286" />
-            <path className="hero-leaf" d="M232 198 C258 180 260 150 248 126 C220 133 207 157 232 198Z" />
-            <path className="hero-leaf" d="M74 116 C64 82 38 68 14 76 C20 105 41 120 74 116Z" />
-            <path className="hero-leaf" d="M125 286 C106 259 79 251 58 263 C72 288 96 297 125 286Z" />
-            <path className="hero-leaf" d="M168 205 C192 183 195 155 182 136 C159 148 149 174 168 205Z" />
+          <svg className="services-hero-botanical services-hero-botanical-right" viewBox="0 0 420 300" aria-hidden="true">
+            <path d="M-35 210 C45 175 95 168 145 188 C205 212 245 205 310 165" />
+            <path d="M92 178 C82 145 88 118 112 92" />
+            <path d="M175 202 C190 168 214 148 246 132" />
+            <path d="M238 198 C262 225 292 236 328 232" />
+            <path className="hero-leaf" d="M108 98 C78 88 61 66 65 42 C94 43 113 63 108 98Z" />
+            <path className="hero-leaf" d="M244 133 C247 102 267 82 294 82 C297 109 278 130 244 133Z" />
+            <path className="hero-leaf" d="M327 232 C350 209 378 208 398 225 C383 250 355 254 327 232Z" />
           </svg>
           <div className="container services-hero-inner">
             <p className="services-eyebrow">What We Do</p>
