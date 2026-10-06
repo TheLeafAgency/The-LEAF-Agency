@@ -1,13 +1,13 @@
 const serviceLinks = [
-  ["Marketing", "/services/marketing"],
-  ["Filming", "/services/filming"],
-  ["Product", "/services/product"],
-  ["Copywriting", "/services/copywriting"],
-  ["Editing", "/services/editing"],
-  ["Social Media", "/services/social-media"],
-  ["Public Events", "/services/public-events"],
-  ["Authentic Ads", "/services/authentic-ads"],
-  ["Brand", "/services/brand"],
+  ["Marketing", "/services#marketing"],
+  ["Filming", "/services#filming"],
+  ["Product", "/services#product"],
+  ["Copywriting", "/services#copywriting"],
+  ["Editing", "/services#editing"],
+  ["Social Media", "/services#social-media"],
+  ["Public Events", "/services#public-events"],
+  ["Authentic Ads", "/services#authentic-ads"],
+  ["Brand", "/services#brand"],
 ];
 
 function ServiceMenuLinks() {
