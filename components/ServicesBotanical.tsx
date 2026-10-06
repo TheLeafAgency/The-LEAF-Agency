@@ -14,7 +14,8 @@ export default function ServicesBotanical() {
       if (!nav) return;
       const navRect = nav.getBoundingClientRect();
       const layerRect = layer.getBoundingClientRect();
-      const treeTop = navRect.bottom - layerRect.top;
+      // The tree should begin at the top edge of the Services jump navbar, not below it.
+      const treeTop = navRect.top - layerRect.top;
       layer.style.setProperty("--tree-top", String(Math.max(0, treeTop)) + "px");
       layer.style.setProperty("--jump-height", String(nav.offsetHeight) + "px");
     };
