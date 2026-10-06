@@ -308,13 +308,7 @@ export default function BotanicalGrowth() {
           <g clipPath="url(#leaf-edge-clip-4)">
 
 
-<g>
-          <VinePath d="M-25 3770 C75 3700 155 3715 215 3790 C255 3840 300 3850 355 3820" start={0.70} end={0.80} width={17} />
-          <VinePath d="M115 3730 C110 3680 125 3645 165 3610" start={0.715} end={0.765} width={5} className="leaf-botanical-thin" />
-          <VinePath d="M220 3790 C260 3750 305 3735 350 3745" start={0.75} end={0.80} width={5} className="leaf-botanical-thin" />
-          <Leaf x={75} y={3715} rotate={-34} scale={0.8} start={0.72} />
-          <Leaf x={205} y={3800} rotate={27} scale={0.68} start={0.76} />
-        </g>
+
           </g>
 <g>
           <VinePath d="M1440 4200 C1380 4150 1310 4165 1260 4220 C1215 4270 1170 4285 1110 4260" start={0.82} end={0.92} width={16} />
