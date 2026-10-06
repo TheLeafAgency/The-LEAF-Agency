@@ -1974,9 +1974,10 @@ section { width: 100%; }
   75% { transform: translateX(-50%) scale(1.01); }
 }
 .services-leaf-burst {
-  position: fixed;
+  position: absolute;
   left: 50%;
-  bottom: 72px;
+  top: var(--ending-leaf-top, 0px);
+  bottom: auto;
   width: 0;
   height: 0;
   z-index: 96;
