@@ -269,6 +269,10 @@ section { width: 100%; }
   stroke-dasharray: 1;
   stroke-dashoffset: calc(1 - var(--reveal, 0));
   opacity: 1;
+  /* Smooth the scroll-driven branch drawing/reversal instead of letting the
+     stroke jump between frames when the user changes scroll direction. */
+  transition: stroke-dashoffset .12s linear;
+  will-change: stroke-dashoffset;
 }
 
 .leaf-botanical-light {
