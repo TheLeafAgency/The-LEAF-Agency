@@ -94,7 +94,7 @@ export default function ServicesSection() {
             {services.map((service) => (
               <a
                 key={service.title}
-                href={`/services/${service.title.toLowerCase().replace(/ /g, "-")}`}
+                href={`/services#${service.title.toLowerCase().replace(/ /g, "-")}`}
                 className="service-card service-detail-card"
                 style={{
                   minHeight: "210px",
