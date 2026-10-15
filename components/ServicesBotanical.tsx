@@ -166,26 +166,26 @@ export default function ServicesBotanical() {
     <div ref={ref} className="services-tree-layer" aria-hidden="true">
       <div className="services-brown-explosion" />
       <div className="services-leaf-burst" aria-hidden="true">
-        <span style={{"--x":"-34vw","--y":"-16vh","--r":"-75deg","--delay":"0s"} as React.CSSProperties} />
-        <span style={{"--x":"-26vw","--y":"-36vh","--r":"-48deg","--delay":".18s"} as React.CSSProperties} />
-        <span style={{"--x":"-18vw","--y":"-8vh","--r":"-110deg","--delay":".34s"} as React.CSSProperties} />
-        <span style={{"--x":"-11vw","--y":"-48vh","--r":"-55deg","--delay":".52s"} as React.CSSProperties} />
-        <span style={{"--x":"-6vw","--y":"-22vh","--r":"-18deg","--delay":".12s"} as React.CSSProperties} />
-        <span style={{"--x":"6vw","--y":"-42vh","--r":"90deg","--delay":".42s"} as React.CSSProperties} />
-        <span style={{"--x":"11vw","--y":"-54vh","--r":"18deg","--delay":".61s"} as React.CSSProperties} />
-        <span style={{"--x":"18vw","--y":"-26vh","--r":"55deg","--delay":".08s"} as React.CSSProperties} />
-        <span style={{"--x":"27vw","--y":"-46vh","--r":"82deg","--delay":".48s"} as React.CSSProperties} />
-        <span style={{"--x":"35vw","--y":"-10vh","--r":"120deg","--delay":".31s"} as React.CSSProperties} />
-        <span style={{"--x":"-35vw","--y":"10vh","--r":"-135deg","--delay":".57s"} as React.CSSProperties} />
-        <span style={{"--x":"-27vw","--y":"6vh","--r":"-95deg","--delay":".42s"} as React.CSSProperties} />
-        <span style={{"--x":"-18vw","--y":"12vh","--r":"-55deg","--delay":".28s"} as React.CSSProperties} />
-        <span style={{"--x":"-11vw","--y":"0vh","--r":"-25deg","--delay":".58s"} as React.CSSProperties} />
-        <span style={{"--x":"-6vw","--y":"15vh","--r":"-25deg","--delay":".36s"} as React.CSSProperties} />
-        <span style={{"--x":"6vw","--y":"2vh","--r":"25deg","--delay":".36s"} as React.CSSProperties} />
-        <span style={{"--x":"11vw","--y":"13vh","--r":"25deg","--delay":".58s"} as React.CSSProperties} />
-        <span style={{"--x":"18vw","--y":"15vh","--r":"55deg","--delay":".63s"} as React.CSSProperties} />
-        <span style={{"--x":"27vw","--y":"7vh","--r":"95deg","--delay":".22s"} as React.CSSProperties} />
-        <span style={{"--x":"35vw","--y":"8vh","--r":"150deg","--delay":".51s"} as React.CSSProperties} />
+        <span style={{"--x":"-39vw","--y":"-19vh","--r":"-75deg","--delay":"0s"} as React.CSSProperties} />
+        <span style={{"--x":"-30vw","--y":"-41vh","--r":"-48deg","--delay":".18s"} as React.CSSProperties} />
+        <span style={{"--x":"-21vw","--y":"-10vh","--r":"-110deg","--delay":".34s"} as React.CSSProperties} />
+        <span style={{"--x":"-14vw","--y":"-53vh","--r":"-55deg","--delay":".52s"} as React.CSSProperties} />
+        <span style={{"--x":"-7vw","--y":"-25vh","--r":"-18deg","--delay":".12s"} as React.CSSProperties} />
+        <span style={{"--x":"7vw","--y":"-46vh","--r":"90deg","--delay":".42s"} as React.CSSProperties} />
+        <span style={{"--x":"14vw","--y":"-59vh","--r":"18deg","--delay":".61s"} as React.CSSProperties} />
+        <span style={{"--x":"21vw","--y":"-30vh","--r":"55deg","--delay":".08s"} as React.CSSProperties} />
+        <span style={{"--x":"31vw","--y":"-51vh","--r":"82deg","--delay":".48s"} as React.CSSProperties} />
+        <span style={{"--x":"40vw","--y":"-12vh","--r":"120deg","--delay":".31s"} as React.CSSProperties} />
+        <span style={{"--x":"-40vw","--y":"13vh","--r":"-135deg","--delay":".57s"} as React.CSSProperties} />
+        <span style={{"--x":"-31vw","--y":"8vh","--r":"-95deg","--delay":".42s"} as React.CSSProperties} />
+        <span style={{"--x":"-21vw","--y":"15vh","--r":"-55deg","--delay":".28s"} as React.CSSProperties} />
+        <span style={{"--x":"-13vw","--y":"1vh","--r":"-25deg","--delay":".58s"} as React.CSSProperties} />
+        <span style={{"--x":"-7vw","--y":"19vh","--r":"-25deg","--delay":".36s"} as React.CSSProperties} />
+        <span style={{"--x":"7vw","--y":"3vh","--r":"25deg","--delay":".36s"} as React.CSSProperties} />
+        <span style={{"--x":"13vw","--y":"16vh","--r":"25deg","--delay":".58s"} as React.CSSProperties} />
+        <span style={{"--x":"21vw","--y":"18vh","--r":"55deg","--delay":".63s"} as React.CSSProperties} />
+        <span style={{"--x":"31vw","--y":"9vh","--r":"95deg","--delay":".22s"} as React.CSSProperties} />
+        <span style={{"--x":"40vw","--y":"10vh","--r":"150deg","--delay":".51s"} as React.CSSProperties} />
       </div>
       <div className="services-tree">
         <svg className="services-tree-svg" viewBox="0 0 1000 7200" preserveAspectRatio="none">
