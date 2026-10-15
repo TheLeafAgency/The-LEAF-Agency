@@ -1990,8 +1990,8 @@ section { width: 100%; }
   width: 17px;
   height: 30px;
   border-radius: 100% 0 100% 0;
-  background: #4F7D31;
-  border: 1px solid #365A24;
+  background: var(--leaf-eden-green);
+  border: 1px solid var(--leaf-eden-green);
   opacity: 0;
   transform: translate(-50%, 0) scale(.2) rotate(0deg);
   transform-origin: center;
