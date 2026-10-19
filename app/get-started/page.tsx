@@ -1,3 +1,4 @@
+import ThemeToggle from "@/components/ThemeToggle";
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -174,7 +175,10 @@ export default function GetStarted() {
   return (
     <main style={{ minHeight: "100vh", background: "#F3F0E7", padding: "120px 20px 100px" }}>
       <div style={{ maxWidth: "820px", margin: "0 auto" }}>
-        <a href="/" style={{ display: "inline-block", color: "#048243", fontWeight: 800, fontSize: "1.8rem", marginBottom: "45px" }}>LEAF</a>
+        <div className="get-started-topbar">
+          <a href="/" style={{ display: "inline-block", color: "#048243", fontWeight: 800, fontSize: "1.8rem", marginBottom: "45px" }}>LEAF</a>
+          <ThemeToggle />
+        </div>
 
         <div className="intro-heading">
           <p className="eyebrow">Let&apos;s get started</p>
