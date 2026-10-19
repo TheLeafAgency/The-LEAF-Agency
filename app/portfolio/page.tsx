@@ -1,3 +1,5 @@
+import ThemeToggle from "@/components/ThemeToggle";
+
 export default function PortfolioPage() {
   return (
     <main
@@ -11,6 +13,7 @@ export default function PortfolioPage() {
         padding: "120px 24px",
       }}
     >
+      <div className="standalone-theme-toggle"><ThemeToggle /></div>
       <div style={{ maxWidth: "900px" }}>
         <p
           style={{
