@@ -2759,6 +2759,17 @@ html[data-theme="dark"] .services-page {
 html[data-theme="dark"] .leaf-botanical-page > :not(.leaf-botanical-layer) section::before {
   background: rgba(20,37,27,.92) !important;
 }
+
+/* Extend the homepage dark-mode background through the bottom of the hero,
+   including the area behind the portfolio line. */
+html[data-theme="dark"] .leaf-botanical-page > section:first-of-type {
+  background: #14251B !important;
+}
+
+html[data-theme="dark"] .leaf-botanical-page > section:first-of-type::before {
+  inset: 0 !important;
+  background: rgba(20,37,27,.92) !important;
+}
 html[data-theme="dark"] #contact::before {
   background: rgba(10,24,16,.97) !important;
 }
