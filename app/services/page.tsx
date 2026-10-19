@@ -4,6 +4,7 @@ import AnimatedServiceContent from "@/components/AnimatedServiceContent";
 const services = [
   {
     slug: "marketing",
+    mediaCount: 5,
     title: "Marketing",
     eyebrow: "Strategy & Direction",
     description: "Marketing is the foundation behind an advertisement that knows who it is speaking to and why that audience should care.",
@@ -12,6 +13,7 @@ const services = [
   },
   {
     slug: "filming",
+    mediaCount: 5,
     title: "Filming",
     eyebrow: "Production",
     description: "Filming turns an idea into something people can actually see, whether that means a commercial, social clip, product piece, or larger production.",
@@ -20,6 +22,7 @@ const services = [
   },
   {
     slug: "product",
+    mediaCount: 3,
     title: "Product",
     eyebrow: "Show What You Sell",
     description: "Product advertising puts the thing you sell at the center and gives people a reason to notice it.",
@@ -28,6 +31,7 @@ const services = [
   },
   {
     slug: "copywriting",
+    mediaCount: 3,
     title: "Copywriting",
     eyebrow: "Words That Work",
     description: "The right words can turn an interesting visual into an advertisement that actually communicates something.",
@@ -36,6 +40,7 @@ const services = [
   },
   {
     slug: "editing",
+    mediaCount: 4,
     title: "Editing",
     eyebrow: "Bring It Together",
     description: "Editing takes the pieces of a production and turns them into a finished piece of content.",
@@ -44,6 +49,7 @@ const services = [
   },
   {
     slug: "social-media",
+    mediaCount: 5,
     title: "Social Media",
     eyebrow: "Stay Visible",
     description: "Social media gives businesses a place to keep their audience connected to what they are doing.",
@@ -52,6 +58,7 @@ const services = [
   },
   {
     slug: "public-events",
+    mediaCount: 3,
     title: "Public Events",
     eyebrow: "Take It Outside",
     description: "Public events can turn advertising into an experience people can physically see and participate in.",
@@ -60,6 +67,7 @@ const services = [
   },
   {
     slug: "authentic-ads",
+    mediaCount: 5,
     title: "Authentic Ads",
     eyebrow: "Real Stories",
     description: "Authentic advertising focuses on making an advertisement feel connected to the real business, people, and story behind it.",
@@ -68,6 +76,7 @@ const services = [
   },
   {
     slug: "brand",
+    mediaCount: 3,
     title: "Brand",
     eyebrow: "Build Recognition",
     description: "A strong brand gives all of your advertising something consistent to build from.",
@@ -132,11 +141,22 @@ export default function ServicesPage() {
               <div className="container service-detail-inner">
                 <div className={`service-media-slot service-media-${index % 2 === 0 ? "left" : "right"}`} aria-hidden="true">
                   <div className="service-media-stack">
-                    <div className="service-media-placeholder service-media-card service-media-card-back-three">Photo / Video</div>
-                    <div className="service-media-placeholder service-media-card service-media-card-back-two">Photo / Video</div>
-                    <div className="service-media-placeholder service-media-card service-media-card-back-one">Photo / Video</div>
-                    <div className="service-media-placeholder service-media-card service-media-card-front">Photo / Video</div>
-                    <div className="service-media-placeholder service-media-card service-media-card-front-top">Photo / Video</div>
+                    {[
+                      "service-media-card-back-three",
+                      "service-media-card-back-two",
+                      "service-media-card-back-one",
+                      "service-media-card-front",
+                      "service-media-card-front-top",
+                    ]
+                      .slice(0, service.mediaCount)
+                      .map((cardClass) => (
+                        <div
+                          key={cardClass}
+                          className={`service-media-placeholder service-media-card ${cardClass}`}
+                        >
+                          Photo / Video
+                        </div>
+                      ))}
                   </div>
                 </div>
                 <AnimatedServiceContent variant="center">
