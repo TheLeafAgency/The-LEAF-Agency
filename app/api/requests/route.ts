@@ -209,7 +209,7 @@ export async function POST(request: Request) {
       estimatedCost: Math.min(Number(String(body.estimatedCost || body.budget || "").replace(/[^0-9]/g, "") || 0), 1000000000).toString(),
       estimatedFinishDate: String(body.estimatedFinishDate || body.deadline || "").trim().slice(0, 100),
       progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String).slice(0, 20) : [],
-      spamReview: spamReasons.length > 0,
+      spamReview: true,
       spamReasons,
     };
 
