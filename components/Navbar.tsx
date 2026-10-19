@@ -1,3 +1,5 @@
+import ThemeToggle from "@/components/ThemeToggle";
+
 const serviceLinks = [
   ["Marketing", "/services#marketing"],
   ["Filming", "/services#filming"],
@@ -75,6 +77,7 @@ export default function Navbar() {
           <a href="/portfolio" className="nav-link">Portfolio</a>
           <a href="/careers" className="nav-link">Careers</a>
           <a href="/#contact" className="nav-link">Contact</a>
+          <ThemeToggle />
           <a
             href="/get-started"
             className="hero-button primary-btn"
@@ -103,6 +106,7 @@ export default function Navbar() {
             <a href="/portfolio">Portfolio</a>
             <a href="/careers">Careers</a>
             <a href="/#contact">Contact</a>
+            <ThemeToggle />
             <a href="/get-started" className="mobile-nav-cta">Get Started</a>
           </nav>
         </details>
