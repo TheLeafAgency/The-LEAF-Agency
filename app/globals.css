@@ -2585,3 +2585,120 @@ section { width: 100%; }
   .service-media-right .service-media-stack:hover .service-media-card-front { transform: translate(-36px, 0) rotate(-6deg) !important; }
   .service-media-right .service-media-stack:hover .service-media-card-front-top { transform: translate(-76px, -8px) rotate(-13deg) !important; }
 }
+
+
+/* Correct reduced card stacks: use the visible cards' hover transforms, not the five-card defaults. */
+.service-media-stack.service-media-count-3:hover .service-media-card-back-one {
+  transform: translate(-52px, 16px) rotate(-12deg) !important;
+}
+.service-media-stack.service-media-count-3:hover .service-media-card-front {
+  transform: translate(0, -4px) scale(1.015) !important;
+}
+.service-media-stack.service-media-count-3:hover .service-media-card-front-top {
+  transform: translate(52px, -10px) rotate(14deg) !important;
+}
+
+.service-media-stack.service-media-count-4:hover .service-media-card-back-two {
+  transform: translate(-80px, 22px) rotate(-14deg) !important;
+}
+.service-media-stack.service-media-count-4:hover .service-media-card-back-one {
+  transform: translate(-42px, 12px) rotate(-8deg) !important;
+}
+.service-media-stack.service-media-count-4:hover .service-media-card-front {
+  transform: translate(0, -4px) scale(1.015) !important;
+}
+.service-media-stack.service-media-count-4:hover .service-media-card-front-top {
+  transform: translate(42px, -10px) rotate(12deg) !important;
+}
+
+/* Right-side stacks fan in the opposite direction, including the smaller stacks. */
+.service-media-right .service-media-stack.service-media-count-3:hover .service-media-card-back-one {
+  transform: translate(52px, 16px) rotate(12deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-3:hover .service-media-card-front {
+  transform: translate(0, -4px) scale(1.015) !important;
+}
+.service-media-right .service-media-stack.service-media-count-3:hover .service-media-card-front-top {
+  transform: translate(-52px, -10px) rotate(-14deg) !important;
+}
+
+.service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-back-two {
+  transform: translate(80px, 22px) rotate(14deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-back-one {
+  transform: translate(42px, 12px) rotate(8deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-front {
+  transform: translate(0, -4px) scale(1.015) !important;
+}
+.service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-front-top {
+  transform: translate(-42px, -10px) rotate(-12deg) !important;
+}
+
+@media (max-width: 1000px) {
+  .service-media-stack.service-media-count-3:hover .service-media-card-back-one {
+    transform: translate(-42px, 14px) rotate(-11deg) !important;
+  }
+  .service-media-stack.service-media-count-3:hover .service-media-card-front-top {
+    transform: translate(42px, -8px) rotate(12deg) !important;
+  }
+  .service-media-stack.service-media-count-4:hover .service-media-card-back-two {
+    transform: translate(-62px, 18px) rotate(-12deg) !important;
+  }
+  .service-media-stack.service-media-count-4:hover .service-media-card-back-one {
+    transform: translate(-32px, 10px) rotate(-7deg) !important;
+  }
+  .service-media-stack.service-media-count-4:hover .service-media-card-front-top {
+    transform: translate(32px, -8px) rotate(10deg) !important;
+  }
+
+  .service-media-right .service-media-stack.service-media-count-3:hover .service-media-card-back-one {
+    transform: translate(42px, 14px) rotate(11deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-3:hover .service-media-card-front-top {
+    transform: translate(-42px, -8px) rotate(-12deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-back-two {
+    transform: translate(62px, 18px) rotate(12deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-back-one {
+    transform: translate(32px, 10px) rotate(7deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-front-top {
+    transform: translate(-32px, -8px) rotate(-10deg) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .service-media-stack.service-media-count-3:hover .service-media-card-back-one {
+    transform: translate(-28px, 10px) rotate(-10deg) !important;
+  }
+  .service-media-stack.service-media-count-3:hover .service-media-card-front-top {
+    transform: translate(28px, -6px) rotate(11deg) !important;
+  }
+  .service-media-stack.service-media-count-4:hover .service-media-card-back-two {
+    transform: translate(-42px, 13px) rotate(-11deg) !important;
+  }
+  .service-media-stack.service-media-count-4:hover .service-media-card-back-one {
+    transform: translate(-22px, 7px) rotate(-6deg) !important;
+  }
+  .service-media-stack.service-media-count-4:hover .service-media-card-front-top {
+    transform: translate(22px, -6px) rotate(9deg) !important;
+  }
+
+  .service-media-right .service-media-stack.service-media-count-3:hover .service-media-card-back-one {
+    transform: translate(28px, 10px) rotate(10deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-3:hover .service-media-card-front-top {
+    transform: translate(-28px, -6px) rotate(-11deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-back-two {
+    transform: translate(42px, 13px) rotate(11deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-back-one {
+    transform: translate(22px, 7px) rotate(6deg) !important;
+  }
+  .service-media-right .service-media-stack.service-media-count-4:hover .service-media-card-front-top {
+    transform: translate(-22px, -6px) rotate(-9deg) !important;
+  }
+}
