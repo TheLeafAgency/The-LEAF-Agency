@@ -1,3 +1,5 @@
+import ThemeToggle from "@/components/ThemeToggle";
+
 export default function CareersPage() {
   return (
     <main
@@ -8,6 +10,7 @@ export default function CareersPage() {
         fontFamily: '"Neuton", serif',
       }}
     >
+      <div className="standalone-theme-toggle"><ThemeToggle /></div>
       <div
         style={{
           maxWidth: "900px",
