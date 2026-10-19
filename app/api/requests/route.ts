@@ -69,6 +69,32 @@ function nextRequestId(requests: LeafRequest[]) {
   return `LEAF-${String(highest + 1).padStart(4, "0")}`;
 }
 
+async function readLimitedJson(request: Request, maxBytes: number): Promise<unknown> {
+  if (!request.body) throw new Error("INVALID_JSON");
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    totalBytes += value.byteLength;
+    if (totalBytes > maxBytes) {
+      await reader.cancel();
+      throw new Error("BODY_TOO_LARGE");
+    }
+    chunks.push(value);
+  }
+
+  const combined = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    combined.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(combined));
+}
+
 function hash(value: string) {
   return createHash("sha256").update(value).digest("hex");
 }
@@ -145,10 +171,20 @@ export async function POST(request: Request) {
       return Response.json({ ok: false, message: "Your request is too large. Please shorten it and try again." }, { status: 413 });
     }
 
-    const body = await request.json();
-    if (JSON.stringify(body).length > 20_000) {
-      return Response.json({ ok: false, message: "Your request is too large. Please shorten it and try again." }, { status: 413 });
+    let parsedBody: unknown;
+    try {
+      parsedBody = await readLimitedJson(request, 20_000);
+    } catch (error) {
+      if (error instanceof Error && error.message === "BODY_TOO_LARGE") {
+        return Response.json({ ok: false, message: "Your request is too large. Please shorten it and try again." }, { status: 413 });
+      }
+      return Response.json({ ok: false, message: "Please check your request information and try again." }, { status: 400 });
     }
+
+    if (!parsedBody || typeof parsedBody !== "object" || Array.isArray(parsedBody)) {
+      return Response.json({ ok: false, message: "Please check your request information and try again." }, { status: 400 });
+    }
+    const body = parsedBody as Record<string, unknown>;
 
     // Quietly discard bot submissions that fill the hidden honeypot field.
     if (String(body.website || "").trim()) {
