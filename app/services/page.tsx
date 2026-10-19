@@ -1,3 +1,4 @@
+import ThemeToggle from "@/components/ThemeToggle";
 import ServicesBotanical from "@/components/ServicesBotanical";
 import AnimatedServiceContent from "@/components/AnimatedServiceContent";
 
@@ -121,6 +122,7 @@ export default function ServicesPage() {
         <nav className="services-jump-nav" aria-label="Services sections">
           <div className="services-jump-inner">
             <a href="/" className="services-jump-home">LEAF</a>
+            <ThemeToggle />
             <div className="services-jump-links">
               {services.map((service) => (
                 <a key={service.slug} href={`#${service.slug}`}>
