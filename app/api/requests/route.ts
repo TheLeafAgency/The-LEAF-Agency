@@ -79,25 +79,30 @@ function getClientIp(request: Request) {
     "";
 }
 
-async function checkRateLimit(prefix: string, limit: number, now: number) {
+async function checkRateLimit(emailHash: string, ipHash: string, now: number) {
   const limits = rateLimitStore();
   const windowMs = 60 * 60 * 1000;
-  const { blobs } = await limits.list({ prefix });
-  let activeCount = 0;
+  const { blobs } = await limits.list({ prefix: "event/" });
+  let emailCount = 0;
+  let ipCount = 0;
 
-  // Store one uniquely keyed event per accepted submission, not a mutable
-  // counter. Remove expired events during normal traffic because Blobs has no TTL.
+  // Each submission is a uniquely keyed event, not a mutable counter.
+  // Expired events are cleaned up on each submission because Blobs has no TTL.
   for (const blob of blobs) {
-    const timestamp = Number(blob.key.slice(prefix.length).split("-")[0]);
+    const parts = blob.key.split("/");
+    const timestamp = Number(parts[1]);
     if (!Number.isFinite(timestamp) || now - timestamp >= windowMs) {
       await limits.delete(blob.key);
-    } else {
-      activeCount += 1;
+      continue;
     }
+
+    if (parts[2] === emailHash) emailCount += 1;
+    if (ipHash !== "no-ip" && parts[3] === ipHash) ipCount += 1;
   }
 
-  if (activeCount >= limit) return false;
-  await limits.setJSON(`${prefix}${now}-${randomUUID()}`, { createdAt: now }, { onlyIfNew: true });
+  if (emailCount >= 3 || (ipHash !== "no-ip" && ipCount >= 10)) return false;
+  const key = `event/${now}/${emailHash}/${ipHash}/${randomUUID()}`;
+  await limits.setJSON(key, { createdAt: now }, { onlyIfNew: true });
   return true;
 }
 
@@ -172,14 +177,12 @@ export async function POST(request: Request) {
 
     const now = Date.now();
     const ip = getClientIp(request);
-    const emailKey = `email/${hash(email.toLowerCase())}/`;
-    const ipKey = ip ? `ip/${hash(ip)}/` : "";
+    const emailHash = hash(email.toLowerCase());
+    const ipHash = ip ? hash(ip) : "no-ip";
 
-    // Limit repeat submissions without using a single shared limit for visitors
-    // whose network does not provide a client IP header.
-    const emailAllowed = await checkRateLimit(emailKey, 3, now);
-    const ipAllowed = ipKey ? await checkRateLimit(ipKey, 10, now) : true;
-    if (!emailAllowed || !ipAllowed) {
+    // Limit repeat submissions by email and, when available, by client IP.
+    const allowed = await checkRateLimit(emailHash, ipHash, now);
+    if (!allowed) {
       return Response.json({
         ok: false,
         message: "Too many submissions in a short time. Please wait an hour before trying again.",
