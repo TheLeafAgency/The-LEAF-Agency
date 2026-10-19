@@ -2876,11 +2876,18 @@ html[data-theme="dark"] main [style*="background: #fff"] {
 
 /* Targeted fixes: keep these changes limited to text, tree visibility, and the admin dashboard. */
 
-/* In dark mode, match the homepage service/contact titles and email text to its off-white copy. */
+/* Keep service-card headings and contact email buttons readable in dark mode. */
 html[data-theme="dark"] #services .service-detail-card h3,
-html[data-theme="dark"] #contact h2,
 html[data-theme="dark"] #contact .contact-email-button {
   color: #F3F0E7 !important;
+}
+
+/* Match both homepage section headings to the site's Eden green title color. */
+#contact h2,
+#service-options h2,
+html[data-theme="dark"] #contact h2,
+html[data-theme="dark"] #service-options h2 {
+  color: var(--leaf-eden-green) !important;
 }
 
 /* Keep the Services tree visible between sections in both themes.
@@ -2899,11 +2906,11 @@ html[data-theme="dark"] .services-page .services-ending {
 
 html[data-theme="dark"] .services-tree-trunk,
 html[data-theme="dark"] .services-tree-root {
-  stroke: #A9825E !important;
+  stroke: #3F2A1B !important;
 }
 
 html[data-theme="dark"] .services-tree-trunk-highlight {
-  stroke: #D0B18E !important;
+  stroke: #4A321F !important;
 }
 
 /* The private admin dashboard keeps its original light appearance even when
