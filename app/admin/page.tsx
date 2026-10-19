@@ -182,29 +182,6 @@ export default function AdminPage() {
     await loadRequests();
   }
 
-  async function markLegitimate(item: LeafRequest) {
-    setLoading(true);
-    setMessage("");
-    try {
-      const response = await fetch("/api/requests", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: item.id, markLegitimate: true }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setMessage(data.message || "Could not move this request.");
-        return;
-      }
-      setRequests((current) => current.map((request) => request.id === item.id ? data.request : request));
-      setMessage(`${item.id} marked as legitimate.`);
-    } catch {
-      setMessage("Could not update this request. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   async function moveToSpam(item: LeafRequest) {
     setLoading(true);
     setMessage("");
@@ -254,33 +231,6 @@ export default function AdminPage() {
       setMessage(`${data.removedCount ?? spamRequests.length} Spam / Junk project(s) permanently removed.`);
     } catch {
       setMessage("Could not remove Spam / Junk projects. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function deleteRequest(item: LeafRequest) {
-    const confirmed = window.confirm(`Permanently delete ${item.id} from ${item.business}? This cannot be undone. Choose Cancel to keep the request.`);
-    if (!confirmed) return;
-
-    setLoading(true);
-    setMessage("");
-    try {
-      const response = await fetch("/api/requests", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: item.id }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setMessage(data.message || "Could not delete this request.");
-        return;
-      }
-      setRequests((current) => current.filter((request) => request.id !== item.id));
-      if (selectedId === item.id) setSelectedId(null);
-      setMessage(`${item.id} was permanently deleted.`);
-    } catch {
-      setMessage("Could not delete this request. Please try again.");
     } finally {
       setLoading(false);
     }
