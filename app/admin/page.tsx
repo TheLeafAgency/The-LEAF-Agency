@@ -64,6 +64,8 @@ type LeafRequest = {
   status: string;
   createdAt: string;
   howHeard?: string;
+  spamReview?: boolean;
+  spamReasons?: string[];
 };
 
 export default function AdminPage() {
@@ -115,6 +117,7 @@ export default function AdminPage() {
   }, []);
 
   const selected = requests.find((item) => item.id === selectedId) || null;
+  const spamReviewRequests = requests.filter((item) => item.spamReview);
 
   useEffect(() => {
     if (selected) {
@@ -175,6 +178,56 @@ export default function AdminPage() {
 
     setPassword("");
     await loadRequests();
+  }
+
+  async function markLegitimate(item: LeafRequest) {
+    setLoading(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/requests", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.id, markLegitimate: true }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.message || "Could not move this request.");
+        return;
+      }
+      setRequests((current) => current.map((request) => request.id === item.id ? data.request : request));
+      setMessage(`${item.id} marked as legitimate and moved to New Requests.`);
+    } catch {
+      setMessage("Could not update this request. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteRequest(item: LeafRequest) {
+    const confirmed = window.confirm(`Permanently delete ${item.id} from ${item.business}? This cannot be undone. Choose Cancel to keep the request.`);
+    if (!confirmed) return;
+
+    setLoading(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/requests", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.id }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.message || "Could not delete this request.");
+        return;
+      }
+      setRequests((current) => current.filter((request) => request.id !== item.id));
+      if (selectedId === item.id) setSelectedId(null);
+      setMessage(`${item.id} was permanently deleted.`);
+    } catch {
+      setMessage("Could not delete this request. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function saveRequest() {
@@ -287,6 +340,40 @@ export default function AdminPage() {
             )}
           </section>
         )}
+
+        <section className="request-section spam-review-section">
+          <div className="section-heading">
+            <div>
+              <p className="admin-eyebrow">Needs a human check</p>
+              <h2>Spam / Junk Review <span className="spam-count">{spamReviewRequests.length}</span></h2>
+              <p className="spam-intro">Requests with a suspicious or invalid contact detail are held here so you can decide whether they are spam or a real customer.</p>
+            </div>
+            <button className="refresh" onClick={() => loadRequests()}>Refresh</button>
+          </div>
+
+          {spamReviewRequests.length === 0 ? (
+            <div className="empty-state compact-empty"><h3>No requests need review.</h3><p>Anything flagged by the automated checks will appear here.</p></div>
+          ) : (
+            <div className="spam-review-list">
+              {spamReviewRequests.map((item) => (
+                <article key={item.id} className="spam-review-card">
+                  <div className="spam-review-main">
+                    <p className="request-id">{item.id} · {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+                    <h3>{item.business || "Unnamed business"}</h3>
+                    <p className="spam-contact"><strong>Email:</strong> {item.email || "Not provided"} <span>·</span> <strong>Phone:</strong> {item.phone || "Not provided"}</p>
+                    <p className="spam-reasons"><strong>Why it was flagged:</strong> {(item.spamReasons || []).map((reason) => reason === "invalid_email_format" ? "Email format looks invalid" : reason === "invalid_phone_number" ? "Phone number may be invalid or fictional" : reason === "suspicious_links" ? "Several links in the description" : reason).join("; ") || "Automated review requested"}</p>
+                    <p className="spam-description">{item.description || "No description provided."}</p>
+                    <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review full request</button>
+                  </div>
+                  <div className="spam-review-actions">
+                    <button className="legitimate-button" disabled={loading} onClick={() => markLegitimate(item)}>Not spam — move to requests</button>
+                    <button className="trash-button" disabled={loading} onClick={() => deleteRequest(item)}>🗑 Delete</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
 
         {selected && (
           <section className="detail-section detail-section-enter">
@@ -694,6 +781,22 @@ const adminStyles = `
   .search-wrap { margin-top:18px; }
   .search-toggle { border:2px solid #78A987; background:#fff; color:#048243; border-radius:999px; padding:10px 16px; font-weight:800; cursor:pointer; }
   .project-search { width:100%; border:2px solid #048243; border-radius:14px; background:#fff; color:#193024; padding:13px 16px; font:inherit; outline:none; }
+  .spam-review-section { margin-top:28px; border-color:#D8B36A; background:#FFFDF7; }
+  .spam-review-section .section-heading h2 { color:#7A4A00; }
+  .spam-count { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; margin-left:8px; padding:0 8px; border-radius:999px; background:#F7E8C8; color:#7A4A00; font:800 .95rem/1 sans-serif; vertical-align:middle; }
+  .spam-intro { max-width:760px; color:#657168; line-height:1.6; }
+  .spam-review-list { display:grid; gap:14px; margin-top:18px; }
+  .spam-review-card { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; padding:22px; border:1px solid #E7D4AE; border-radius:18px; background:#fff; }
+  .spam-review-main { min-width:0; flex:1; }
+  .spam-review-main h3 { margin:8px 0; color:#193024; font-size:1.25rem; }
+  .spam-contact, .spam-reasons, .spam-description { margin:8px 0; color:#536158; line-height:1.55; overflow-wrap:anywhere; }
+  .spam-reasons { color:#7A4A00; }
+  .spam-description { white-space:pre-wrap; }
+  .spam-review-link { margin-top:8px; border:0; background:transparent; color:#048243; font-weight:800; text-decoration:underline; cursor:pointer; }
+  .spam-review-actions { display:flex; flex-direction:column; gap:10px; width:230px; flex-shrink:0; }
+  .legitimate-button, .trash-button { border:0; border-radius:999px; padding:12px 16px; font:inherit; font-weight:800; cursor:pointer; }
+  .legitimate-button { background:#048243; color:#fff; }
+  .trash-button { border:2px solid #B3122D; background:#fff; color:#B3122D; }
   .proposal-box, .failure-box { margin-top:22px; }
   .proposal-box h3, .failure-box h3 { margin-bottom:10px; }
   .failure-box textarea { border-color:#B3122D; }
@@ -709,6 +812,8 @@ const adminStyles = `
     .admin-shell { padding:40px 16px; }
     .login-card, .request-section, .detail-section { padding:22px; }
     .dashboard-header { flex-direction:column; }
+    .spam-review-card { flex-direction:column; }
+    .spam-review-actions { width:100%; }
     .status-area { flex-direction:column; align-items:stretch; }
     .status-workflow, .status-final { width:100%; margin-left:0; text-align:left; }
     .status-final h3 { text-align:left; }
