@@ -1,5 +1,6 @@
-import ThemeToggle from "@/components/ThemeToggle";
 "use client";
+
+import ThemeToggle from "@/components/ThemeToggle";
 
 import { useEffect, useRef, useState } from "react";
 
