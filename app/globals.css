@@ -2760,14 +2760,14 @@ html[data-theme="dark"] .leaf-botanical-page > :not(.leaf-botanical-layer) secti
   background: rgba(20,37,27,.92) !important;
 }
 
-/* Extend the homepage dark-mode background through the bottom of the hero,
-   including the area behind the portfolio line. */
+/* Keep the dark hero background above the portfolio divider only.
+   The space below the green line stays clear for future video content. */
 html[data-theme="dark"] .leaf-botanical-page > section:first-of-type {
-  background: #14251B !important;
+  background: #F3F0E7 !important;
 }
 
 html[data-theme="dark"] .leaf-botanical-page > section:first-of-type::before {
-  inset: 0 !important;
+  inset: 0 0 100px !important;
   background: rgba(20,37,27,.92) !important;
 }
 html[data-theme="dark"] #contact::before {
@@ -2947,4 +2947,26 @@ html[data-theme="dark"]:has(.admin-shell) select {
   background: #FFFFFF !important;
   color: #193024 !important;
   border-color: #D8E0D9 !important;
+}
+
+
+/* Keep the private admin dashboard header free of the public-site dark nav box. */
+html[data-theme="dark"]:has(.admin-shell) .dashboard-header {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Improve text contrast for Get Started labels and the out-of-area ZIP notice. */
+html[data-theme="dark"] .heard-heading {
+  color: #F3F0E7 !important;
+}
+html[data-theme="dark"] .heard-heading .optional-label {
+  color: #C2CEC4 !important;
+}
+html[data-theme="dark"] .zip-notice,
+html[data-theme="dark"] .zip-notice strong {
+  color: #D0D8D1 !important;
 }
