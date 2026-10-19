@@ -44,6 +44,7 @@ type LeafRequest = {
   createdAt: string;
   howHeard?: string;
   spamReview?: boolean;
+  isSpam?: boolean;
   spamReasons?: SpamReason[];
 };
 
@@ -255,7 +256,8 @@ export async function POST(request: Request) {
       estimatedCost: Math.min(Number(String(body.estimatedCost || body.budget || "").replace(/[^0-9]/g, "") || 0), 1000000000).toString(),
       estimatedFinishDate: String(body.estimatedFinishDate || body.deadline || "").trim().slice(0, 100),
       progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String).slice(0, 20) : [],
-      spamReview: true,
+      spamReview: false,
+      isSpam: false,
       spamReasons,
     };
 
@@ -279,8 +281,8 @@ export async function PATCH(request: Request) {
 
     if (index === -1) return Response.json({ ok: false, message: "Request not found." }, { status: 404 });
 
-    if (body.markLegitimate === true) {
-      requests[index] = { ...requests[index], spamReview: false, spamReasons: [] };
+    if (body.markSpam === true) {
+      requests[index] = { ...requests[index], isSpam: true, spamReview: false };
       await store().setJSON("requests", requests);
       return Response.json({ ok: true, request: requests[index] }, { headers: { "Cache-Control": "private, no-store" } });
     }
@@ -317,10 +319,18 @@ export async function DELETE(request: Request) {
 
   try {
     const body = await request.json();
+    const requests = await readRequests();
+
+    if (body.allSpam === true) {
+      const remaining = requests.filter((item) => item.isSpam !== true);
+      const removedCount = requests.length - remaining.length;
+      await store().setJSON("requests", remaining);
+      return Response.json({ ok: true, removedCount }, { headers: { "Cache-Control": "private, no-store" } });
+    }
+
     const id = String(body.id || "");
     if (!id || id.length > 40) return Response.json({ ok: false, message: "Invalid request ID." }, { status: 400 });
 
-    const requests = await readRequests();
     const remaining = requests.filter((item) => item.id !== id);
     if (remaining.length === requests.length) return Response.json({ ok: false, message: "Request not found." }, { status: 404 });
 
