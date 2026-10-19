@@ -41,6 +41,7 @@ export default function GetStarted() {
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [website, setWebsite] = useState("");
   const [showIncompleteNotice, setShowIncompleteNotice] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -138,6 +139,7 @@ export default function GetStarted() {
           companyName,
           email,
           phone,
+          website,
           zipCode,
           promoting,
           authenticAdServices,
@@ -221,6 +223,16 @@ export default function GetStarted() {
 
               goToSection(2);
             }}>
+              <input
+                type="text"
+                name="website"
+                value={website}
+                onChange={(event) => setWebsite(event.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-10000px", top: "auto", width: "1px", height: "1px", overflow: "hidden" }}
+              />
               {showIncompleteNotice && <p className="incomplete-notice"><span>*</span> We&apos;re not quite done yet! Please fill in all required information above.</p>}
               <label style={labelStyle}>
                 Company Name <span className="required-star">*</span>
@@ -228,7 +240,7 @@ export default function GetStarted() {
                 {isLeafAgencyMention(companyName) && <span className="leaf-easter-egg">* Hey, that&apos;s us!</span>}
               </label>
               <label style={labelStyle}>Email <span className="required-star">*</span><input name="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} style={inputStyle} placeholder="you@company.com" /></label>
-              <label style={labelStyle}>Phone Number <span className="required-star">*</span><input name="phone" type="tel" required value={phone} onChange={(event) => setPhone(event.target.value)} style={inputStyle} placeholder="(555) 555-5555" /></label>
+              <label style={labelStyle}>Phone Number <span className="required-star">*</span><input name="phone" type="tel" required maxLength={40} value={phone} onChange={(event) => setPhone(event.target.value)} style={inputStyle} placeholder="+1 212 555 0123" /><span style={{ display: "block", marginTop: "7px", color: "#6B7280", fontSize: "0.88rem", lineHeight: 1.5 }}>Use + and your country code for international numbers (for example, +52 for Mexico or +44 for the UK).</span></label>
 
               <label style={labelStyle}>
                 Company ZIP Code <span className="required-star">*</span>
