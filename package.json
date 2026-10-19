@@ -11,7 +11,8 @@
     "next": "15.5.26",
     "react": "19.1.4",
     "react-dom": "19.1.4",
-    "@netlify/blobs": "11.1.0"
+    "@netlify/blobs": "11.1.0",
+    "libphonenumber-js": "^1.12.36"
   },
   "devDependencies": {
     "@types/node": "26.4.1",
