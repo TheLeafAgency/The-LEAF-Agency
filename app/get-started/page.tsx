@@ -240,7 +240,7 @@ export default function GetStarted() {
                 {isLeafAgencyMention(companyName) && <span className="leaf-easter-egg">* Hey, that&apos;s us!</span>}
               </label>
               <label style={labelStyle}>Email <span className="required-star">*</span><input name="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} style={inputStyle} placeholder="you@company.com" /></label>
-              <label style={labelStyle}>Phone Number <span className="required-star">*</span><input name="phone" type="tel" required maxLength={40} value={phone} onChange={(event) => setPhone(event.target.value)} style={inputStyle} placeholder="+1 212 555 0123" /><span style={{ display: "block", marginTop: "7px", color: "#6B7280", fontSize: "0.88rem", lineHeight: 1.5 }}>Use + and your country code for international numbers (for example, +52 for Mexico or +44 for the UK).</span></label>
+              <label style={labelStyle}>Phone Number <span className="required-star">*</span><input name="phone" type="tel" required maxLength={40} value={phone} onChange={(event) => setPhone(event.target.value)} style={inputStyle} placeholder="Enter your phone number" /><span style={{ display: "block", marginTop: "7px", color: "#6B7280", fontSize: "0.88rem", lineHeight: 1.5 }}>Use + and your country code for international numbers (for example, +52 for Mexico or +44 for the UK).</span></label>
 
               <label style={labelStyle}>
                 Company ZIP Code <span className="required-star">*</span>
