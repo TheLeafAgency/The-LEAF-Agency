@@ -3,7 +3,7 @@ import { getStore } from "@netlify/blobs";
 import { adminCookieHeader, clearAdminCookieHeader, createAdminToken } from "../../_lib/admin";
 
 const MAX_FAILED_ATTEMPTS = 5;
-const COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+const COOLDOWN_MS = 30 * 60 * 60 * 1000;
 const DEVICE_COOKIE = "leaf_login_device";
 
 type LoginAttemptRecord = {
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     if (record?.lockedUntil && now < record.lockedUntil) {
       const retryAfter = Math.ceil((record.lockedUntil - now) / 1000);
       return Response.json(
-        { ok: false, message: "Too many incorrect attempts. Sign-in is locked for one week." },
+        { ok: false, message: "Too many incorrect attempts. Sign-in is locked for 30 hours." },
         {
           status: 429,
           headers: (() => {
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         const headers = responseHeaders(deviceId!, needsDeviceCookie);
         headers.set("Retry-After", String(Math.ceil(COOLDOWN_MS / 1000)));
         return Response.json(
-          { ok: false, message: "Too many incorrect attempts. Sign-in is locked for one week." },
+          { ok: false, message: "Too many incorrect attempts. Sign-in is locked for 30 hours." },
           { status: 429, headers }
         );
       }
