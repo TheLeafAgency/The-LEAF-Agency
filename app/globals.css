@@ -2772,7 +2772,7 @@ html[data-theme="dark"] .leaf-botanical-page > .home-hero::before {
   inset: calc(100% - 100px) 0 0 0;
   z-index: 0;
   pointer-events: none;
-  background: rgba(20,37,27,.92) !important;
+  background: #14251B !important;
 }
 
 html[data-theme="dark"] .leaf-botanical-page > .home-hero > * {
