@@ -66,6 +66,10 @@ type LeafRequest = {
   howHeard?: string;
   spamReview?: boolean;
   isSpam?: boolean;
+  spamRemovedAt?: string;
+  statusChangedAt?: string;
+  archivedAt?: string;
+  archiveReason?: string;
   spamReasons?: string[];
 };
 
@@ -85,6 +89,7 @@ export default function AdminPage() {
   const [progressStatuses, setProgressStatuses] = useState<string[]>([]);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [organizerSearch, setOrganizerSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [expandedStat, setExpandedStat] = useState<string | null>(null);
@@ -118,8 +123,11 @@ export default function AdminPage() {
   }, []);
 
   const selected = requests.find((item) => item.id === selectedId) || null;
-  const spamRequests = requests.filter((item) => item.isSpam === true);
-  const newRequestItems = requests.filter((item) => item.isSpam !== true && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status)));
+  const spamRequests = requests.filter((item) => item.isSpam === true && !item.spamRemovedAt);
+  const newRequestItems = requests.filter((item) => item.isSpam !== true && !item.archivedAt && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status)));
+  const terminalStatuses = ["Completed", "Failed", "Declined"];
+  const projectHistory = requests.filter((item) => Boolean(item.archivedAt) || item.isSpam === true);
+  const organizerResults = organizerSearch.trim() ? requests.filter((item) => `${item.id} ${item.business}`.toLowerCase().includes(organizerSearch.trim().toLowerCase())).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id)) : [];
 
   useEffect(() => {
     if (selected) {
@@ -144,10 +152,10 @@ export default function AdminPage() {
   }, [selectedId, selected]);
 
   const counts = useMemo(() => ({
-    newRequests: requests.filter((item) => item.isSpam !== true && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))).length,
-    active: requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))).length,
-    postProduction: requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))).length,
-    urgent: requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)).length,
+    newRequests: requests.filter((item) => item.isSpam !== true && !item.archivedAt && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))).length,
+    active: requests.filter((item) => !item.archivedAt && !item.isSpam && ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))).length,
+    postProduction: requests.filter((item) => !item.archivedAt && !item.isSpam && ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))).length,
+    urgent: requests.filter((item) => !item.archivedAt && !item.isSpam && (displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status))).length,
   }), [requests]);
 
   const expandedRequests = useMemo(() => {
@@ -155,10 +163,10 @@ export default function AdminPage() {
     const term = searchTerm.trim().toLowerCase();
     const matchesSearch = (item: LeafRequest) => !term || `${item.id} ${item.business}`.toLowerCase().includes(term);
     const sortProjects = (items: LeafRequest[]) => [...items].filter(matchesSearch).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id));
-    if (expandedStat === "new") return sortProjects(requests.filter((item) => item.isSpam !== true && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))));
-    if (expandedStat === "active") return sortProjects(requests.filter((item) => ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status)) && !isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)));
-    if (expandedStat === "post-production") return sortProjects(requests.filter((item) => ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))));
-    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)).sort((a, b) => Number(isOverdue(b.estimatedFinishDate || b.deadline || "")) - Number(isOverdue(a.estimatedFinishDate || a.deadline || ""))));
+    if (expandedStat === "new") return sortProjects(requests.filter((item) => item.isSpam !== true && !item.archivedAt && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))));
+    if (expandedStat === "active") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status)) && !isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)));
+    if (expandedStat === "post-production") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))));
+    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && (displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status))).sort((a, b) => Number(isOverdue(b.estimatedFinishDate || b.deadline || "")) - Number(isOverdue(a.estimatedFinishDate || a.deadline || ""))));
     return [];
   }, [expandedStat, requests, searchTerm]);
 
@@ -198,7 +206,7 @@ export default function AdminPage() {
       }
       setRequests((current) => current.map((request) => request.id === item.id ? data.request : request));
       if (selectedId === item.id) setSelectedId(null);
-      setMessage(`${item.id} moved to Spam / Junk.`);
+      setMessage(`${item.id} moved to Spam.`);
     } catch {
       setMessage("Could not move this request. Please try again.");
     } finally {
@@ -208,9 +216,9 @@ export default function AdminPage() {
 
   async function removeAllSpam() {
     if (spamRequests.length === 0) return;
-    const reviewed = window.confirm(`Before continuing: have you reviewed ALL ${spamRequests.length} projects in Spam / Junk and confirmed that none should be kept? Choose Cancel to review them first.`);
+    const reviewed = window.confirm(`Before continuing: have you reviewed ALL ${spamRequests.length} projects in Spam and confirmed that none should be kept? Choose Cancel to review them first.`);
     if (!reviewed) return;
-    const confirmed = window.confirm(`Are you absolutely sure you want to permanently remove all ${spamRequests.length} projects in Spam / Junk? This cannot be undone. Projects outside Spam / Junk will not be removed.`);
+    const confirmed = window.confirm(`Are you sure you want to remove all ${spamRequests.length} projects from the Spam section? They will remain saved in Project History. Projects outside Spam will not be affected.`);
     if (!confirmed) return;
 
     setLoading(true);
@@ -226,9 +234,9 @@ export default function AdminPage() {
         setMessage(data.message || "Could not remove Spam / Junk projects.");
         return;
       }
-      setRequests((current) => current.filter((request) => request.isSpam !== true));
+      setRequests(data.requests || []);
       if (selected && selected.isSpam) setSelectedId(null);
-      setMessage(`${data.removedCount ?? spamRequests.length} Spam / Junk project(s) permanently removed.`);
+      setMessage(`${data.removedCount ?? spamRequests.length} project(s) removed from Spam and preserved in Project History.`);
     } catch {
       setMessage("Could not remove Spam / Junk projects. Please try again.");
     } finally {
@@ -320,6 +328,33 @@ export default function AdminPage() {
           <Stat index={3} label="URGENT" value={counts.urgent} selected={expandedStat === "urgent"} onClick={() => setExpandedStat(expandedStat === "urgent" ? null : "urgent")} />
         </section>
 
+        <section className="request-section project-organizer-section">
+          <div className="section-heading">
+            <div>
+              <p className="admin-eyebrow">Find a project</p>
+              <h2>Project Organizer</h2>
+              <p className="spam-intro">Search by project number (for example, LEAF-0001) or project/business name. Results include active projects and Project History.</p>
+            </div>
+          </div>
+          <div className="organizer-search-wrap">
+            <input className="project-search" value={organizerSearch} onChange={(event) => setOrganizerSearch(event.target.value)} placeholder="Search project # or project name..." aria-label="Search by project number or project name" />
+          </div>
+          {organizerSearch.trim() && (
+            organizerResults.length === 0 ? <div className="stat-empty">No matching projects found.</div> : (
+              <div className="request-list organizer-results">
+                {organizerResults.map((item) => (
+                  <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
+                    <span className="request-id">{item.id}</span>
+                    <span><strong>{item.business || "Unnamed business"}</strong><small>{item.service || "Advertising request"}</small></span>
+                    <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                    <span className={`status-pill status-${(item.isSpam ? "spam" : item.archiveReason || displayStatus(item.status)).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.isSpam ? (item.spamRemovedAt ? "Spam · History" : "Spam") : item.archivedAt ? "History · " + (item.archiveReason || displayStatus(item.status)) : displayStatus(item.status)}</span>
+                  </button>
+                ))}
+              </div>
+            )
+          )}
+        </section>
+
         {expandedStat && (
           <section className="stat-details-panel">
             <div className="expanded-stat-header">
@@ -352,7 +387,7 @@ export default function AdminPage() {
             <div>
               <p className="admin-eyebrow">Review every submission</p>
               <h2>New Requests <span className="spam-count">{newRequestItems.length}</span></h2>
-              <p className="spam-intro">Open a request to choose its project progress. If it is spam or junk, move it to the separate Spam / Junk section.</p>
+              <p className="spam-intro">Open a request to choose its project progress. If it is spam or junk, move it to the separate Spam section.</p>
             </div>
             <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
           </div>
@@ -379,39 +414,7 @@ export default function AdminPage() {
           )}
         </section>
 
-        <section className="request-section spam-review-section">
-          <div className="section-heading">
-            <div>
-              <p className="admin-eyebrow">Projects you marked as junk</p>
-              <h2>Spam / Junk <span className="spam-count">{spamRequests.length}</span></h2>
-              <p className="spam-intro">Only projects you explicitly move here are included. Check everything before using Remove All Projects; this action permanently deletes the projects in this section only.</p>
-            </div>
-            <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
-          </div>
 
-          <div className="spam-bulk-actions">
-            <button className="remove-all-spam-button" disabled={loading || spamRequests.length === 0} onClick={removeAllSpam}>Remove All Projects</button>
-          </div>
-
-          {spamRequests.length === 0 ? (
-            <div className="empty-state compact-empty"><h3>Spam / Junk is empty.</h3><p>When you mark a request as spam or junk, it will appear here.</p></div>
-          ) : (
-            <div className="spam-review-list">
-              {spamRequests.map((item) => (
-                <article key={item.id} className="spam-review-card">
-                  <div className="spam-review-main">
-                    <p className="request-id">{item.id} · {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
-                    <h3>{item.business || "Unnamed business"}</h3>
-                    <p className="spam-contact"><strong>Email:</strong> {item.email || "Not provided"} <span>·</span> <strong>Phone:</strong> {item.phone || "Not provided"}</p>
-                    <p className="spam-reasons"><strong>Review flags:</strong> {(item.spamReasons || []).map((reason) => reason === "invalid_email_format" ? "Email format looks invalid" : reason === "invalid_phone_number" ? "Phone number may be invalid or fictional" : reason === "suspicious_links" ? "Several links in the description" : reason).join("; ") || "Manually marked as spam / junk"}</p>
-                    <p className="spam-description">{item.description || "No description provided."}</p>
-                    <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review full request</button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
 
         {selected && (
           <section className="detail-section detail-section-enter">
@@ -542,17 +545,16 @@ export default function AdminPage() {
         <section className="request-section history-section completed-history">
           <div className="section-heading">
             <div>
-              <p className="admin-eyebrow">Completed projects!</p>
-              <h2>Completed projects!</h2>
+              <p className="admin-eyebrow">Completed projects</p>
+              <h2>Completed Projects</h2>
+              <p className="spam-intro">Completed projects remain here for 90 days before moving to Project History.</p>
             </div>
-            <button className="refresh" onClick={() => loadRequests()}>Refresh</button>
           </div>
-
-          {requests.filter((item) => displayStatus(item.status) === "Completed").length === 0 ? (
-            <div className="empty-state compact-empty"><h3>No completed projects yet.</h3><p>Completed projects will stay here as part of your project history.</p></div>
+          {requests.filter((item) => displayStatus(item.status) === "Completed" && !item.archivedAt && !item.isSpam).length === 0 ? (
+            <div className="empty-state compact-empty"><h3>No recent completed projects.</h3><p>Projects completed within the last 90 days will appear here.</p></div>
           ) : (
             <div className="request-list">
-              {requests.filter((item) => displayStatus(item.status) === "Completed").map((item) => (
+              {requests.filter((item) => displayStatus(item.status) === "Completed" && !item.archivedAt && !item.isSpam).map((item) => (
                 <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
                   <span className="request-id">{item.id}</span>
                   <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
@@ -569,19 +571,78 @@ export default function AdminPage() {
             <div>
               <p className="admin-eyebrow">Failed & declined</p>
               <h2>Failed & Declined Projects</h2>
+              <p className="spam-intro">Failed and declined projects remain here for 90 days before moving to Project History.</p>
             </div>
           </div>
-
-          {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status))).length === 0 ? (
-            <div className="empty-state compact-empty"><h3>No failed or declined projects.</h3><p>Projects that fail or are declined will be kept here for reference.</p></div>
+          {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status)) && !item.archivedAt && !item.isSpam).length === 0 ? (
+            <div className="empty-state compact-empty"><h3>No recent failed or declined projects.</h3><p>Projects failed or declined within the last 90 days will appear here.</p></div>
           ) : (
             <div className="request-list">
-              {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status))).map((item) => (
+              {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status)) && !item.archivedAt && !item.isSpam).map((item) => (
                 <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
                   <span className="request-id">{item.id}</span>
                   <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
                   <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
                   <span className={`status-pill status-${displayStatus(item.status).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{displayStatus(item.status)}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </section>
+
+                <section className="request-section spam-review-section">
+          <div className="section-heading">
+            <div>
+              <p className="admin-eyebrow">Projects you marked as spam</p>
+              <h2>Spam <span className="spam-count">{spamRequests.length}</span></h2>
+              <p className="spam-intro">Only projects you explicitly move here are included. Check everything before using Remove All Projects. Removed items stay saved in Project History.</p>
+            </div>
+            <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
+          </div>
+
+          <div className="spam-bulk-actions">
+            <button className="remove-all-spam-button" disabled={loading || spamRequests.length === 0} onClick={removeAllSpam}>Remove All Projects</button>
+          </div>
+
+          {spamRequests.length === 0 ? (
+            <div className="empty-state compact-empty"><h3>Spam is empty.</h3><p>When you mark a request as spam or junk, it will appear here.</p></div>
+          ) : (
+            <div className="spam-review-list">
+              {spamRequests.map((item) => (
+                <article key={item.id} className="spam-review-card">
+                  <div className="spam-review-main">
+                    <p className="request-id">{item.id} · {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+                    <h3>{item.business || "Unnamed business"}</h3>
+                    <p className="spam-contact"><strong>Email:</strong> {item.email || "Not provided"} <span>·</span> <strong>Phone:</strong> {item.phone || "Not provided"}</p>
+                    <p className="spam-reasons"><strong>Review flags:</strong> {(item.spamReasons || []).map((reason) => reason === "invalid_email_format" ? "Email format looks invalid" : reason === "invalid_phone_number" ? "Phone number may be invalid or fictional" : reason === "suspicious_links" ? "Several links in the description" : reason).join("; ") || "Manually marked as spam / junk"}</p>
+                    <p className="spam-description">{item.description || "No description provided."}</p>
+                    <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review full request</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="request-section history-section project-history-section">
+          <div className="section-heading">
+            <div>
+              <p className="admin-eyebrow">Archived projects</p>
+              <h2>Project History <span className="spam-count">{projectHistory.length}</span></h2>
+              <p className="spam-intro">This is your long-term record of spam, completed projects, and failed or declined projects. Use the organizer above to find a project by number or name.</p>
+            </div>
+            <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
+          </div>
+          {projectHistory.length === 0 ? (
+            <div className="empty-state compact-empty"><h3>No project history yet.</h3><p>Spam and projects completed, failed, or declined for 90 days will appear here.</p></div>
+          ) : (
+            <div className="request-list">
+              {[...projectHistory].sort((a,b) => Date.parse(b.archivedAt || b.createdAt) - Date.parse(a.archivedAt || a.createdAt)).map((item) => (
+                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
+                  <span className="request-id">{item.id}</span>
+                  <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
+                  <span>{new Date(item.archivedAt || item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                  <span className={`status-pill status-${(item.archiveReason || displayStatus(item.status)).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.isSpam ? "Spam" : item.archiveReason || displayStatus(item.status)}</span>
                 </button>
               ))}
             </div>
@@ -819,6 +880,11 @@ const adminStyles = `
   .search-wrap { margin-top:18px; }
   .search-toggle { border:2px solid #78A987; background:#fff; color:#048243; border-radius:999px; padding:10px 16px; font-weight:800; cursor:pointer; }
   .project-search { width:100%; border:2px solid #048243; border-radius:14px; background:#fff; color:#193024; padding:13px 16px; font:inherit; outline:none; }
+  .project-organizer-section { margin-top:28px; }
+  .organizer-search-wrap { margin-top:18px; }
+  .organizer-results { margin-top:16px; }
+  .project-history-section { margin-top:28px; border-color:#CBD8CD; background:#F9FCF9; }
+  .project-history-section .section-heading h2 { color:#193024; }
   .new-requests-section { margin-top:28px; }
   .spam-bulk-actions { display:flex; justify-content:flex-end; margin-top:18px; }
   .remove-all-spam-button { border:0; border-radius:999px; padding:13px 18px; background:#B3122D; color:#fff; font:inherit; font-weight:900; cursor:pointer; }
