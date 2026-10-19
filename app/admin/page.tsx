@@ -346,7 +346,7 @@ export default function AdminPage() {
             <div>
               <p className="admin-eyebrow">Needs a human check</p>
               <h2>Spam / Junk Review <span className="spam-count">{spamReviewRequests.length}</span></h2>
-              <p className="spam-intro">Requests with a suspicious or invalid contact detail are held here so you can decide whether they are spam or a real customer.</p>
+              <p className="spam-intro">Every new submission waits here until you decide whether it is spam or a real customer. Invalid contact details and suspicious links are flagged to help you review it.</p>
             </div>
             <button className="refresh" onClick={() => loadRequests()}>Refresh</button>
           </div>
