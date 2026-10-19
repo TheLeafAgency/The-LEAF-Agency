@@ -65,6 +65,7 @@ type LeafRequest = {
   createdAt: string;
   howHeard?: string;
   spamReview?: boolean;
+  isSpam?: boolean;
   spamReasons?: string[];
 };
 
@@ -117,7 +118,8 @@ export default function AdminPage() {
   }, []);
 
   const selected = requests.find((item) => item.id === selectedId) || null;
-  const spamReviewRequests = requests.filter((item) => item.spamReview);
+  const spamRequests = requests.filter((item) => item.isSpam === true);
+  const newRequestItems = requests.filter((item) => item.isSpam !== true && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status)));
 
   useEffect(() => {
     if (selected) {
@@ -195,9 +197,63 @@ export default function AdminPage() {
         return;
       }
       setRequests((current) => current.map((request) => request.id === item.id ? data.request : request));
-      setMessage(`${item.id} marked as legitimate and moved to New Requests.`);
+      setMessage(`${item.id} marked as legitimate.`);
     } catch {
       setMessage("Could not update this request. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function moveToSpam(item: LeafRequest) {
+    setLoading(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/requests", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.id, markSpam: true }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.message || "Could not move this request to Spam / Junk.");
+        return;
+      }
+      setRequests((current) => current.map((request) => request.id === item.id ? data.request : request));
+      if (selectedId === item.id) setSelectedId(null);
+      setMessage(`${item.id} moved to Spam / Junk.`);
+    } catch {
+      setMessage("Could not move this request. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function removeAllSpam() {
+    if (spamRequests.length === 0) return;
+    const reviewed = window.confirm(`Before continuing: have you reviewed ALL ${spamRequests.length} projects in Spam / Junk and confirmed that none should be kept? Choose Cancel to review them first.`);
+    if (!reviewed) return;
+    const confirmed = window.confirm(`Are you absolutely sure you want to permanently remove all ${spamRequests.length} projects in Spam / Junk? This cannot be undone. Projects outside Spam / Junk will not be removed.`);
+    if (!confirmed) return;
+
+    setLoading(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/requests", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ allSpam: true }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.message || "Could not remove Spam / Junk projects.");
+        return;
+      }
+      setRequests((current) => current.filter((request) => request.isSpam !== true));
+      if (selected && selected.isSpam) setSelectedId(null);
+      setMessage(`${data.removedCount ?? spamRequests.length} Spam / Junk project(s) permanently removed.`);
+    } catch {
+      setMessage("Could not remove Spam / Junk projects. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -341,33 +397,65 @@ export default function AdminPage() {
           </section>
         )}
 
-        <section className="request-section spam-review-section">
+        <section className="request-section new-requests-section">
           <div className="section-heading">
             <div>
-              <p className="admin-eyebrow">Needs a human check</p>
-              <h2>Spam / Junk Review <span className="spam-count">{spamReviewRequests.length}</span></h2>
-              <p className="spam-intro">Every new submission waits here until you decide whether it is spam or a real customer. Invalid contact details and suspicious links are flagged to help you review it.</p>
+              <p className="admin-eyebrow">Review every submission</p>
+              <h2>New Requests <span className="spam-count">{newRequestItems.length}</span></h2>
+              <p className="spam-intro">Open a request to choose its project progress. If it is spam or junk, move it to the separate Spam / Junk section.</p>
             </div>
-            <button className="refresh" onClick={() => loadRequests()}>Refresh</button>
+            <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
           </div>
 
-          {spamReviewRequests.length === 0 ? (
-            <div className="empty-state compact-empty"><h3>No requests need review.</h3><p>Anything flagged by the automated checks will appear here.</p></div>
+          {newRequestItems.length === 0 ? (
+            <div className="empty-state compact-empty"><h3>No new requests.</h3><p>New customer submissions will appear here.</p></div>
           ) : (
             <div className="spam-review-list">
-              {spamReviewRequests.map((item) => (
+              {newRequestItems.map((item) => (
                 <article key={item.id} className="spam-review-card">
                   <div className="spam-review-main">
                     <p className="request-id">{item.id} · {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
                     <h3>{item.business || "Unnamed business"}</h3>
                     <p className="spam-contact"><strong>Email:</strong> {item.email || "Not provided"} <span>·</span> <strong>Phone:</strong> {item.phone || "Not provided"}</p>
-                    <p className="spam-reasons"><strong>Why it was flagged:</strong> {(item.spamReasons || []).map((reason) => reason === "invalid_email_format" ? "Email format looks invalid" : reason === "invalid_phone_number" ? "Phone number may be invalid or fictional" : reason === "suspicious_links" ? "Several links in the description" : reason).join("; ") || "Automated review requested"}</p>
                     <p className="spam-description">{item.description || "No description provided."}</p>
-                    <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review full request</button>
+                    <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review request and choose progress</button>
                   </div>
                   <div className="spam-review-actions">
-                    <button className="legitimate-button" disabled={loading} onClick={() => markLegitimate(item)}>Not spam — move to requests</button>
-                    <button className="trash-button" disabled={loading} onClick={() => deleteRequest(item)}>🗑 Delete</button>
+                    <button className="trash-button" disabled={loading} onClick={() => moveToSpam(item)}>Move to Spam / Junk</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="request-section spam-review-section">
+          <div className="section-heading">
+            <div>
+              <p className="admin-eyebrow">Projects you marked as junk</p>
+              <h2>Spam / Junk <span className="spam-count">{spamRequests.length}</span></h2>
+              <p className="spam-intro">Only projects you explicitly move here are included. Check everything before using Remove All Projects; this action permanently deletes the projects in this section only.</p>
+            </div>
+            <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
+          </div>
+
+          <div className="spam-bulk-actions">
+            <button className="remove-all-spam-button" disabled={loading || spamRequests.length === 0} onClick={removeAllSpam}>Remove All Projects</button>
+          </div>
+
+          {spamRequests.length === 0 ? (
+            <div className="empty-state compact-empty"><h3>Spam / Junk is empty.</h3><p>When you mark a request as spam or junk, it will appear here.</p></div>
+          ) : (
+            <div className="spam-review-list">
+              {spamRequests.map((item) => (
+                <article key={item.id} className="spam-review-card">
+                  <div className="spam-review-main">
+                    <p className="request-id">{item.id} · {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+                    <h3>{item.business || "Unnamed business"}</h3>
+                    <p className="spam-contact"><strong>Email:</strong> {item.email || "Not provided"} <span>·</span> <strong>Phone:</strong> {item.phone || "Not provided"}</p>
+                    <p className="spam-reasons"><strong>Review flags:</strong> {(item.spamReasons || []).map((reason) => reason === "invalid_email_format" ? "Email format looks invalid" : reason === "invalid_phone_number" ? "Phone number may be invalid or fictional" : reason === "suspicious_links" ? "Several links in the description" : reason).join("; ") || "Manually marked as spam / junk"}</p>
+                    <p className="spam-description">{item.description || "No description provided."}</p>
+                    <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review full request</button>
                   </div>
                 </article>
               ))}
@@ -781,6 +869,10 @@ const adminStyles = `
   .search-wrap { margin-top:18px; }
   .search-toggle { border:2px solid #78A987; background:#fff; color:#048243; border-radius:999px; padding:10px 16px; font-weight:800; cursor:pointer; }
   .project-search { width:100%; border:2px solid #048243; border-radius:14px; background:#fff; color:#193024; padding:13px 16px; font:inherit; outline:none; }
+  .new-requests-section { margin-top:28px; }
+  .spam-bulk-actions { display:flex; justify-content:flex-end; margin-top:18px; }
+  .remove-all-spam-button { border:0; border-radius:999px; padding:13px 18px; background:#B3122D; color:#fff; font:inherit; font-weight:900; cursor:pointer; }
+  .remove-all-spam-button:disabled { opacity:.45; cursor:not-allowed; }
   .spam-review-section { margin-top:28px; border-color:#D8B36A; background:#FFFDF7; }
   .spam-review-section .section-heading h2 { color:#7A4A00; }
   .spam-count { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; margin-left:8px; padding:0 8px; border-radius:999px; background:#F7E8C8; color:#7A4A00; font:800 .95rem/1 sans-serif; vertical-align:middle; }
@@ -814,6 +906,8 @@ const adminStyles = `
     .dashboard-header { flex-direction:column; }
     .spam-review-card { flex-direction:column; }
     .spam-review-actions { width:100%; }
+    .spam-bulk-actions { justify-content:stretch; }
+    .remove-all-spam-button { width:100%; }
     .status-area { flex-direction:column; align-items:stretch; }
     .status-workflow, .status-final { width:100%; margin-left:0; text-align:left; }
     .status-final h3 { text-align:left; }
