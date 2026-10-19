@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { isAdminRequest } from "../_lib/admin";
@@ -47,8 +47,6 @@ type LeafRequest = {
   spamReasons?: SpamReason[];
 };
 
-type RateRecord = { count: number; windowStartedAt: number };
-
 function store() {
   const isProduction = process.env.CONTEXT === "production" && process.env.BRANCH !== "Preview";
   return getStore(`leaf-requests-${isProduction ? "production" : "preview"}`, { consistency: "strong" });
@@ -81,16 +79,25 @@ function getClientIp(request: Request) {
     "";
 }
 
-async function checkRateLimit(key: string, limit: number, now: number) {
+async function checkRateLimit(prefix: string, limit: number, now: number) {
   const limits = rateLimitStore();
-  const record = (await limits.get(key, { type: "json" })) as RateRecord | null;
   const windowMs = 60 * 60 * 1000;
-  const active = record && now - record.windowStartedAt < windowMs
-    ? record
-    : { count: 0, windowStartedAt: now };
+  const { blobs } = await limits.list({ prefix });
+  let activeCount = 0;
 
-  if (active.count >= limit) return false;
-  await limits.setJSON(key, { count: active.count + 1, windowStartedAt: active.windowStartedAt } satisfies RateRecord);
+  // Store one uniquely keyed event per accepted submission, not a mutable
+  // counter. Remove expired events during normal traffic because Blobs has no TTL.
+  for (const blob of blobs) {
+    const timestamp = Number(blob.key.slice(prefix.length).split("-")[0]);
+    if (!Number.isFinite(timestamp) || now - timestamp >= windowMs) {
+      await limits.delete(blob.key);
+    } else {
+      activeCount += 1;
+    }
+  }
+
+  if (activeCount >= limit) return false;
+  await limits.setJSON(`${prefix}${now}-${randomUUID()}`, { createdAt: now }, { onlyIfNew: true });
   return true;
 }
 
@@ -165,8 +172,8 @@ export async function POST(request: Request) {
 
     const now = Date.now();
     const ip = getClientIp(request);
-    const emailKey = `email:${hash(email.toLowerCase())}`;
-    const ipKey = ip ? `ip:${hash(ip)}` : "";
+    const emailKey = `email/${hash(email.toLowerCase())}/`;
+    const ipKey = ip ? `ip/${hash(ip)}/` : "";
 
     // Limit repeat submissions without using a single shared limit for visitors
     // whose network does not provide a client IP header.
