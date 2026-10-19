@@ -140,7 +140,7 @@ export default function ServicesPage() {
             >
               <div className="container service-detail-inner">
                 <div className={`service-media-slot service-media-${index % 2 === 0 ? "left" : "right"}`} aria-hidden="true">
-                  <div className="service-media-stack">
+                  <div className={`service-media-stack service-media-count-${service.mediaCount}`}>
                     {[
                       "service-media-card-back-three",
                       "service-media-card-back-two",
