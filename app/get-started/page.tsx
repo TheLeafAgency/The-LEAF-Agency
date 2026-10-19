@@ -233,7 +233,7 @@ export default function GetStarted() {
               <label style={labelStyle}>
                 Company ZIP Code <span className="required-star">*</span>
                 <input name="zipCode" type="text" inputMode="numeric" maxLength={5} required value={zipCode} onChange={(event) => setZipCode(event.target.value.replace(/\D/g, "").slice(0, 5))} style={{ ...inputStyle, borderColor: showZipNotice ? "#0B1F3A" : "#E5E7EB" }} placeholder="10001" aria-invalid={showZipNotice} />
-                {showZipNotice && <span style={zipNoticeStyle}><strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? Some in-person promotion options may be limited, but we can still help with remote creative work.</span>}
+                {showZipNotice && <span className="zip-notice" style={zipNoticeStyle}><strong>Good to know:</strong> We currently operate in NYC and nearby areas. Outside our service area? Some in-person promotion options may be limited, but we can still help with remote creative work.</span>}
               </label>
 
               <div className="heard-section">
