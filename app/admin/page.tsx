@@ -125,7 +125,6 @@ export default function AdminPage() {
   const selected = requests.find((item) => item.id === selectedId) || null;
   const spamRequests = requests.filter((item) => item.isSpam === true && !item.spamRemovedAt);
   const newRequestItems = requests.filter((item) => item.isSpam !== true && !item.archivedAt && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status)));
-  const terminalStatuses = ["Completed", "Failed", "Declined"];
   const projectHistory = requests.filter((item) => Boolean(item.archivedAt) || item.isSpam === true);
   const organizerResults = organizerSearch.trim() ? requests.filter((item) => `${item.id} ${item.business}`.toLowerCase().includes(organizerSearch.trim().toLowerCase())).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id)) : [];
 
@@ -201,7 +200,7 @@ export default function AdminPage() {
       });
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.message || "Could not move this request to Spam / Junk.");
+        setMessage(data.message || "Could not move this request to Spam.");
         return;
       }
       setRequests((current) => current.map((request) => request.id === item.id ? data.request : request));
@@ -231,14 +230,14 @@ export default function AdminPage() {
       });
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.message || "Could not remove Spam / Junk projects.");
+        setMessage(data.message || "Could not remove Spam projects.");
         return;
       }
       setRequests(data.requests || []);
       if (selected && selected.isSpam) setSelectedId(null);
       setMessage(`${data.removedCount ?? spamRequests.length} project(s) removed from Spam and preserved in Project History.`);
     } catch {
-      setMessage("Could not remove Spam / Junk projects. Please try again.");
+      setMessage("Could not remove Spam projects. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -406,7 +405,7 @@ export default function AdminPage() {
                     <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review request and choose progress</button>
                   </div>
                   <div className="spam-review-actions">
-                    <button className="trash-button" disabled={loading} onClick={() => moveToSpam(item)}>Move to Spam / Junk</button>
+                    <button className="trash-button" disabled={loading} onClick={() => moveToSpam(item)}>Move to Spam</button>
                   </div>
                 </article>
               ))}
