@@ -13,7 +13,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var saved=localStorage.getItem("leaf-theme");var prefersDark=window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.dataset.theme=saved==="light"||saved==="dark"?saved:(prefersDark?"dark":"light");}catch(e){document.documentElement.dataset.theme="light";}})();`,
+          }}
+        />
+      </head>
       <body>
         <ScrollToTopOnLoad />
         {children}
