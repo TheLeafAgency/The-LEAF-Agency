@@ -2872,3 +2872,61 @@ html[data-theme="dark"] main [style*="background: #fff"] {
   .standalone-theme-toggle { top: 14px; right: 14px; }
   .get-started-topbar { align-items: flex-start; }
 }
+
+
+/* Targeted fixes: keep these changes limited to text, tree visibility, and the admin dashboard. */
+
+/* In dark mode, match the homepage service/contact titles and email text to its off-white copy. */
+html[data-theme="dark"] #services .service-detail-card h3,
+html[data-theme="dark"] #contact h2,
+html[data-theme="dark"] #contact .contact-email-button {
+  color: #F3F0E7 !important;
+}
+
+/* Keep the Services tree visible between sections in both themes.
+   The hero and sticky jump bar intentionally remain opaque. */
+.services-page .service-detail-section,
+.services-page .services-ending {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html[data-theme="dark"] .services-page .service-detail-section,
+html[data-theme="dark"] .services-page .services-ending {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html[data-theme="dark"] .services-tree-trunk,
+html[data-theme="dark"] .services-tree-root {
+  stroke: #A9825E !important;
+}
+
+html[data-theme="dark"] .services-tree-trunk-highlight {
+  stroke: #D0B18E !important;
+}
+
+/* The private admin dashboard keeps its original light appearance even when
+   the public site is using dark mode. The admin page itself has no theme toggle. */
+html[data-theme="dark"]:has(.admin-shell) body {
+  background: #F3F0E7 !important;
+  color: #193024 !important;
+}
+
+html[data-theme="dark"]:has(.admin-shell) main {
+  background: #F3F0E7 !important;
+  color: #193024 !important;
+}
+
+html[data-theme="dark"]:has(.admin-shell) .admin-shell {
+  background: #F3F0E7 !important;
+  color: #193024 !important;
+}
+
+html[data-theme="dark"]:has(.admin-shell) input,
+html[data-theme="dark"]:has(.admin-shell) textarea,
+html[data-theme="dark"]:has(.admin-shell) select {
+  background: #FFFFFF !important;
+  color: #193024 !important;
+  border-color: #D8E0D9 !important;
+}
