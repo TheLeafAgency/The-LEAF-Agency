@@ -45,6 +45,10 @@ type LeafRequest = {
   howHeard?: string;
   spamReview?: boolean;
   isSpam?: boolean;
+  spamRemovedAt?: string;
+  statusChangedAt?: string;
+  archivedAt?: string;
+  archiveReason?: string;
   spamReasons?: SpamReason[];
 };
 
@@ -160,7 +164,31 @@ export async function GET(request: Request) {
     });
   }
 
-  return Response.json({ ok: true, requests: await readRequests() }, {
+  const requests = await readRequests();
+  const now = Date.now();
+  const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
+  let changed = false;
+  const updated = requests.map((item) => {
+    if (item.isSpam === true) {
+      if (!item.archivedAt || item.archiveReason !== "Spam") {
+        changed = true;
+        return { ...item, archivedAt: item.archivedAt || new Date(now).toISOString(), archiveReason: "Spam" };
+      }
+      return item;
+    }
+
+    const terminal = ["Completed", "Failed", "Declined"].includes(item.status);
+    if (!terminal) return item;
+    const statusDate = item.statusChangedAt || item.createdAt;
+    const statusTime = Date.parse(statusDate);
+    if (!Number.isFinite(statusTime) || now - statusTime < ninetyDaysMs) return item;
+    if (item.archivedAt) return item;
+    changed = true;
+    return { ...item, archivedAt: new Date(now).toISOString(), archiveReason: item.status };
+  });
+
+  if (changed) await store().setJSON("requests", updated);
+  return Response.json({ ok: true, requests: updated }, {
     headers: { "Cache-Control": "private, no-store" },
   });
 }
@@ -282,7 +310,8 @@ export async function PATCH(request: Request) {
     if (index === -1) return Response.json({ ok: false, message: "Request not found." }, { status: 404 });
 
     if (body.markSpam === true) {
-      requests[index] = { ...requests[index], isSpam: true, spamReview: false };
+      const now = new Date().toISOString();
+      requests[index] = { ...requests[index], isSpam: true, spamReview: false, archivedAt: requests[index].archivedAt || now, archiveReason: "Spam" };
       await store().setJSON("requests", requests);
       return Response.json({ ok: true, request: requests[index] }, { headers: { "Cache-Control": "private, no-store" } });
     }
@@ -292,9 +321,15 @@ export async function PATCH(request: Request) {
       return Response.json({ ok: false, message: "Invalid status." }, { status: 400 });
     }
 
+    const previousStatus = requests[index].status;
+    const statusChanged = previousStatus !== status;
+    const isTerminalStatus = ["Completed", "Failed", "Declined"].includes(status);
     const updated: LeafRequest = {
       ...requests[index],
       status: status as RequestStatus,
+      statusChangedAt: statusChanged && isTerminalStatus ? new Date().toISOString() : isTerminalStatus ? (requests[index].statusChangedAt || requests[index].createdAt) : undefined,
+      archivedAt: isTerminalStatus && !statusChanged ? requests[index].archivedAt : undefined,
+      archiveReason: isTerminalStatus && !statusChanged ? requests[index].archiveReason : undefined,
       internalNotes: String(body.internalNotes ?? requests[index].internalNotes).slice(0, 10000),
       progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String).slice(0, 20) : (requests[index].progressStatuses || ["Untouched"]),
       contactSummary: String(body.contactSummary ?? requests[index].contactSummary ?? requests[index].contact ?? "").slice(0, 2000),
@@ -322,10 +357,15 @@ export async function DELETE(request: Request) {
     const requests = await readRequests();
 
     if (body.allSpam === true) {
-      const remaining = requests.filter((item) => item.isSpam !== true);
-      const removedCount = requests.length - remaining.length;
-      await store().setJSON("requests", remaining);
-      return Response.json({ ok: true, removedCount }, { headers: { "Cache-Control": "private, no-store" } });
+      const now = new Date().toISOString();
+      let removedCount = 0;
+      const updated = requests.map((item) => {
+        if (item.isSpam !== true || item.spamRemovedAt) return item;
+        removedCount += 1;
+        return { ...item, spamRemovedAt: now, archivedAt: item.archivedAt || now, archiveReason: "Spam" };
+      });
+      await store().setJSON("requests", updated);
+      return Response.json({ ok: true, removedCount, requests: updated }, { headers: { "Cache-Control": "private, no-store" } });
     }
 
     const id = String(body.id || "");
