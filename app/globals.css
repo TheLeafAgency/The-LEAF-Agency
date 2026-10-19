@@ -2702,3 +2702,173 @@ section { width: 100%; }
     transform: translate(-22px, -6px) rotate(-9deg) !important;
   }
 }
+
+
+/* LEAF theme switch */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 13px;
+  border: 1.5px solid var(--leaf-eden-green);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--leaf-eden-green);
+  font: 700 .9rem/1 Inter, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.theme-toggle:hover {
+  background: var(--leaf-eden-green);
+  color: #fff;
+}
+.theme-toggle > span:first-child { font-size: 1.1rem; }
+.get-started-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.standalone-theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 1001;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --leaf-white-dove: #14251B;
+  --leaf-white-chocolate: #1B3023;
+  --leaf-cream: #24382A;
+  --leaf-text: #F3F0E7;
+  --leaf-gray: #C2CEC4;
+  --leaf-border: #355642;
+}
+html[data-theme="dark"] body {
+  background: #14251B !important;
+  color: #F3F0E7 !important;
+}
+html[data-theme="dark"] main,
+html[data-theme="dark"] .leaf-botanical-page,
+html[data-theme="dark"] .services-page {
+  background: #14251B !important;
+  color: #F3F0E7 !important;
+}
+html[data-theme="dark"] .leaf-botanical-page > :not(.leaf-botanical-layer) section::before {
+  background: rgba(20,37,27,.92) !important;
+}
+html[data-theme="dark"] #contact::before {
+  background: rgba(10,24,16,.97) !important;
+}
+html[data-theme="dark"] .services-hero,
+html[data-theme="dark"] .service-detail-section,
+html[data-theme="dark"] .services-ending {
+  background-color: #14251B !important;
+}
+html[data-theme="dark"] .services-jump-nav,
+html[data-theme="dark"] header {
+  background: rgba(20,37,27,.96) !important;
+  border-color: #3D9A62 !important;
+}
+html[data-theme="dark"] .services-jump-home,
+html[data-theme="dark"] .services-jump-links a,
+html[data-theme="dark"] .nav-link,
+html[data-theme="dark"] .leaf-logo {
+  color: #F3F0E7 !important;
+}
+html[data-theme="dark"] .service-media-card {
+  background: #1B3023 !important;
+  color: #B7E2C2 !important;
+  border-color: #3D9A62 !important;
+}
+html[data-theme="dark"] .service-detail-lead,
+html[data-theme="dark"] .service-detail-body,
+html[data-theme="dark"] .services-hero-inner > p:last-child,
+html[data-theme="dark"] .services-ending p {
+  color: #D0D8D1 !important;
+}
+html[data-theme="dark"] .service-detail-includes span {
+  background: #1B3023 !important;
+  color: #D0E7D5 !important;
+  border-color: #3D7650 !important;
+}
+html[data-theme="dark"] .nav-services-menu,
+html[data-theme="dark"] .mobile-nav-menu {
+  background: #1B3023 !important;
+  border-color: #3D7650 !important;
+}
+html[data-theme="dark"] .nav-services-menu a,
+html[data-theme="dark"] .mobile-nav-menu a {
+  color: #F3F0E7 !important;
+}
+html[data-theme="dark"] .service-card,
+html[data-theme="dark"] .service-detail-card,
+html[data-theme="dark"] .service-option-card,
+html[data-theme="dark"] .choice-button,
+html[data-theme="dark"] .flow-card {
+  background: #1B3023 !important;
+  color: #F3F0E7 !important;
+  border-color: #3D7650 !important;
+}
+html[data-theme="dark"] .service-description,
+html[data-theme="dark"] .choice-description,
+html[data-theme="dark"] .intro-copy,
+html[data-theme="dark"] .flow-card p,
+html[data-theme="dark"] .flow-card label,
+html[data-theme="dark"] .flow-card small {
+  color: #D0D8D1 !important;
+}
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background: #102017 !important;
+  color: #F3F0E7 !important;
+  border-color: #52765D !important;
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: #A8B8AC !important;
+}
+html[data-theme="dark"] .primary-btn,
+html[data-theme="dark"] .hero-button.primary-btn,
+html[data-theme="dark"] .mobile-nav-menu .mobile-nav-cta {
+  background: #16834A !important;
+  color: #FFFFFF !important;
+}
+html[data-theme="dark"] .secondary-btn {
+  color: #A9E3B7 !important;
+  border-color: #64B87E !important;
+}
+html[data-theme="dark"] .theme-toggle {
+  color: #B7E2C2;
+  border-color: #64B87E;
+}
+html[data-theme="dark"] .theme-toggle:hover {
+  background: #16834A;
+  color: #FFFFFF;
+}
+/* Inline-styled content on the Careers, Portfolio, and Get Started pages. */
+html[data-theme="dark"] main [style*="#F3F0E7"],
+html[data-theme="dark"] main [style*="#f3f0e7"] {
+  background: #14251B !important;
+}
+html[data-theme="dark"] main [style*="#666"],
+html[data-theme="dark"] main [style*="#6B7280"],
+html[data-theme="dark"] main [style*="#303530"],
+html[data-theme="dark"] main [style*="#657168"] {
+  color: #D0D8D1 !important;
+}
+html[data-theme="dark"] main [style*="background: white"],
+html[data-theme="dark"] main [style*="background: #fff"] {
+  background: #1B3023 !important;
+}
+@media (max-width: 900px) {
+  .theme-toggle-label { display: none; }
+  .theme-toggle { padding: 10px 12px; }
+}
+@media (max-width: 700px) {
+  .standalone-theme-toggle { top: 14px; right: 14px; }
+  .get-started-topbar { align-items: flex-start; }
+}
