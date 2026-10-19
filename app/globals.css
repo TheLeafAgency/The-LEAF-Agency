@@ -2760,15 +2760,24 @@ html[data-theme="dark"] .leaf-botanical-page > :not(.leaf-botanical-layer) secti
   background: rgba(20,37,27,.92) !important;
 }
 
-/* Keep the dark hero background above the existing portfolio divider.
-   The light video area begins immediately below that line; do not add another divider. */
-html[data-theme="dark"] .leaf-botanical-page > section:first-of-type {
+/* Dark mode: paint only the area above the existing green divider.
+   The 100px space below the divider stays light for the video area. */
+html[data-theme="dark"] .leaf-botanical-page > .home-hero {
   background: #F3F0E7 !important;
 }
 
-html[data-theme="dark"] .leaf-botanical-page > section:first-of-type::before {
-  inset: 0 0 102px !important;
+html[data-theme="dark"] .leaf-botanical-page > .home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 102px 0;
+  z-index: 0;
+  pointer-events: none;
   background: rgba(20,37,27,.92) !important;
+}
+
+html[data-theme="dark"] .leaf-botanical-page > .home-hero > * {
+  position: relative;
+  z-index: 1;
 }
 html[data-theme="dark"] #contact::before {
   background: rgba(10,24,16,.97) !important;
