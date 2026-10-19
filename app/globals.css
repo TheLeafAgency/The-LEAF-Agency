@@ -2519,3 +2519,69 @@ section { width: 100%; }
   top: 71%;
   height: 20%;
 }
+
+
+/* Keep smaller media stacks visually centered instead of looking like clipped five-card stacks. */
+.service-media-stack.service-media-count-3 .service-media-card-back-one {
+  transform: translate(-12px, 5px) rotate(-4deg) !important;
+}
+.service-media-stack.service-media-count-3 .service-media-card-front {
+  transform: translate(0, 0) rotate(0deg) !important;
+}
+.service-media-stack.service-media-count-3 .service-media-card-front-top {
+  transform: translate(12px, 5px) rotate(4deg) !important;
+}
+.service-media-stack.service-media-count-4 .service-media-card-back-two {
+  transform: translate(-18px, 8px) rotate(-5deg) !important;
+}
+.service-media-stack.service-media-count-4 .service-media-card-back-one {
+  transform: translate(-6px, 3px) rotate(-2deg) !important;
+}
+.service-media-stack.service-media-count-4 .service-media-card-front {
+  transform: translate(6px, 2px) rotate(2deg) !important;
+}
+.service-media-stack.service-media-count-4 .service-media-card-front-top {
+  transform: translate(18px, 7px) rotate(5deg) !important;
+}
+
+/* Mirror the card fan on right-hand sections so it tilts opposite to the left. */
+.service-media-right .service-media-card-back-three { transform: translate(9px, 12px) rotate(4deg) !important; }
+.service-media-right .service-media-card-back-two { transform: translate(-7px, 8px) rotate(-3deg) !important; }
+.service-media-right .service-media-card-back-one { transform: translate(5px, 4px) rotate(1.5deg) !important; }
+.service-media-right .service-media-card-front { transform: translate(-2px, 1px) rotate(-1deg) !important; }
+.service-media-right .service-media-card-front-top { transform: translate(0, 0) rotate(0deg) !important; }
+
+.service-media-right .service-media-stack:hover .service-media-card-back-three { transform: translate(112px, 30px) rotate(17deg) !important; }
+.service-media-right .service-media-stack:hover .service-media-card-back-two { transform: translate(58px, 16px) rotate(9deg) !important; }
+.service-media-right .service-media-stack:hover .service-media-card-back-one { transform: translate(20px, 6px) rotate(3deg) !important; }
+.service-media-right .service-media-stack:hover .service-media-card-front { transform: translate(-42px, 0) rotate(-6deg) !important; }
+.service-media-right .service-media-stack:hover .service-media-card-front-top { transform: translate(-92px, -10px) rotate(-14deg) !important; }
+
+.service-media-right .service-media-stack.service-media-count-3 .service-media-card-back-one {
+  transform: translate(12px, 5px) rotate(4deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-3 .service-media-card-front {
+  transform: translate(0, 0) rotate(0deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-3 .service-media-card-front-top {
+  transform: translate(-12px, 5px) rotate(-4deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-4 .service-media-card-back-two {
+  transform: translate(18px, 8px) rotate(5deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-4 .service-media-card-back-one {
+  transform: translate(6px, 3px) rotate(2deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-4 .service-media-card-front {
+  transform: translate(-6px, 2px) rotate(-2deg) !important;
+}
+.service-media-right .service-media-stack.service-media-count-4 .service-media-card-front-top {
+  transform: translate(-18px, 7px) rotate(-5deg) !important;
+}
+
+@media (max-width: 1000px) {
+  .service-media-right .service-media-stack:hover .service-media-card-back-three { transform: translate(92px, 26px) rotate(15deg) !important; }
+  .service-media-right .service-media-stack:hover .service-media-card-back-two { transform: translate(48px, 14px) rotate(8deg) !important; }
+  .service-media-right .service-media-stack:hover .service-media-card-front { transform: translate(-36px, 0) rotate(-6deg) !important; }
+  .service-media-right .service-media-stack:hover .service-media-card-front-top { transform: translate(-76px, -8px) rotate(-13deg) !important; }
+}
