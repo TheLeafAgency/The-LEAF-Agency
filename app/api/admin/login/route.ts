@@ -40,12 +40,13 @@ function deviceKey(deviceId: string) {
 }
 
 export async function POST(request: Request) {
-  let deviceId = readCookie(request, DEVICE_COOKIE);
-  const needsDeviceCookie = !deviceId;
+  const savedDeviceId = readCookie(request, DEVICE_COOKIE);
+  const validDeviceId = savedDeviceId && /^[0-9a-f-]{36}$/i.test(savedDeviceId);
+  const needsDeviceCookie = !validDeviceId;
+  let deviceId = validDeviceId ? savedDeviceId : randomUUID();
 
   // Each browser profile receives its own random identifier. A new device's
   // failed attempts won't lock out another device sharing the same Wi-Fi.
-  if (!deviceId || !/^[0-9a-f-]{36}$/i.test(deviceId)) deviceId = randomUUID();
 
   try {
     const body = await request.json();
