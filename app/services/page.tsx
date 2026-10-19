@@ -141,15 +141,27 @@ export default function ServicesPage() {
               <div className="container service-detail-inner">
                 <div className={`service-media-slot service-media-${index % 2 === 0 ? "left" : "right"}`} aria-hidden="true">
                   <div className={`service-media-stack service-media-count-${service.mediaCount}`}>
-                    {[
-                      "service-media-card-back-three",
-                      "service-media-card-back-two",
-                      "service-media-card-back-one",
-                      "service-media-card-front",
-                      "service-media-card-front-top",
-                    ]
-                      .slice(0, service.mediaCount)
-                      .map((cardClass) => (
+                    {(service.mediaCount === 3
+                      ? [
+                          "service-media-card-back-one",
+                          "service-media-card-front",
+                          "service-media-card-front-top",
+                        ]
+                      : service.mediaCount === 4
+                        ? [
+                            "service-media-card-back-two",
+                            "service-media-card-back-one",
+                            "service-media-card-front",
+                            "service-media-card-front-top",
+                          ]
+                        : [
+                            "service-media-card-back-three",
+                            "service-media-card-back-two",
+                            "service-media-card-back-one",
+                            "service-media-card-front",
+                            "service-media-card-front-top",
+                          ]
+                    ).map((cardClass) => (
                         <div
                           key={cardClass}
                           className={`service-media-placeholder service-media-card ${cardClass}`}
