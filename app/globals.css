@@ -2760,14 +2760,14 @@ html[data-theme="dark"] .leaf-botanical-page > :not(.leaf-botanical-layer) secti
   background: rgba(20,37,27,.92) !important;
 }
 
-/* Keep the dark hero background above the portfolio divider only.
-   The space below the green line stays clear for future video content. */
+/* Keep the dark hero background above the existing portfolio divider.
+   The light video area begins immediately below that line; do not add another divider. */
 html[data-theme="dark"] .leaf-botanical-page > section:first-of-type {
   background: #F3F0E7 !important;
 }
 
 html[data-theme="dark"] .leaf-botanical-page > section:first-of-type::before {
-  inset: 0 0 100px !important;
+  inset: 0 0 102px !important;
   background: rgba(20,37,27,.92) !important;
 }
 html[data-theme="dark"] #contact::before {
