@@ -1,6 +1,7 @@
 export default function Hero() {
   return (
     <section
+      className="home-hero"
       style={{
         position: "relative",
         minHeight: "100vh",
