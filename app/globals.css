@@ -2760,8 +2760,8 @@ html[data-theme="dark"] .leaf-botanical-page > :not(.leaf-botanical-layer) secti
   background: rgba(20,37,27,.92) !important;
 }
 
-/* Dark mode: paint only the area above the existing green divider.
-   The 100px space below the divider stays light for the video area. */
+/* Dark mode: keep the large text/hero area off-white.
+   Only the small empty strip below the existing portfolio divider is dark. */
 html[data-theme="dark"] .leaf-botanical-page > .home-hero {
   background: #F3F0E7 !important;
 }
@@ -2769,7 +2769,7 @@ html[data-theme="dark"] .leaf-botanical-page > .home-hero {
 html[data-theme="dark"] .leaf-botanical-page > .home-hero::before {
   content: "";
   position: absolute;
-  inset: 0 0 102px 0;
+  inset: calc(100% - 100px) 0 0 0;
   z-index: 0;
   pointer-events: none;
   background: rgba(20,37,27,.92) !important;
