@@ -27,12 +27,51 @@ const values = [
   }
 ];
 
+function WorldTreeMark() {
+  return (
+    <svg className="about-world-tree" viewBox="0 0 720 230" role="img" aria-label="A stylized tree with wide-reaching branches">
+      <g className="about-tree-branches">
+        <path d="M360 206 C356 160 363 119 360 76 C357 54 347 37 328 20" />
+        <path d="M359 119 C325 106 300 83 277 61 C258 43 235 39 211 44" />
+        <path d="M359 139 C321 133 291 119 262 98 C234 79 210 76 184 84" />
+        <path d="M359 157 C322 157 292 148 265 134 C235 118 211 120 188 132" />
+        <path d="M361 119 C395 106 420 83 443 61 C462 43 485 39 509 44" />
+        <path d="M361 139 C399 133 429 119 458 98 C486 79 510 76 536 84" />
+        <path d="M361 157 C398 157 428 148 455 134 C485 118 509 120 532 132" />
+        <path d="M360 77 C382 62 398 43 402 20" />
+        <path d="M328 20 C306 17 288 22 275 36" />
+        <path d="M402 20 C424 17 442 22 455 36" />
+        <path d="M360 206 C343 211 327 215 307 216" />
+        <path d="M360 206 C377 211 393 215 413 216" />
+      </g>
+      <g className="about-tree-leaves">
+        <path d="M211 44 C192 24 166 25 150 41 C169 57 193 57 211 44Z" />
+        <path d="M277 61 C271 35 250 20 227 26 C233 49 252 63 277 61Z" />
+        <path d="M184 84 C162 66 137 70 124 90 C145 103 168 101 184 84Z" />
+        <path d="M262 98 C249 75 226 67 207 79 C220 100 241 107 262 98Z" />
+        <path d="M188 132 C165 116 142 123 133 144 C155 154 175 150 188 132Z" />
+        <path d="M265 134 C246 116 224 117 210 136 C230 151 251 151 265 134Z" />
+        <path d="M509 44 C528 24 554 25 570 41 C551 57 527 57 509 44Z" />
+        <path d="M443 61 C449 35 470 20 493 26 C487 49 468 63 443 61Z" />
+        <path d="M536 84 C558 66 583 70 596 90 C575 103 552 101 536 84Z" />
+        <path d="M458 98 C471 75 494 67 513 79 C500 100 479 107 458 98Z" />
+        <path d="M532 132 C555 116 578 123 587 144 C565 154 545 150 532 132Z" />
+        <path d="M455 134 C474 116 496 117 510 136 C490 151 469 151 455 134Z" />
+        <path d="M328 20 C313 2 292 3 281 16 C294 31 313 32 328 20Z" />
+        <path d="M402 20 C417 2 438 3 449 16 C436 31 417 32 402 20Z" />
+      </g>
+      <path className="about-tree-trunk" d="M360 204 C350 172 355 146 360 119 C365 146 370 172 360 204Z" />
+    </svg>
+  );
+}
+
 export default function AboutPage() {
   return (
     <main className="about-page">
       <Navbar />
       <section className="about-hero">
         <div className="container about-hero-content">
+          <WorldTreeMark />
           <p className="about-eyebrow">The LEAF Agency</p>
           <h1>Who We Are</h1>
           <p className="about-tagline">Advertising Made Simple. Partnerships Made Meaningful.</p>
@@ -55,13 +94,11 @@ export default function AboutPage() {
       </section>
 
       <div className="container about-values">
-        {values.map((value, index) => (
-          <section className="about-value-card" key={value.title}>
-            <span className="about-value-number" aria-hidden="true">
-              {String(index + 1).padStart(2, "0")}
-            </span>
+        {values.map((value) => (
+          <section className="about-value-section" key={value.title}>
+            <span className="about-section-ornament" aria-hidden="true">✦</span>
+            <h2>{value.title}</h2>
             <div className="about-value-copy">
-              <h2>{value.title}</h2>
               {value.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
