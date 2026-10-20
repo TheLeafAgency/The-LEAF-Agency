@@ -4,6 +4,8 @@ import { adminCookieHeader, clearAdminCookieHeader, createAdminToken } from "../
 
 const MAX_FAILED_ATTEMPTS = 5;
 const COOLDOWN_MS = 30 * 60 * 60 * 1000;
+const MAX_IP_FAILED_ATTEMPTS = 10;
+const IP_COOLDOWN_MS = 30 * 60 * 1000;
 const DEVICE_COOKIE = "leaf_login_device";
 
 type LoginAttemptRecord = {
@@ -39,6 +41,12 @@ function deviceKey(deviceId: string) {
   return createHash("sha256").update(deviceId).digest("hex");
 }
 
+function getClientIp(request: Request) {
+  return request.headers.get("x-nf-client-connection-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "";
+}
+
 export async function POST(request: Request) {
   const savedDeviceId = readCookie(request, DEVICE_COOKIE);
   const validDeviceId = savedDeviceId && /^[0-9a-f-]{36}$/i.test(savedDeviceId);
@@ -54,9 +62,29 @@ export async function POST(request: Request) {
     const expectedPassword = process.env.LEAF_ADMIN_PASSWORD || "";
     const store = rateLimitStore();
     const key = `login:${deviceKey(deviceId)}`;
+    const clientIp = getClientIp(request);
+    const ipKey = clientIp ? `login-ip:${deviceKey(clientIp)}` : null;
     const now = Date.now();
 
     let record = (await store.get(key, { type: "json" })) as LoginAttemptRecord | null;
+    let ipRecord = ipKey
+      ? ((await store.get(ipKey, { type: "json" })) as LoginAttemptRecord | null)
+      : null;
+
+    if (ipRecord?.lockedUntil && now < ipRecord.lockedUntil) {
+      const retryAfter = Math.ceil((ipRecord.lockedUntil - now) / 1000);
+      const headers = responseHeaders(deviceId!, needsDeviceCookie);
+      headers.set("Retry-After", String(retryAfter));
+      return Response.json(
+        { ok: false, message: "Too many sign-in attempts from this network. Please wait before trying again." },
+        { status: 429, headers }
+      );
+    }
+
+    if (ipRecord?.lockedUntil && now >= ipRecord.lockedUntil && ipKey) {
+      ipRecord = null;
+      await store.delete(ipKey);
+    }
 
     if (record?.lockedUntil && now < record.lockedUntil) {
       const retryAfter = Math.ceil((record.lockedUntil - now) / 1000);
@@ -80,6 +108,16 @@ export async function POST(request: Request) {
 
     if (!expectedPassword || password !== expectedPassword) {
       const failedAttempts = (record?.failedAttempts || 0) + 1;
+      const ipFailedAttempts = (ipRecord?.failedAttempts || 0) + 1;
+
+      if (ipKey) {
+        if (ipFailedAttempts >= MAX_IP_FAILED_ATTEMPTS) {
+          const lockedUntil = now + IP_COOLDOWN_MS;
+          await store.setJSON(ipKey, { failedAttempts: ipFailedAttempts, lockedUntil } satisfies LoginAttemptRecord);
+        } else {
+          await store.setJSON(ipKey, { failedAttempts: ipFailedAttempts } satisfies LoginAttemptRecord);
+        }
+      }
 
       if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
         const lockedUntil = now + COOLDOWN_MS;
@@ -100,6 +138,7 @@ export async function POST(request: Request) {
     }
 
     await store.delete(key);
+    if (ipKey) await store.delete(ipKey);
     return Response.json(
       { ok: true },
       { headers: responseHeaders(deviceId!, needsDeviceCookie, adminCookieHeader(createAdminToken())) }
