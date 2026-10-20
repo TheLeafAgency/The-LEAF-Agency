@@ -66,7 +66,7 @@ export default function Navbar() {
         </a>
 
         <nav className="desktop-nav">
-          <a href="/#about" className="nav-link">About</a>
+          <a href="/about" className="nav-link">About</a>
           <div className="nav-services-dropdown">
             <a href="/services" className="nav-link nav-services-trigger">Services</a>
             <div className="nav-services-menu">
@@ -96,7 +96,7 @@ export default function Navbar() {
         <details className="mobile-nav">
           <summary aria-label="Open navigation menu">Menu</summary>
           <nav className="mobile-nav-menu">
-            <a href="/#about">About</a>
+            <a href="/about">About</a>
             <div className="mobile-service-group">
               <a href="/services">Services</a>
               <div className="mobile-service-links">
