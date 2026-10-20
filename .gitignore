@@ -2,5 +2,10 @@ node_modules/
 .next/
 .DS_Store
 
+# Local environment secrets
+.env
+.env.*
+!.env.example
+
 # Local Netlify folder
 .netlify
