@@ -206,17 +206,6 @@ export default function GetStarted() {
               }
               setShowIncompleteNotice(false);
 
-              const isAdminEntry =
-                companyName.trim() === "THE LEAF AGENCY" &&
-                email.trim().toLowerCase() === "media@theleafagency.org" &&
-                phone.replace(/\D/g, "") === "5557772007" &&
-                zipCode === "10645";
-
-              if (isAdminEntry) {
-                window.location.href = "/admin";
-                return;
-              }
-
               if (isLeafAgencyMention(companyName) && companyName.trim() !== "THE LEAF AGENCY") {
                 return;
               }
