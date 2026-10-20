@@ -142,7 +142,6 @@ export default function AdminPage() {
 
   const selected = requests.find((item) => item.id === selectedId) || null;
   const spamRequests = requests.filter((item) => item.isSpam === true && !item.spamRemovedAt);
-  const newRequestItems = requests.filter((item) => item.isSpam !== true && !item.archivedAt && !item.isUrgent && !["Completed", "Failed", "Declined", "Urgent", "Spam"].includes(displayStatus(item.status)) && getProjectStage(item) === "Untouched" && !hasWorkflowProgress(item));
   const projectHistory = requests.filter((item) => Boolean(item.archivedAt) || item.isSpam === true || ["Completed", "Failed", "Declined"].includes(displayStatus(item.status)));
   const organizerResults = organizerSearch.trim() ? requests.filter((item) => `${item.id} ${item.business}`.toLowerCase().includes(organizerSearch.trim().toLowerCase())).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id)) : [];
 
@@ -421,37 +420,7 @@ export default function AdminPage() {
           </section>
         )}
 
-        <section className="request-section new-requests-section">
-          <div className="section-heading">
-            <div>
-              <p className="admin-eyebrow">Review every submission</p>
-              <h2>New Requests <span className="spam-count">{newRequestItems.length}</span></h2>
-              <p className="spam-intro">Open a request to choose its project progress. If it is spam or junk, move it to the separate Spam section.</p>
-            </div>
-            <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
-          </div>
 
-          {newRequestItems.length === 0 ? (
-            <div className="empty-state compact-empty"><h3>No new requests.</h3><p>New customer submissions will appear here.</p></div>
-          ) : (
-            <div className="spam-review-list">
-              {newRequestItems.map((item) => (
-                <article key={item.id} className="spam-review-card">
-                  <div className="spam-review-main">
-                    <p className="request-id">{item.id} · {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
-                    <h3>{item.business || "Unnamed business"}</h3>
-                    <p className="spam-contact"><strong>Email:</strong> {item.email || "Not provided"} <span>·</span> <strong>Phone:</strong> {item.phone || "Not provided"}</p>
-                    <p className="spam-description">{item.description || "No description provided."}</p>
-                    <button className="spam-review-link" onClick={() => openRequest(item.id)}>Review request and choose progress</button>
-                  </div>
-                  <div className="spam-review-actions">
-                    <button className="trash-button" disabled={loading} onClick={() => moveToSpam(item)}>Move to Spam</button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
 
 
 
@@ -985,8 +954,8 @@ const adminStyles = `
   .urgent-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px; padding:17px 19px; border:1px solid #B54B3B; border-radius:16px; background:transparent; transition:background .2s ease, color .2s ease; }
   .urgent-toggle-row h4 { margin:0 0 4px; color:#193024; font-size:1rem; }
   .urgent-toggle-row p { margin:0; color:#637166; font-size:.9rem; line-height:1.45; }
-  .urgent-toggle-row.urgent-toggle-active { background:#B54B3B; border-color:#B54B3B; }
-  .urgent-toggle-row.urgent-toggle-active h4, .urgent-toggle-row.urgent-toggle-active p { color:#fff; }
+  .urgent-toggle-row.urgent-toggle-active { background:#FF5A1F; border-color:#FF5A1F; }
+  .urgent-toggle-row.urgent-toggle-active h4, .urgent-toggle-row.urgent-toggle-active p { color:#F7F5EC; }
   .urgent-switch { position:relative; display:inline-flex; flex:0 0 auto; cursor:pointer; }
   .urgent-switch input { position:absolute; opacity:0; width:1px; height:1px; }
   .urgent-switch-track { display:flex; align-items:center; width:52px; height:30px; padding:3px; border-radius:999px; background:#CBD3CB; transition:background .2s ease; }
