@@ -13,6 +13,8 @@ const statuses = [
   "Urgent",
   "Failed",
   "Declined",
+  "Unfinished",
+  "Spam",
 ] as const;
 
 function isOverdue(dateString: string, status?: string) {
@@ -71,7 +73,20 @@ type LeafRequest = {
   archivedAt?: string;
   archiveReason?: string;
   spamReasons?: string[];
+  isUrgent?: boolean;
 };
+
+const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
+
+function getProjectStage(item: LeafRequest) {
+  const savedStatus = displayStatus(item.status);
+  if (savedStatus === "Unfinished") return workflowStatuses.filter((step) => (item.progressStatuses || []).includes(step)).pop() || "Untouched";
+  return savedStatus;
+}
+
+function hasWorkflowProgress(item: LeafRequest) {
+  return (item.progressStatuses || []).some((step) => workflowStatuses.includes(step));
+}
 
 export default function AdminPage() {
   const [password, setPassword] = useState("");
@@ -87,6 +102,7 @@ export default function AdminPage() {
   const [failureExplanation, setFailureExplanation] = useState("");
   const [status, setStatus] = useState("Untouched");
   const [progressStatuses, setProgressStatuses] = useState<string[]>([]);
+  const [isUrgent, setIsUrgent] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [organizerSearch, setOrganizerSearch] = useState("");
@@ -126,8 +142,8 @@ export default function AdminPage() {
 
   const selected = requests.find((item) => item.id === selectedId) || null;
   const spamRequests = requests.filter((item) => item.isSpam === true && !item.spamRemovedAt);
-  const newRequestItems = requests.filter((item) => item.isSpam !== true && !item.archivedAt && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status)));
-  const projectHistory = requests.filter((item) => Boolean(item.archivedAt) || item.isSpam === true);
+  const newRequestItems = requests.filter((item) => item.isSpam !== true && !item.archivedAt && !item.isUrgent && !["Completed", "Failed", "Declined", "Urgent", "Spam"].includes(displayStatus(item.status)) && getProjectStage(item) === "Untouched" && !hasWorkflowProgress(item));
+  const projectHistory = requests.filter((item) => Boolean(item.archivedAt) || item.isSpam === true || ["Completed", "Failed", "Declined"].includes(displayStatus(item.status)));
   const organizerResults = organizerSearch.trim() ? requests.filter((item) => `${item.id} ${item.business}`.toLowerCase().includes(organizerSearch.trim().toLowerCase())).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id)) : [];
 
   useEffect(() => {
@@ -148,15 +164,16 @@ export default function AdminPage() {
         setProgressStatuses(currentIndex >= 0 ? workflowOrder.slice(0, currentIndex + 1) : []);
       }
       setStatus(currentStatus);
+      setIsUrgent(Boolean(selected.isUrgent));
       setMessage("");
     }
   }, [selectedId, selected]);
 
   const counts = useMemo(() => ({
-    newRequests: requests.filter((item) => item.isSpam !== true && !item.archivedAt && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))).length,
-    active: requests.filter((item) => !item.archivedAt && !item.isSpam && ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status))).length,
-    postProduction: requests.filter((item) => !item.archivedAt && !item.isSpam && ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))).length,
-    urgent: requests.filter((item) => !item.archivedAt && !item.isSpam && (displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status))).length,
+    newRequests: requests.filter((item) => item.isSpam !== true && !item.archivedAt && !item.isUrgent && !["Completed", "Failed", "Declined", "Urgent", "Spam"].includes(displayStatus(item.status)) && getProjectStage(item) === "Untouched" && !hasWorkflowProgress(item)).length,
+    active: requests.filter((item) => !item.archivedAt && !item.isSpam && ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(getProjectStage(item))).length,
+    postProduction: requests.filter((item) => !item.archivedAt && !item.isSpam && ["Editing", "Contacting Agencies"].includes(getProjectStage(item))).length,
+    urgent: requests.filter((item) => !item.archivedAt && !item.isSpam && (item.isUrgent === true || displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status))).length,
   }), [requests]);
 
   const expandedRequests = useMemo(() => {
@@ -164,10 +181,10 @@ export default function AdminPage() {
     const term = searchTerm.trim().toLowerCase();
     const matchesSearch = (item: LeafRequest) => !term || `${item.id} ${item.business}`.toLowerCase().includes(term);
     const sortProjects = (items: LeafRequest[]) => [...items].filter(matchesSearch).sort((a, b) => (a.business || a.id).localeCompare(b.business || b.id));
-    if (expandedStat === "new") return sortProjects(requests.filter((item) => item.isSpam !== true && !item.archivedAt && (!item.progressStatuses?.length || (item.progressStatuses.length === 1 && item.progressStatuses[0] === "Untouched")) && !["Completed", "Failed", "Declined", "Urgent"].includes(displayStatus(item.status))));
-    if (expandedStat === "active") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(displayStatus(item.status)) && !isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)));
-    if (expandedStat === "post-production") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && ["Editing", "Contacting Agencies"].includes(displayStatus(item.status))));
-    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && (displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status))).sort((a, b) => Number(isOverdue(b.estimatedFinishDate || b.deadline || "")) - Number(isOverdue(a.estimatedFinishDate || a.deadline || ""))));
+    if (expandedStat === "new") return sortProjects(requests.filter((item) => item.isSpam !== true && !item.archivedAt && !item.isUrgent && !["Completed", "Failed", "Declined", "Urgent", "Spam"].includes(displayStatus(item.status)) && getProjectStage(item) === "Untouched" && !hasWorkflowProgress(item)));
+    if (expandedStat === "active") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && ["Reviewed", "Contacted", "Proposal Sent", "In Production"].includes(getProjectStage(item)) && !isOverdue(item.estimatedFinishDate || item.deadline || "", item.status)));
+    if (expandedStat === "post-production") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && ["Editing", "Contacting Agencies"].includes(getProjectStage(item))));
+    if (expandedStat === "urgent") return sortProjects(requests.filter((item) => !item.archivedAt && !item.isSpam && (item.isUrgent === true || displayStatus(item.status) === "Urgent" || isOverdue(item.estimatedFinishDate || item.deadline || "", item.status))).sort((a, b) => Number(isOverdue(b.estimatedFinishDate || b.deadline || "")) - Number(isOverdue(a.estimatedFinishDate || a.deadline || ""))));
     return [];
   }, [expandedStat, requests, searchTerm]);
 
@@ -274,7 +291,7 @@ export default function AdminPage() {
     const response = await fetch("/api/requests", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selected.id, status, progressStatuses, internalNotes: notes, contactSummary, estimatedCost: estimatedCost.replace(/[^0-9]/g, ""), estimatedFinishDate, proposal, failureExplanation }),
+      body: JSON.stringify({ id: selected.id, status, progressStatuses, isUrgent, internalNotes: notes, contactSummary, estimatedCost: estimatedCost.replace(/[^0-9]/g, ""), estimatedFinishDate, proposal, failureExplanation }),
     });
     const data = await response.json();
     setLoading(false);
@@ -549,13 +566,23 @@ export default function AdminPage() {
                     setProgressStatuses(next);
                     const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
                     const lastChecked = workflowStatuses.filter((item) => next.includes(item)).pop() || "Untouched";
-                    setStatus(lastChecked);
+                    setStatus((current) => current === "Unfinished" ? "Unfinished" : lastChecked);
                   }}
                 />
+                <div className="urgent-toggle-row">
+                  <div>
+                    <h4>Urgent</h4>
+                    <p>Flag this project so it appears in the Urgent section of the dashboard.</p>
+                  </div>
+                  <label className="urgent-switch" aria-label="Mark project as urgent">
+                    <input type="checkbox" checked={isUrgent} onChange={(event) => setIsUrgent(event.target.checked)} />
+                    <span className="urgent-switch-track"><span /></span>
+                  </label>
+                </div>
               </div>
               <div className="status-final">
                 <h3>Final status</h3>
-                <FinalStatusPicker value={["Untouched", "Completed", "Failed", "Declined"].includes(status) ? status : ""} onChange={setStatus} />
+                <FinalStatusPicker value={["Untouched", "Completed", "Failed", "Declined", "Unfinished", "Spam"].includes(status) ? status : ""} onChange={setStatus} />
               </div>
               <button className="save-button" onClick={saveRequest} disabled={loading}>{loading ? "Saving..." : "Save Changes"}</button>
             </div>
@@ -563,54 +590,6 @@ export default function AdminPage() {
             {message && <p className="save-message">{message}</p>}
           </section>
         )}
-
-        <section className="request-section history-section completed-history">
-          <div className="section-heading">
-            <div>
-              <p className="admin-eyebrow">Completed projects</p>
-              <h2>Completed Projects</h2>
-              <p className="spam-intro">Completed projects remain here for 90 days before moving to Project History.</p>
-            </div>
-          </div>
-          {requests.filter((item) => displayStatus(item.status) === "Completed" && !item.archivedAt && !item.isSpam).length === 0 ? (
-            <div className="empty-state compact-empty"><h3>No recent completed projects.</h3><p>Projects completed within the last 90 days will appear here.</p></div>
-          ) : (
-            <div className="request-list">
-              {requests.filter((item) => displayStatus(item.status) === "Completed" && !item.archivedAt && !item.isSpam).map((item) => (
-                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
-                  <span className="request-id">{item.id}</span>
-                  <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
-                  <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-                  <span className="status-pill status-completed">Completed</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section className="request-section history-section failed-history">
-          <div className="section-heading">
-            <div>
-              <p className="admin-eyebrow">Failed & declined</p>
-              <h2>Failed & Declined Projects</h2>
-              <p className="spam-intro">Failed and declined projects remain here for 90 days before moving to Project History.</p>
-            </div>
-          </div>
-          {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status)) && !item.archivedAt && !item.isSpam).length === 0 ? (
-            <div className="empty-state compact-empty"><h3>No recent failed or declined projects.</h3><p>Projects failed or declined within the last 90 days will appear here.</p></div>
-          ) : (
-            <div className="request-list">
-              {requests.filter((item) => ["Failed", "Declined"].includes(displayStatus(item.status)) && !item.archivedAt && !item.isSpam).map((item) => (
-                <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
-                  <span className="request-id">{item.id}</span>
-                  <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
-                  <span>{new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-                  <span className={`status-pill status-${displayStatus(item.status).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{displayStatus(item.status)}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
 
                 <section className="request-section spam-review-section">
           <div className="section-heading">
@@ -656,14 +635,14 @@ export default function AdminPage() {
             <button className="refresh" disabled={loading} onClick={() => loadRequests()}>Refresh</button>
           </div>
           {projectHistory.length === 0 ? (
-            <div className="empty-state compact-empty"><h3>No project history yet.</h3><p>Spam and projects completed, failed, or declined for 90 days will appear here.</p></div>
+            <div className="empty-state compact-empty"><h3>No project history yet.</h3><p>Spam, completed projects, and failed or declined projects will appear here.</p></div>
           ) : (
             <div className="request-list">
-              {[...projectHistory].sort((a,b) => Date.parse(b.archivedAt || b.createdAt) - Date.parse(a.archivedAt || a.createdAt)).map((item) => (
+              {[...projectHistory].sort((a,b) => Date.parse(b.archivedAt || b.statusChangedAt || b.createdAt) - Date.parse(a.archivedAt || a.statusChangedAt || a.createdAt)).map((item) => (
                 <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
                   <span className="request-id">{item.id}</span>
                   <span><strong>{item.business}</strong><small>{item.service || "Advertising request"}</small></span>
-                  <span>{new Date(item.archivedAt || item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                  <span>{new Date(item.archivedAt || item.statusChangedAt || item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
                   <span className={`status-pill status-${(item.archiveReason || displayStatus(item.status)).toLowerCase().replace(/[^a-z]+/g, "-")}`}>{item.isSpam ? "Spam" : item.archiveReason || displayStatus(item.status)}</span>
                 </button>
               ))}
@@ -793,7 +772,7 @@ function StatusPicker({ value, onChange }: { value: string; onChange: (value: st
 
 function FinalStatusPicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
-  const finalStatuses = ["Completed", "Failed", "Declined"];
+  const finalStatuses = ["Completed", "Failed", "Declined", "Unfinished", "Spam"];
 
   return (
     <div className={`status-picker final-status-picker ${open ? "open" : ""}`}>
@@ -995,6 +974,16 @@ const adminStyles = `
   .find-project-expansion { display:grid; grid-template-columns:0fr; opacity:0; width:0; overflow:hidden; transition:grid-template-columns .28s ease, opacity .2s ease, width .28s ease; }
   .find-project-control.is-open .find-project-expansion { grid-template-columns:minmax(0,1fr); width:min(390px, calc(100vw - 210px)); opacity:1; margin-left:10px; }
   .find-project-expansion .project-search { min-width:0; height:44px; padding:10px 14px; border-radius:999px; }
+  .urgent-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px; padding:17px 19px; border:1px solid #D8E0D9; border-radius:16px; background:#F7F8F1; }
+  .urgent-toggle-row h4 { margin:0 0 4px; color:#193024; font-size:1rem; }
+  .urgent-toggle-row p { margin:0; color:#637166; font-size:.9rem; line-height:1.45; }
+  .urgent-switch { position:relative; display:inline-flex; flex:0 0 auto; cursor:pointer; }
+  .urgent-switch input { position:absolute; opacity:0; width:1px; height:1px; }
+  .urgent-switch-track { display:flex; align-items:center; width:52px; height:30px; padding:3px; border-radius:999px; background:#CBD3CB; transition:background .2s ease; }
+  .urgent-switch-track span { display:block; width:24px; height:24px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.18); transition:transform .2s ease; }
+  .urgent-switch input:checked + .urgent-switch-track { background:#B54B3B; }
+  .urgent-switch input:checked + .urgent-switch-track span { transform:translateX(22px); }
+  .urgent-switch input:focus-visible + .urgent-switch-track { outline:3px solid #78A987; outline-offset:3px; }
   .find-project-results { margin:-16px 0 30px; padding:16px; border:1px solid #D8E0D9; border-radius:18px; background:#FBFCF8; box-shadow:0 10px 28px rgba(25,48,36,.06); }
   .organizer-results { margin-top:0; }
   .leaf-confirm-backdrop { position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center; padding:22px; background:rgba(14,35,23,.58); backdrop-filter:blur(5px); }
@@ -1017,6 +1006,7 @@ const adminStyles = `
     .find-project-control.is-open .find-project-expansion { width:100%; }
     .find-project-toggle { min-width:142px; }
     .leaf-confirm-modal { padding:26px 20px; }
+    .urgent-toggle-row { align-items:flex-start; }
     .leaf-confirm-actions { flex-direction:column-reverse; }
     .leaf-confirm-actions button { width:100%; }
   }
