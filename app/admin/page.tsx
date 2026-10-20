@@ -90,6 +90,8 @@ export default function AdminPage() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [organizerSearch, setOrganizerSearch] = useState("");
+  const [organizerOpen, setOrganizerOpen] = useState(false);
+  const [spamConfirmStep, setSpamConfirmStep] = useState<0 | 1 | 2>(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [expandedStat, setExpandedStat] = useState<string | null>(null);
@@ -213,13 +215,18 @@ export default function AdminPage() {
     }
   }
 
+  function startSpamRemoval() {
+    if (spamRequests.length === 0) return;
+    setSpamConfirmStep(1);
+  }
+
+  function cancelSpamRemoval() {
+    setSpamConfirmStep(0);
+  }
+
   async function removeAllSpam() {
     if (spamRequests.length === 0) return;
-    const reviewed = window.confirm(`Before continuing: have you reviewed ALL ${spamRequests.length} projects in Spam and confirmed that none should be kept? Choose Cancel to review them first.`);
-    if (!reviewed) return;
-    const confirmed = window.confirm(`Are you sure you want to remove all ${spamRequests.length} projects from the Spam section? They will remain saved in Project History. Projects outside Spam will not be affected.`);
-    if (!confirmed) return;
-
+    setSpamConfirmStep(0);
     setLoading(true);
     setMessage("");
     try {
@@ -312,34 +319,43 @@ export default function AdminPage() {
     <main className="admin-shell">
       <div className="dashboard">
         <header className="dashboard-header">
-          <div>
+          <div className="dashboard-title-block">
             <p className="admin-eyebrow">LEAF Agency</p>
             <h1>LEAF Dashboard</h1>
+            <div className={`find-project-control ${organizerOpen ? "is-open" : ""}`}>
+              <button
+                type="button"
+                className="find-project-toggle"
+                onClick={() => {
+                  setOrganizerOpen((open) => !open);
+                  if (organizerOpen) setOrganizerSearch("");
+                }}
+                aria-expanded={organizerOpen}
+                aria-controls="find-project-search"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4.2 4.2" /></svg>
+                <span>Find Project</span>
+              </button>
+              <div className="find-project-expansion">
+                <input
+                  id="find-project-search"
+                  className="project-search"
+                  value={organizerSearch}
+                  onChange={(event) => setOrganizerSearch(event.target.value)}
+                  placeholder="Project number or name"
+                  aria-label="Find project by project number or name"
+                  tabIndex={organizerOpen ? 0 : -1}
+                />
+              </div>
+            </div>
             <p>Customer requests for advertising, organized in one place.</p>
           </div>
           <button className="logout" onClick={logout}>Log out</button>
         </header>
 
-        <section className="stats-grid">
-          <Stat index={0} label="NEW REQUESTS" value={counts.newRequests} selected={expandedStat === "new"} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} />
-          <Stat index={1} label="ACTIVE PROJECTS" value={counts.active} selected={expandedStat === "active"} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} />
-          <Stat index={2} label="POST PRODUCTION" value={counts.postProduction} selected={expandedStat === "post-production"} onClick={() => setExpandedStat(expandedStat === "post-production" ? null : "post-production")} />
-          <Stat index={3} label="URGENT" value={counts.urgent} selected={expandedStat === "urgent"} onClick={() => setExpandedStat(expandedStat === "urgent" ? null : "urgent")} />
-        </section>
-
-        <section className="request-section project-organizer-section">
-          <div className="section-heading">
-            <div>
-              <p className="admin-eyebrow">Find a project</p>
-              <h2>Project Organizer</h2>
-              <p className="spam-intro">Search by project number (for example, LEAF-0001) or project/business name. Results include active projects and Project History.</p>
-            </div>
-          </div>
-          <div className="organizer-search-wrap">
-            <input className="project-search" value={organizerSearch} onChange={(event) => setOrganizerSearch(event.target.value)} placeholder="Search project # or project name..." aria-label="Search by project number or project name" />
-          </div>
-          {organizerSearch.trim() && (
-            organizerResults.length === 0 ? <div className="stat-empty">No matching projects found.</div> : (
+        {organizerOpen && organizerSearch.trim() && (
+          <section className="find-project-results" aria-live="polite">
+            {organizerResults.length === 0 ? <div className="stat-empty">No matching projects found.</div> : (
               <div className="request-list organizer-results">
                 {organizerResults.map((item) => (
                   <button key={item.id} className={`request-row ${selectedId === item.id ? "selected" : ""}`} onClick={() => openRequest(item.id)}>
@@ -350,8 +366,15 @@ export default function AdminPage() {
                   </button>
                 ))}
               </div>
-            )
-          )}
+            )}
+          </section>
+        )}
+
+        <section className="stats-grid">
+          <Stat index={0} label="NEW REQUESTS" value={counts.newRequests} selected={expandedStat === "new"} onClick={() => setExpandedStat(expandedStat === "new" ? null : "new")} />
+          <Stat index={1} label="ACTIVE PROJECTS" value={counts.active} selected={expandedStat === "active"} onClick={() => setExpandedStat(expandedStat === "active" ? null : "active")} />
+          <Stat index={2} label="POST PRODUCTION" value={counts.postProduction} selected={expandedStat === "post-production"} onClick={() => setExpandedStat(expandedStat === "post-production" ? null : "post-production")} />
+          <Stat index={3} label="URGENT" value={counts.urgent} selected={expandedStat === "urgent"} onClick={() => setExpandedStat(expandedStat === "urgent" ? null : "urgent")} />
         </section>
 
         {expandedStat && (
@@ -600,7 +623,7 @@ export default function AdminPage() {
           </div>
 
           <div className="spam-bulk-actions">
-            <button className="remove-all-spam-button" disabled={loading || spamRequests.length === 0} onClick={removeAllSpam}>Remove All Projects</button>
+            <button className="remove-all-spam-button" disabled={loading || spamRequests.length === 0} onClick={startSpamRemoval}>Remove All Projects</button>
           </div>
 
           {spamRequests.length === 0 ? (
@@ -649,6 +672,39 @@ export default function AdminPage() {
         </section>
       </div>
 
+      {spamConfirmStep > 0 && (
+        <div className="leaf-confirm-backdrop" role="presentation" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) cancelSpamRemoval();
+        }}>
+          <section className="leaf-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="spam-confirm-title">
+            <div className="leaf-confirm-mark" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><path d="M49 10C27 10 12 19 12 36c0 9 7 15 15 15 17 0 25-19 22-41Z" /><path d="M13 52c8-13 17-22 31-33" /></svg>
+            </div>
+            <p className="admin-eyebrow">LEAF Project Care</p>
+            {spamConfirmStep === 1 ? (
+              <>
+                <h2 id="spam-confirm-title">A quick review first</h2>
+                <p>Have you reviewed all <strong>{spamRequests.length} projects</strong> in Spam and confirmed none should be kept?</p>
+                <p className="leaf-confirm-note">Nothing will be removed yet. You can cancel and return to the list.</p>
+                <div className="leaf-confirm-actions">
+                  <button type="button" className="leaf-confirm-secondary" onClick={cancelSpamRemoval}>Go back</button>
+                  <button type="button" className="leaf-confirm-primary" onClick={() => setSpamConfirmStep(2)}>Yes, I reviewed them</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 id="spam-confirm-title">Move these projects to history?</h2>
+                <p>Remove all <strong>{spamRequests.length} projects</strong> from the Spam section?</p>
+                <p className="leaf-confirm-note"><strong>They will stay saved in Project History.</strong> Projects outside Spam will not be affected.</p>
+                <div className="leaf-confirm-actions">
+                  <button type="button" className="leaf-confirm-secondary" onClick={cancelSpamRemoval}>Cancel</button>
+                  <button type="button" className="leaf-confirm-primary" disabled={loading} onClick={removeAllSpam}>{loading ? "Saving..." : "Confirm removal"}</button>
+                </div>
+              </>
+            )}
+          </section>
+        </div>
+      )}
       <style jsx>{adminStyles}</style>
     </main>
   );
@@ -929,4 +985,40 @@ const adminStyles = `
     .status-picker-menu { left:0; right:0; width:100%; }
     .save-button { width:100%; }
   }
+
+  .dashboard-title-block { min-width: 0; }
+  .dashboard-title-block h1 { margin-bottom: 16px; }
+  .find-project-control { display:flex; align-items:center; gap:0; width:fit-content; max-width:100%; margin:0 0 18px; }
+  .find-project-toggle { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:10px 16px; flex:0 0 auto; border:1.5px solid #78A987; border-radius:999px; background:#fff; color:#048243; font:800 .95rem/1.1 inherit; cursor:pointer; transition:background .2s ease, color .2s ease, border-color .2s ease; }
+  .find-project-toggle:hover, .find-project-control.is-open .find-project-toggle { background:#048243; color:#fff; border-color:#048243; }
+  .find-project-toggle svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:0 0 auto; }
+  .find-project-expansion { display:grid; grid-template-columns:0fr; opacity:0; width:0; overflow:hidden; transition:grid-template-columns .28s ease, opacity .2s ease, width .28s ease; }
+  .find-project-control.is-open .find-project-expansion { grid-template-columns:minmax(0,1fr); width:min(390px, calc(100vw - 210px)); opacity:1; margin-left:10px; }
+  .find-project-expansion .project-search { min-width:0; height:44px; padding:10px 14px; border-radius:999px; }
+  .find-project-results { margin:-16px 0 30px; padding:16px; border:1px solid #D8E0D9; border-radius:18px; background:#FBFCF8; box-shadow:0 10px 28px rgba(25,48,36,.06); }
+  .organizer-results { margin-top:0; }
+  .leaf-confirm-backdrop { position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center; padding:22px; background:rgba(14,35,23,.58); backdrop-filter:blur(5px); }
+  .leaf-confirm-modal { width:min(480px,100%); padding:32px; border:1px solid #C9D9CC; border-radius:26px; background:#F7F5EC; color:#193024; box-shadow:0 28px 90px rgba(8,31,17,.32); text-align:center; animation:leafConfirmIn .2s ease-out; }
+  .leaf-confirm-mark { display:flex; align-items:center; justify-content:center; width:62px; height:62px; margin:0 auto 18px; border-radius:50%; background:#E2F0E4; }
+  .leaf-confirm-mark svg { width:39px; height:39px; fill:#048243; stroke:#193024; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .leaf-confirm-modal .admin-eyebrow { margin-bottom:8px; }
+  .leaf-confirm-modal h2 { margin:0 0 12px; color:#048243; font-family:"BPMF Huninn",sans-serif; font-size:clamp(1.6rem,4vw,2rem); }
+  .leaf-confirm-modal p:not(.admin-eyebrow) { color:#4F6255; line-height:1.6; }
+  .leaf-confirm-note { padding:12px 14px; border:1px solid #D7E3D7; border-radius:13px; background:#EEF4EA; font-size:.92rem; }
+  .leaf-confirm-actions { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:22px; }
+  .leaf-confirm-actions button { min-height:44px; padding:11px 17px; border-radius:999px; font:inherit; font-weight:800; cursor:pointer; }
+  .leaf-confirm-secondary { border:1.5px solid #78A987; background:transparent; color:#17633B; }
+  .leaf-confirm-primary { border:1.5px solid #048243; background:#048243; color:#fff; }
+  .leaf-confirm-primary:hover { background:#036B37; border-color:#036B37; }
+  @keyframes leafConfirmIn { from { opacity:0; transform:translateY(8px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+  @media (max-width:700px) {
+    .dashboard-title-block { width:100%; }
+    .find-project-control { width:100%; }
+    .find-project-control.is-open .find-project-expansion { width:100%; }
+    .find-project-toggle { min-width:142px; }
+    .leaf-confirm-modal { padding:26px 20px; }
+    .leaf-confirm-actions { flex-direction:column-reverse; }
+    .leaf-confirm-actions button { width:100%; }
+  }
+
 `;
