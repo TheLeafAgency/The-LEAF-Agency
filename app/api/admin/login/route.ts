@@ -42,9 +42,9 @@ function deviceKey(deviceId: string) {
 }
 
 function getClientIp(request: Request) {
-  return request.headers.get("x-nf-client-connection-ip") ||
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    "";
+  // Only trust Netlify's client-IP header. x-forwarded-for can contain
+  // client-supplied values and should not be used as a security identity.
+  return request.headers.get("x-nf-client-connection-ip")?.trim() || "";
 }
 
 export async function POST(request: Request) {
