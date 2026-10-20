@@ -828,9 +828,11 @@ const adminStyles = `
   .stat-card:hover { border-color:#78A987; background:#F7FBF8; }
   .stat-card:active { transform:scale(.97); }
   .stat-card.stat-index-3 { border-color:#FF5A1F; }
+  .stat-card.stat-index-3 span, .stat-card.stat-index-3 strong, .stat-card.stat-index-3 small { color:#FF5A1F; }
   .stat-card.stat-index-3:hover { border-color:#FF5A1F; background:#FFF4ED; }
   .stat-card.selected { border-color:#048243; background:#048243; color:#fff; box-shadow:0 10px 26px rgba(4,130,67,.20); animation:statButtonPop .35s cubic-bezier(.22,1,.36,1); }
-  .stat-card.stat-index-3.selected { border-color:#FF5A1F; background:#FF5A1F; color:#fff; box-shadow:0 10px 26px rgba(255,90,31,.28); }
+  .stat-card.stat-index-3.selected { border-color:#FF5A1F; background:#FF5A1F; color:#F7F5EC; box-shadow:0 10px 26px rgba(255,90,31,.28); }
+  .stat-card.stat-index-3.selected span, .stat-card.stat-index-3.selected strong, .stat-card.stat-index-3.selected small { color:#F7F5EC; }
   .stat-card.selected span, .stat-card.selected strong, .stat-card.selected small { color:#fff; }
   .stat-card span { display:block; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1.5px; }
   .stat-card strong { display:block; margin-top:10px; color:#048243; font-size:3rem; line-height:1; }
@@ -989,7 +991,7 @@ const adminStyles = `
   .urgent-switch input { position:absolute; opacity:0; width:1px; height:1px; }
   .urgent-switch-track { display:flex; align-items:center; width:52px; height:30px; padding:3px; border-radius:999px; background:#CBD3CB; transition:background .2s ease; }
   .urgent-switch-track span { display:block; width:24px; height:24px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.18); transition:transform .2s ease; }
-  .urgent-switch input:checked + .urgent-switch-track { background:#B54B3B; }
+  .urgent-switch input:checked + .urgent-switch-track { background:#FF5A1F; }
   .urgent-switch input:checked + .urgent-switch-track span { transform:translateX(22px); }
   .urgent-switch input:focus-visible + .urgent-switch-track { outline:3px solid #78A987; outline-offset:3px; }
   .find-project-results { margin:-16px 0 30px; padding:16px; border:1px solid #D8E0D9; border-radius:18px; background:#FBFCF8; box-shadow:0 10px 28px rgba(25,48,36,.06); }
