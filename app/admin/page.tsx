@@ -569,7 +569,7 @@ export default function AdminPage() {
                     setStatus((current) => current === "Unfinished" ? "Unfinished" : lastChecked);
                   }}
                 />
-                <div className="urgent-toggle-row">
+                <div className={`urgent-toggle-row${isUrgent ? " urgent-toggle-active" : ""}`}>
                   <div>
                     <h4>Urgent</h4>
                     <p>Flag this project so it appears in the Urgent section of the dashboard.</p>
@@ -974,9 +974,11 @@ const adminStyles = `
   .find-project-expansion { display:grid; grid-template-columns:0fr; opacity:0; width:0; overflow:hidden; transition:grid-template-columns .28s ease, opacity .2s ease, width .28s ease; }
   .find-project-control.is-open .find-project-expansion { grid-template-columns:minmax(0,1fr); width:min(390px, calc(100vw - 210px)); opacity:1; margin-left:10px; }
   .find-project-expansion .project-search { min-width:0; height:44px; padding:10px 14px; border-radius:999px; }
-  .urgent-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px; padding:17px 19px; border:1px solid #D8E0D9; border-radius:16px; background:#F7F8F1; }
+  .urgent-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px; padding:17px 19px; border:1px solid #B54B3B; border-radius:16px; background:transparent; transition:background .2s ease, color .2s ease; }
   .urgent-toggle-row h4 { margin:0 0 4px; color:#193024; font-size:1rem; }
   .urgent-toggle-row p { margin:0; color:#637166; font-size:.9rem; line-height:1.45; }
+  .urgent-toggle-row.urgent-toggle-active { background:#B54B3B; border-color:#B54B3B; }
+  .urgent-toggle-row.urgent-toggle-active h4, .urgent-toggle-row.urgent-toggle-active p { color:#fff; }
   .urgent-switch { position:relative; display:inline-flex; flex:0 0 auto; cursor:pointer; }
   .urgent-switch input { position:absolute; opacity:0; width:1px; height:1px; }
   .urgent-switch-track { display:flex; align-items:center; width:52px; height:30px; padding:3px; border-radius:999px; background:#CBD3CB; transition:background .2s ease; }
