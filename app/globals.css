@@ -2980,7 +2980,7 @@ html[data-theme="dark"] .zip-notice strong {
   color: #D0D8D1 !important;
 }
 
-/* Standalone About page — uses the shared LEAF theme variables. */
+/* Standalone About page — centered sections and a wide world-tree motif. */
 .about-page {
   min-height: 100vh;
   padding-top: 80px;
@@ -2988,14 +2988,40 @@ html[data-theme="dark"] .zip-notice strong {
   color: var(--leaf-text);
 }
 .about-hero {
-  padding: clamp(72px, 9vw, 124px) 0 76px;
+  padding: clamp(48px, 6vw, 78px) 0 66px;
   background:
-    radial-gradient(ellipse at 12% 18%, rgba(120, 169, 135, .16), transparent 42%),
+    radial-gradient(ellipse at 50% 15%, rgba(120, 169, 135, .18), transparent 48%),
     var(--leaf-white-dove);
 }
 .about-hero-content {
   max-width: 1000px;
   text-align: center;
+}
+.about-world-tree {
+  display: block;
+  width: min(100%, 620px);
+  height: auto;
+  margin: 0 auto 4px;
+  overflow: visible;
+}
+.about-tree-branches {
+  fill: none;
+  stroke: var(--leaf-green);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.about-tree-leaves {
+  fill: var(--leaf-green-light);
+  stroke: var(--leaf-green);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.about-tree-trunk {
+  fill: var(--leaf-green);
+  stroke: var(--leaf-green);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
 }
 .about-eyebrow {
   color: var(--leaf-eden-green);
@@ -3004,7 +3030,7 @@ html[data-theme="dark"] .zip-notice strong {
   letter-spacing: .2em;
   line-height: 1.5;
   text-transform: uppercase;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .about-hero h1 {
   color: var(--leaf-eden-green);
@@ -3030,41 +3056,44 @@ html[data-theme="dark"] .zip-notice strong {
   margin: 0 auto 18px;
 }
 .about-values {
-  display: grid;
-  gap: 24px;
-  padding-top: 20px;
-  padding-bottom: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(54px, 8vw, 92px);
+  padding-top: 24px;
+  padding-bottom: 94px;
 }
-.about-value-card {
-  display: grid;
-  grid-template-columns: 74px minmax(0, 1fr);
-  gap: clamp(18px, 4vw, 46px);
-  padding: clamp(26px, 5vw, 54px);
-  border: 1px solid var(--leaf-border);
-  border-left: 5px solid var(--leaf-green);
-  border-radius: 22px;
-  background: var(--leaf-white-chocolate);
-  box-shadow: 0 12px 32px rgba(22, 59, 39, .055);
+.about-value-section {
+  width: 100%;
+  max-width: 850px;
+  text-align: center;
+  padding: 0 24px;
+  scroll-margin-top: 110px;
 }
-.about-value-number {
+.about-section-ornament {
+  display: block;
   color: var(--leaf-green-light);
-  font-family: "Neuton", Georgia, serif;
-  font-size: 2.7rem;
-  font-weight: 700;
-  line-height: 1;
+  font-size: 1.2rem;
+  margin: 0 auto 16px;
 }
-.about-value-copy h2 {
+.about-value-section h2 {
   color: var(--leaf-eden-green);
-  font-size: clamp(1.45rem, 3vw, 2.15rem);
-  line-height: 1.25;
-  margin-bottom: 22px;
+  font-family: "Neuton", Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.65rem);
+  line-height: 1.2;
+  margin: 0 auto 24px;
+  text-wrap: balance;
+}
+.about-value-copy {
+  max-width: 760px;
+  margin: 0 auto;
 }
 .about-value-copy p,
 .about-closing-content > p:not(.about-eyebrow):not(.about-final-line) {
   color: var(--leaf-gray);
   font-size: 1.02rem;
-  line-height: 1.85;
-  margin-bottom: 16px;
+  line-height: 1.9;
+  margin: 0 auto 17px;
 }
 .about-value-copy p:last-child {
   margin-bottom: 0;
@@ -3086,8 +3115,6 @@ html[data-theme="dark"] .zip-notice strong {
 }
 .about-closing-content > p:not(.about-eyebrow):not(.about-final-line) {
   max-width: 780px;
-  margin-left: auto;
-  margin-right: auto;
 }
 .about-final-line {
   color: var(--leaf-text);
@@ -3104,16 +3131,24 @@ html[data-theme="dark"] .zip-notice strong {
 }
 html[data-theme="dark"] .about-hero {
   background:
-    radial-gradient(ellipse at 12% 18%, rgba(61, 154, 98, .13), transparent 42%),
+    radial-gradient(ellipse at 50% 15%, rgba(61, 154, 98, .15), transparent 48%),
     #14251B;
 }
-html[data-theme="dark"] .about-value-card {
-  background: #1B3023;
-  border-color: #355642;
-  border-left-color: #64B87E;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+html[data-theme="dark"] .about-tree-branches {
+  stroke: #78A987;
 }
-html[data-theme="dark"] .about-value-number {
+html[data-theme="dark"] .about-tree-leaves {
+  fill: #3F8055;
+  stroke: #78A987;
+}
+html[data-theme="dark"] .about-tree-trunk {
+  fill: #78A987;
+  stroke: #78A987;
+}
+html[data-theme="dark"] .about-value-section h2 {
+  color: #78A987;
+}
+html[data-theme="dark"] .about-section-ornament {
   color: #78A987;
 }
 html[data-theme="dark"] .about-closing {
@@ -3121,26 +3156,25 @@ html[data-theme="dark"] .about-closing {
 }
 @media (max-width: 650px) {
   .about-hero {
-    padding-top: 64px;
-    padding-bottom: 50px;
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  .about-world-tree {
+    width: min(100%, 460px);
+    margin-bottom: 0;
   }
   .about-intro {
     font-size: 1rem;
     line-height: 1.8;
   }
   .about-values {
-    gap: 16px;
-    padding-bottom: 56px;
+    gap: 52px;
+    padding-bottom: 60px;
   }
-  .about-value-card {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 26px 22px;
+  .about-value-section {
+    padding: 0 8px;
   }
-  .about-value-number {
-    font-size: 2rem;
-  }
-  .about-value-copy h2 {
-    margin-bottom: 16px;
+  .about-value-section h2 {
+    margin-bottom: 18px;
   }
 }
