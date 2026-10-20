@@ -15,6 +15,8 @@ const statuses = [
   "Urgent",
   "Failed",
   "Declined",
+  "Unfinished",
+  "Spam",
 ] as const;
 
 type RequestStatus = (typeof statuses)[number];
@@ -50,6 +52,7 @@ type LeafRequest = {
   archivedAt?: string;
   archiveReason?: string;
   spamReasons?: SpamReason[];
+  isUrgent?: boolean;
 };
 
 function store() {
@@ -324,12 +327,17 @@ export async function PATCH(request: Request) {
     const previousStatus = requests[index].status;
     const statusChanged = previousStatus !== status;
     const isTerminalStatus = ["Completed", "Failed", "Declined"].includes(status);
+    const isSpamStatus = status === "Spam";
     const updated: LeafRequest = {
       ...requests[index],
       status: status as RequestStatus,
+      isSpam: isSpamStatus ? true : statusChanged ? false : requests[index].isSpam,
+      spamRemovedAt: statusChanged && !isSpamStatus ? undefined : requests[index].spamRemovedAt,
+      spamReview: isSpamStatus ? false : requests[index].spamReview,
+      isUrgent: typeof body.isUrgent === "boolean" ? body.isUrgent : requests[index].isUrgent,
       statusChangedAt: statusChanged && isTerminalStatus ? new Date().toISOString() : isTerminalStatus ? (requests[index].statusChangedAt || requests[index].createdAt) : undefined,
-      archivedAt: isTerminalStatus && !statusChanged ? requests[index].archivedAt : undefined,
-      archiveReason: isTerminalStatus && !statusChanged ? requests[index].archiveReason : undefined,
+      archivedAt: isSpamStatus ? (requests[index].archivedAt || new Date().toISOString()) : isTerminalStatus && !statusChanged ? requests[index].archivedAt : undefined,
+      archiveReason: isSpamStatus ? "Spam" : isTerminalStatus && !statusChanged ? requests[index].archiveReason : undefined,
       internalNotes: String(body.internalNotes ?? requests[index].internalNotes).slice(0, 10000),
       progressStatuses: Array.isArray(body.progressStatuses) ? body.progressStatuses.map(String).slice(0, 20) : (requests[index].progressStatuses || ["Untouched"]),
       contactSummary: String(body.contactSummary ?? requests[index].contactSummary ?? requests[index].contact ?? "").slice(0, 2000),
