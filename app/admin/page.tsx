@@ -989,7 +989,7 @@ const adminStyles = `
   .dashboard-title-block { min-width: 0; }
   .dashboard-title-block h1 { margin-bottom: 16px; }
   .find-project-control { display:flex; align-items:center; gap:0; width:fit-content; max-width:100%; margin:0 0 18px; }
-  .find-project-toggle { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:10px 16px; flex:0 0 auto; border:1.5px solid #78A987; border-radius:999px; background:#fff; color:#048243; font:800 .95rem/1.1 inherit; cursor:pointer; transition:background .2s ease, color .2s ease, border-color .2s ease; }
+  .find-project-toggle { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:10px 16px; flex:0 0 auto; border:1.5px solid #78A987; border-radius:999px; background:#fff; color:#048243; font-family:inherit; font-size:.95rem; font-weight:800; line-height:1.1; cursor:pointer; transition:background .2s ease, color .2s ease, border-color .2s ease; }
   .find-project-toggle:hover, .find-project-control.is-open .find-project-toggle { background:#048243; color:#fff; border-color:#048243; }
   .find-project-toggle svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:0 0 auto; }
   .find-project-expansion { display:grid; grid-template-columns:0fr; opacity:0; width:0; overflow:hidden; transition:grid-template-columns .28s ease, opacity .2s ease, width .28s ease; }
