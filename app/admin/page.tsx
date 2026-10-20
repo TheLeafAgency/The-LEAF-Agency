@@ -561,6 +561,7 @@ export default function AdminPage() {
               <div className="status-workflow">
                 <h3>Project progress</h3>
                 <ProgressChecklist
+                  urgent={isUrgent}
                   checked={progressStatuses}
                   onChange={(next) => {
                     setProgressStatuses(next);
@@ -714,11 +715,11 @@ function Info({ label, value }: { label: string; value: string }) {
   return <div className="info-item"><span>{label}</span><strong>{value}</strong></div>;
 }
 
-function ProgressChecklist({ checked, onChange }: { checked: string[]; onChange: (value: string[]) => void }) {
+function ProgressChecklist({ checked, onChange, urgent = false }: { checked: string[]; onChange: (value: string[]) => void; urgent?: boolean }) {
   const workflowStatuses = ["Reviewed", "Contacted", "Proposal Sent", "In Production", "Editing", "Contacting Agencies"];
 
   return (
-    <div className="progress-checklist">
+    <div className={`progress-checklist${urgent ? " urgent-project-progress" : ""}`}>
       {workflowStatuses.map((item) => {
         const isChecked = checked.includes(item);
         return (
@@ -826,8 +827,10 @@ const adminStyles = `
   .stat-card { width:100%; min-height:150px; border:2px solid #D8E0D9; border-radius:20px; overflow:hidden; background:#fff; color:#193024; padding:24px; text-align:left; cursor:pointer; transition:border-color .2s ease,background .2s ease,box-shadow .2s ease,transform .12s ease; }
   .stat-card:hover { border-color:#78A987; background:#F7FBF8; }
   .stat-card:active { transform:scale(.97); }
+  .stat-card.stat-index-3 { border-color:#FF5A1F; }
+  .stat-card.stat-index-3:hover { border-color:#FF5A1F; background:#FFF4ED; }
   .stat-card.selected { border-color:#048243; background:#048243; color:#fff; box-shadow:0 10px 26px rgba(4,130,67,.20); animation:statButtonPop .35s cubic-bezier(.22,1,.36,1); }
-  .stat-card.stat-index-3.selected { border-color:#E67E22; background:#E67E22; color:#fff; box-shadow:0 10px 26px rgba(230,126,34,.22); }
+  .stat-card.stat-index-3.selected { border-color:#FF5A1F; background:#FF5A1F; color:#fff; box-shadow:0 10px 26px rgba(255,90,31,.28); }
   .stat-card.selected span, .stat-card.selected strong, .stat-card.selected small { color:#fff; }
   .stat-card span { display:block; color:#657168; font-size:.75rem; font-weight:900; letter-spacing:1.5px; }
   .stat-card strong { display:block; margin-top:10px; color:#048243; font-size:3rem; line-height:1; }
@@ -873,6 +876,9 @@ const adminStyles = `
   .checklist-item input { position:absolute; opacity:0; pointer-events:none; }
   .checklist-box { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; border:2px solid #B8C5BC; border-radius:5px; background:#fff; color:#048243; font-size:.8rem; font-weight:900; flex:0 0 22px; }
   .checklist-item.checked .checklist-box { border-color:#048243; background:#fff; }
+  .urgent-project-progress .checklist-item.checked { border-color:#FF5A1F; background:#FFF0E8; color:#E64A00; }
+  .urgent-project-progress .checklist-item.checked .checklist-box { border-color:#FF5A1F; color:#FF5A1F; }
+  .urgent-project-progress .checklist-item:hover { border-color:#FF5A1F; background:#FFF4ED; }
   .detail-section-enter { animation: detailReveal .22s ease-out; }
   @keyframes detailReveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
   @media (prefers-reduced-motion: reduce) { .detail-section-enter { animation:none; } }
