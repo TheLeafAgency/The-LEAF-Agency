@@ -82,24 +82,6 @@ export default function ContactSection() {
           >
             <a
               className="contact-email-button"
-              href="mailto:theleafagency@outlook.com"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "15px 24px",
-                borderRadius: "999px",
-                background: "var(--leaf-white-dove)",
-                color: "var(--leaf-green-deep)",
-                fontWeight: 700,
-                transition: "transform 0.3s ease, background 0.3s ease",
-              }}
-            >
-              theleafagency@outlook.com
-            </a>
-
-            <a
-              className="contact-email-button"
               href="mailto:services@theleafagency.org"
               style={{
                 display: "inline-flex",
@@ -125,8 +107,7 @@ export default function ContactSection() {
               lineHeight: 1.6,
             }}
           >
-            Prefer email? Either address is a great place to start. We are
-            happy to hear from you.
+Email us at services@theleafagency.org. We are happy to hear from you.
           </p>
         </div>
       </section>
