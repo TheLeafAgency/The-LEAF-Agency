@@ -33,7 +33,7 @@ export default function AboutPage() {
       <Navbar />
       <section className="about-hero">
         <div className="container about-hero-content">
-          <img className="about-world-tree" src="/leaf-world-tree.svg" alt="A wide green-canopied tree with a brown trunk and roots" />
+          <img className="about-world-tree" src="/leaf-world-tree.png" alt="A wide green-canopied tree with a brown trunk and roots" />
           <p className="about-eyebrow">The LEAF Agency</p>
           <h1>Who We Are</h1>
           <p className="about-tagline">Advertising Made Simple. Partnerships Made Meaningful.</p>
