@@ -75,7 +75,6 @@ export default function Navbar() {
             </div>
           </div>
           <a href="/portfolio" className="nav-link">Portfolio</a>
-          <a href="/careers" className="nav-link">Careers</a>
           <a href="/#contact" className="nav-link">Contact</a>
           <ThemeToggle />
           <a
@@ -104,7 +103,6 @@ export default function Navbar() {
               </div>
             </div>
             <a href="/portfolio">Portfolio</a>
-            <a href="/careers">Careers</a>
             <a href="/#contact">Contact</a>
             <ThemeToggle />
             <a href="/get-started" className="mobile-nav-cta">Get Started</a>
